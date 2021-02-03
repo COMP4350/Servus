@@ -5,7 +5,8 @@
 ## Technology
 - Mobile  ➤ React Native 
 - Web  ➤  React
-- Backend ➤ NodeJS + MySQL + Express
+- Backend ➤ NodeJS + Express
+- Database ➤ MySQL
 
 ## Description
 
@@ -16,7 +17,7 @@ Servus is an operation to connect customers with service providers. Customers ar
 - Customers can browse services near them by category using a list or map
 - Customers can book appointments for services on a schedule provided by the server
 - Servers can create a profile with a menu of services they offer and examples of past work
-- Clients and servers can chat
+- Customers and servers can chat
 
 ## Meetings Notes
 - The meeting notes can be found [here](wiki/meeting_log.md).
