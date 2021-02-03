@@ -1,5 +1,17 @@
 # Servus
+
 The app that lets you serve us
+
+## Description
+
+Servus is an operation to connect customers with service providers. Customers are greeted with a list or map of services near them. Providers have public profiles with a menu of services offered and examples of work. They also have a schedule for clients to book appointments.
+
+## Core Features
+
+- Customers can browse services near them by category using a list or map
+- Customers can book appointments for services on a schedule provided by the server
+- Servers can create a profile with a menu of services they offer and examples of past work
+- Clients and servers can chat
 
 <table>
 <tr>
