@@ -2,12 +2,6 @@
 
 **At your Servus**
 
-## Technology
-- Mobile  ➤ React Native 
-- Web  ➤  React
-- Backend ➤ NodeJS + Express
-- Database ➤ MySQL
-
 ## Description
 
 Servus is an operation to connect customers with service providers. Customers are greeted with a list or map of services near them. Providers have public profiles with a menu of services offered and examples of work. They also have a schedule for clients to book appointments.
@@ -18,6 +12,12 @@ Servus is an operation to connect customers with service providers. Customers ar
 - Customers can book appointments for services on a schedule provided by the server
 - Servers can create a profile with a menu of services they offer and examples of past work
 - Customers and servers can chat
+
+## Technology
+- Mobile  ➤ React Native 
+- Web  ➤  React
+- Backend ➤ NodeJS + Express
+- Database ➤ MySQL
 
 ## Meetings Notes
 - The meeting notes can be found [here](wiki/meeting_log.md).
