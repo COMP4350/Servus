@@ -1,5 +1,11 @@
 # Servus
-The app that lets you serve us
+
+**At your Servus**
+
+## Technology
+- Mobile  ➤ React Native 
+- Web  ➤  React
+- Backend ➤ NodeJS + MySQL + Express
 
 <table>
 <tr>
