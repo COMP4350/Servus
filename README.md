@@ -1,6 +1,9 @@
 # Servus
 The app that lets you serve us
 
+## Meetings Notes
+- The meeting notes can be found [here](wiki/meeting_log.md).
+
 <table>
 <tr>
     <td style="text-align: center;">
