@@ -18,6 +18,9 @@ Servus is an operation to connect customers with service providers. Customers ar
 - Servers can create a profile with a menu of services they offer and examples of past work
 - Clients and servers can chat
 
+## Meetings Notes
+- The meeting notes can be found [here](wiki/meeting_log.md).
+
 <table>
 <tr>
     <td style="text-align: center;">
