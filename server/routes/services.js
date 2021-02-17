@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
 
 /* ADD a service. */
 router.post('/:id', (req, res) => {
-    const new_service = {
+    const newService = {
         id: req.params.id,
         name: req.body.name,
         description: req.body.description,
@@ -18,7 +18,7 @@ router.post('/:id', (req, res) => {
         availability: req.body.availability,
     };
     //TODO: add the new service to the stub db
-    res.json(new_service);
+    res.json(newService);
 });
 
 module.exports = router;
