@@ -8,19 +8,21 @@ Servus is an operation to connect customers with service providers. Customers ar
 
 ## Core Features
 
-- Customers can browse services near them by category using a list or map
-- Customers can book appointments for services on a schedule provided by the server
-- Servers can provide a menu of the services they offer and their availability
-- Servers can advertise their past work
+-   Customers can browse services near them by category using a list or map
+-   Customers can book appointments for services on a schedule provided by the server
+-   Servers can provide a menu of the services they offer and their availability
+-   Servers can advertise their past work
 
 ## Technology
-- Mobile  ➤ React Native 
-- Web  ➤  React
-- Backend ➤ NodeJS + Express
-- Database ➤ MySQL
+
+-   Mobile ➤ React Native
+-   Web ➤ React
+-   Backend ➤ NodeJS + Express
+-   Database ➤ MySQL
 
 ## Meetings Notes
-- The meeting notes can be found [here](wiki/meeting_log.md).
+
+-   The meeting notes can be found [here](wiki/meeting_log.md).
 
 <table>
 <tr>

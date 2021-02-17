@@ -1,0 +1,41 @@
+{
+    "message": "This is a Stub database",
+    "services": [
+        {
+            "id": 1,
+            "name": "Arvind's Professional English Class",
+            "provider": "Arvind Maan",
+            "description": "Learn how to speak english from the best!",
+            "cost": "$50CAD",
+            "duration": "1 hour",
+            "availability": "MWF at 5pm"
+        },
+        {
+            "id": 2,
+            "name": "Chabottery",
+            "provider": "Caden Chabot",
+            "description": "An ultra pottery course!",
+            "cost": "$40CAD",
+            "duration": "1 hour",
+            "availability": "TR at 5pm"
+        },
+        {
+            "id": 3,
+            "name": "RPG Maker with Ubisoft's Andy Tan",
+            "provider": "Andy Tan",
+            "description": "Learn how to use RPG Maker from the best of the best!",
+            "cost": "$100CAD",
+            "duration": "4 hours",
+            "availability": "Friday at 3am"
+        },
+        {
+            "id": 4,
+            "name": "Big Risto's Big Cuts!",
+            "provider": "Risto Zimbakov",
+            "description": "Get a big cut from a big man!",
+            "cost": "$10CAD",
+            "duration": "1 hour",
+            "availability": "MTWRF from 11am to 5pm"
+        }
+    ]
+}
