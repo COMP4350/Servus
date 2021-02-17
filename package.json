@@ -1,0 +1,19 @@
+{
+    "name": "servus",
+    "version": "1.0.0",
+    "description": "An application to connect local service providers to a larger network",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/COMP4350/Servus.git"
+    },
+    "author": "Arvind Maan, Andy Tan, Caden Chabot & Risto Zimbakov",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/COMP4350/Servus/issues"
+    },
+    "homepage": "https://github.com/COMP4350/Servus#readme",
+    "devDependencies": {
+        "prettier": "2.2.1"
+    }
+}
