@@ -17,4 +17,7 @@
         "prettier": "2.2.1"
     },
     "dependencies": {}
+    "scripts": {
+        "format": "prettier --write ."
+    }
 }
