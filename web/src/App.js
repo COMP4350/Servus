@@ -1,12 +1,12 @@
 import React from 'react';
 import './index.css';
-import Home from './Home';
-import Contact from './Contact';
-import About from './About';
-import Header from './Header';
+import Home from './Components/Home';
+import Contact from './Components/Contact';
+import About from './Components/About';
+import Header from './Components/Header';
 import { Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import Appointment from './Appointments';
+import Appointment from './Components/Appointments';
 
 const useStyles = makeStyles({});
 
