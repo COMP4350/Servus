@@ -15,5 +15,8 @@
     "homepage": "https://github.com/COMP4350/Servus#readme",
     "devDependencies": {
         "prettier": "2.2.1"
+    },
+    "scripts": {
+        "format": "prettier --write ."
     }
 }
