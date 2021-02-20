@@ -10,8 +10,8 @@ router.post('/:username', (req, res) => {
     const newUser = {
         username: req.params.username,
         name: {
-            firstName: req.params.firstname,
-            lastName: req.params.lastname
+            firstName: req.params.firstName,
+            lastName: req.params.lastName
         },
         password: req.params.password,
         services: []
