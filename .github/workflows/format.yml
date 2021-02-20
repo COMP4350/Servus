@@ -14,5 +14,5 @@ jobs:
                   node-version: '12.x'
             - name: Format
               run: |
-                  npm ci
+                  npm install
                   npm prettier --list-different **/*.{js,md}
