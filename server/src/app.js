@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import indexRouter from './routes/index.js';
 import servicesRouter from './routes/services.js';
+import userRouter from './routes/user.js';
 
 const app = express();
 const handleError = error => {
@@ -29,5 +30,6 @@ app.use(cookieParser());
 
 app.use('/', indexRouter);
 app.use('/services', servicesRouter);
+app.use('/user', userRouter)
 
 export default app;
