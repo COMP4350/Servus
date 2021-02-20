@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-import app from '../app.js';
+import app from './app.js';
 import debug from 'debug';
 const debugI = debug('api:server');
 import { createServer } from 'http';
