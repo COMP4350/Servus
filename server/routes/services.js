@@ -1,10 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const stubDb = require('../db/stub.json');
+import { Router } from 'express';
+const router = Router();
 
 /* GET all services. */
 router.get('/', (req, res) => {
-    res.json(stubDb['services']);
+    res.json('');
 });
 
 /* ADD a service. */
@@ -21,4 +20,4 @@ router.post('/:id', (req, res) => {
     res.json(newService);
 });
 
-module.exports = router;
+export default router;
