@@ -15,4 +15,4 @@ jobs:
             - name: Format
               run: |
                   npm ci
-                  npm prettier --list-different **/*.{js,md}
+                  prettier --list-different **/*.{js,md}
