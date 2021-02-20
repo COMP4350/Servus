@@ -2,10 +2,22 @@ import { Router } from 'express';
 import Service from '../db/models/service.js';
 import User from '../db/models/user.js';
 import bcrypt from 'bcrypt';
+
 const router = Router();
 
 router.get('/:username', (req, res) => {
-    res.json('user page xd');
+    User.findOne({ username: req.params.username }).then(user => {
+        if (!user)
+            return res
+                .status(422)
+                .json({ errors: [{ user: "username doesn't exist" }] });
+        else {
+            res.status(200).json({
+                success: true,
+                result: user,
+            });
+        }
+    });
 });
 
 /* Add a new user */
