@@ -4,7 +4,7 @@
 
 **Sprint 2 Meeting 1**
 
-> Feb 6th
+> Feb 16th
 > _Attending Members: Caden, Arvind, Andy, Risto_
 
 Summary: This meeting was to set up the github issues for sprint 2 and delegate tasks
