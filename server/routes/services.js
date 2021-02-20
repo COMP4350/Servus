@@ -1,6 +1,6 @@
-const express = require('express');
-const router = express.Router();
-const stubDb = require('../db/stub.json');
+import { Router } from 'express';
+const router = Router();
+import stubDb from '../db/stub.json';
 
 /* GET all services. */
 router.get('/', (req, res) => {
@@ -21,4 +21,4 @@ router.post('/:id', (req, res) => {
     res.json(newService);
 });
 
-module.exports = router;
+export default router;

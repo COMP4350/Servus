@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Service from './service';
+import {Service} from './service';
 
 const { Schema } = mongoose;
 
