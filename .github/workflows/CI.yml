@@ -1,11 +1,11 @@
-name: CI
+name: Run All Tests
 on:
     pull_request:
         branches: [main]
     push:
         branches: [main]
 jobs:
-    Mobile Tests:
+    Mobile-Tests:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
@@ -14,13 +14,13 @@ jobs:
             - uses: actions/setup-node@v1
               with:
                   node-version: '12.x'
-            - name: Run Test
+            - name: Run Tests
               run: |
                   cd mobile/
                   npm ci
                   npm test
                   cd ../
-    Web Tests:
+    Web-Tests:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
@@ -35,7 +35,7 @@ jobs:
                   npm ci
                   npm test
                   cd ../
-    Server Test:
+    Server-Tests:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
@@ -44,7 +44,7 @@ jobs:
             - uses: actions/setup-node@v1
               with:
                   node-version: '12.x'
-            - name: Run Test
+            - name: Run Tests
               run: |
                   cd server/
                   npm ci
