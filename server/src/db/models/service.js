@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 
-const { Schema } = mongoose;
+const { Schema, ObjectId } = mongoose;
 
 const serviceSchema = new Schema({
-    id: { type: String, required: true },
+    id: { type: ObjectId, required: true },
     provider: { type: String, required: true },
     description: { type: String, required: false },
     cost: { type: String, required: true },
