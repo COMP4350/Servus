@@ -1,7 +1,7 @@
 name: format
 on:
     pull_request:
-        branches: [master]
+        branches: [main]
 jobs:
     format:
         runs-on: ubuntu-latest
@@ -15,9 +15,4 @@ jobs:
             - name: Format
               run: |
                   npm ci
-                  npm run format
-            - name: Commit changes
-              uses: stefanzweifel/git-auto-commit-action@v4.1.2
-              with:
-                  commit_message: Apply formatting changes
-                  branch: ${{ github.head_ref }}
+                  npx prettier --check "**/*.{js,md}"
