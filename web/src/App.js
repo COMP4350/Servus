@@ -1,38 +1,44 @@
 import React from 'react';
 import './index.css';
-import Home from './Components/Home';
-import Contact from './Components/Contact';
-import About from './Components/About';
-import Header from './Components/Header';
-import { Route, Switch } from 'react-router-dom';
+import Home from './components/Home';
+import Contact from './components/Contact';
+import About from './components/About';
+import Header from './components/Header';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import Appointment from './Components/Appointments';
+import Appointment from './components/Appointments';
 
-const useStyles = makeStyles({});
-
-export default function App() {
-    const classes = useStyles();
+const App = () => {
+    const classes = makeStyles({});
     return (
         <div className={classes.container}>
-            <Header />
-            <Switch>
-                <Route exact from="/" render={props => <Home {...props} />} />
-                <Route
-                    exact
-                    path="/Appointment"
-                    render={props => <Appointment {...props} />}
-                />
-                <Route
-                    exact
-                    path="/contact"
-                    render={props => <Contact {...props} />}
-                />
-                <Route
-                    exact
-                    path="/about"
-                    render={props => <About {...props} />}
-                />
-            </Switch>
+            <BrowserRouter>
+                <Header />
+                <Switch>
+                    <Route
+                        exact
+                        from="/"
+                        render={props => <Home {...props} />}
+                    />
+                    <Route
+                        exact
+                        path="/Appointment"
+                        render={props => <Appointment {...props} />}
+                    />
+                    <Route
+                        exact
+                        path="/contact"
+                        render={props => <Contact {...props} />}
+                    />
+                    <Route
+                        exact
+                        path="/about"
+                        render={props => <About {...props} />}
+                    />
+                </Switch>
+            </BrowserRouter>
         </div>
     );
-}
+};
+
+export default App;
