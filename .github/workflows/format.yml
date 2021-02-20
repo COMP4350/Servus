@@ -1,9 +1,9 @@
-name: format
+name: Check Formatting
 on:
     pull_request:
         branches: [main]
 jobs:
-    format:
+    format-check:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
