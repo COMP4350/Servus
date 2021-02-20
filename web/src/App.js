@@ -25,7 +25,7 @@ export default function App() {
                 <Route
                     exact
                     path="/contact"
-                    render={props => <Contact {...props} />}
+                    render={props => <Contact {...props } />}
                 />
                 <Route
                     exact
