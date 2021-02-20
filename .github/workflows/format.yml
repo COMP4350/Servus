@@ -14,5 +14,5 @@ jobs:
                   node-version: '12.x'
             - name: Format
               run: |
-                  npm ci
+                  sudo npm i -g npm@latest && npm ci
                   npm prettier --list-different **/*.{js,md}
