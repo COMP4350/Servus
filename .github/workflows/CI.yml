@@ -5,7 +5,7 @@ on:
     push:
         branches: [main]
 jobs:
-    test:
+    Mobile Tests:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
@@ -14,19 +14,37 @@ jobs:
             - uses: actions/setup-node@v1
               with:
                   node-version: '12.x'
-            - name: Mobile Test
+            - name: Run Test
               run: |
                   cd mobile/
                   npm ci
                   npm test
                   cd ../
-            - name: Web Test
+    Web Tests:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  ref: ${{ github.head_ref }}
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: '12.x'
+            - name: Run Tests
               run: |
                   cd web/
                   npm ci
                   npm test
                   cd ../
-            - name: Server Test
+    Server Test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  ref: ${{ github.head_ref }}
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: '12.x'
+            - name: Run Test
               run: |
                   cd server/
                   npm ci
