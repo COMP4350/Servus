@@ -7,6 +7,8 @@ import Header from './Components/Header';
 import { Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Appointment from './Components/Appointments';
+import Login from './Components/Login';
+import SignUp from './Components/SignUp';
 
 const useStyles = makeStyles({});
 
@@ -19,7 +21,7 @@ export default function App() {
                 <Route exact from="/" render={props => <Home {...props} />} />
                 <Route
                     exact
-                    path="/Appointment"
+                    path="/appointment"
                     render={props => <Appointment {...props} />}
                 />
                 <Route
@@ -31,6 +33,16 @@ export default function App() {
                     exact
                     path="/about"
                     render={props => <About {...props} />}
+                />
+                <Route
+                    exact
+                    path="/login"
+                    render={props => <Login {...props} />}
+                />
+                <Route
+                    exact
+                    path="/signup"
+                    render={props => <SignUp {...props} />}
                 />
             </Switch>
         </div>
