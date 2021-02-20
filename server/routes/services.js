@@ -1,10 +1,9 @@
 import { Router } from 'express';
 const router = Router();
-import stubDb from '../db/stub.json';
 
 /* GET all services. */
 router.get('/', (req, res) => {
-    res.json(stubDb['services']);
+    res.json('');
 });
 
 /* ADD a service. */
