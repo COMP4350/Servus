@@ -7,9 +7,9 @@ const appointmentSchema = new Schema({
         username: { type: String, required: true },
         service_id: { type: String, required: true },
         date_time: { type: Date, required: true },
-    }
+    },
 });
 
-const Appointment = mongoose.model('Appointment', appointmentSchema)
+const Appointment = mongoose.model('Appointment', appointmentSchema);
 
 export default Appointment;

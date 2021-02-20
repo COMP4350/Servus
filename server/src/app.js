@@ -30,6 +30,6 @@ app.use(cookieParser());
 
 app.use('/', indexRouter);
 app.use('/services', servicesRouter);
-app.use('/user', userRouter)
+app.use('/user', userRouter);
 
 export default app;
