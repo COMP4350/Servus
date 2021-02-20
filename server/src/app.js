@@ -14,7 +14,7 @@ const handleError = error => {
 };
 
 mongoose
-    .connect('mongodb://localhost:27017/test', {
+    .connect('mongodb://localhost:27017/Test', {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
