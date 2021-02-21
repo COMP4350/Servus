@@ -54,9 +54,20 @@ router.post('/', (req, res) => {
     );
 });
 
-/* UPDATE a service. */
-router.put('/', (req, res) => {
-    //TODO
+/* UPDATE a service. Returns the OLD object */
+router.put('/:service_id', (req, res) => {
+    let query = { _id: req.params.service_id };
+
+    //can't change the username attached to service
+    if (req.body.hasOwnProperty('username')) {
+        return res.status(500).json({ error: 'Cannot change user in service' });
+    }
+
+    //update the service based on req.body
+    Service.findOneAndUpdate(query, req.body, (err, service) => {
+        if (err) return res.status(500).json({ error: err });
+        return res.status(200).json({ success: true, result: service });
+    });
 });
 
 export default router;

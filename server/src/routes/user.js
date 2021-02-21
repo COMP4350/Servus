@@ -78,7 +78,8 @@ router.post('/:username', (req, res) => {
     });
 });
 
-/* Update a new user. DOES NOT ADD IF IT DOESN'T EXIST */
+/* Update a new user. DOES NOT ADD IF IT DOESN'T EXIST. */
+/* Returns the OLD object */
 router.put('/:username', (req, res) => {
     const updateOneUser = (query, filter) => {
         User.findOneAndUpdate(query, filter, (err, user) => {
