@@ -2,6 +2,7 @@ import { Router } from 'express';
 import Service from '../db/models/service.js';
 import User from '../db/models/user.js';
 import bcrypt from 'bcrypt';
+import verifyPassword from './auth.js'; 
 
 const router = Router();
 
@@ -116,11 +117,17 @@ router.get('/:username/services', (req, res) => {
 });
 
 /* DELETE user(s). */
-router.delete('/', (req, res) => {
-    User.remove(req.body, err => {
-        if (err) throw err;
-        res.status(200);
-    });
+router.delete('/:username', (req, res) => {
+    if (req.body.hasOwnProperty(password) && req.params.hasOwnProperty(username))
+    {
+        if (verifyPassword(req.params.username, req.body.password))
+        {
+            User.remove({ username: req.params.username }, err => {
+                if (err) throw err;
+                res.status(200);
+            });
+        }
+    }
 });
 
 export default router;

@@ -1,7 +1,7 @@
 import User from '../db/models/user.js';
 import bcrypt from 'bcrypt';
 
-login = (req, res) => {
+const login = (req, res) => {
     let { username, password } = req.body;
     User.findOne({ username: username })
         .then(user => {
@@ -33,4 +33,23 @@ login = (req, res) => {
         });
 };
 
-export default login;
+const verifyPassword = (username, password) => {
+    User.findOne({ username: username })
+        .then(user => {
+            if (!user) {
+                return false
+            } else {
+                bcrypt
+                    .compare(password, user.password)
+                    .then(isMatch => {
+                        return isMatch
+                    })
+                    .catch(err => {
+                        return false
+                        // TODO? error
+                    });
+            }
+        })
+}
+
+export default { login, verifyPassword };
