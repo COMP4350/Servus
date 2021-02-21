@@ -3,9 +3,12 @@ import Service from '../db/models/service.js';
 
 const router = Router();
 
-/* GET all services. */
+/* GET services. 
+if empty body, returns ALL services.
+filter services by adding params to body
+*/
 router.get('/', (req, res) => {
-    Service.find().then(services => {
+    Service.find(req.body).then(services => {
         if (services) {
             return res.status(200).json({
                 success: true,
