@@ -115,4 +115,12 @@ router.get('/:username/services', (req, res) => {
     });
 });
 
+/* DELETE user(s). */
+router.delete('/', (req, res) => {
+    User.remove(req.body, err => {
+        if (err) throw err;
+        res.status(200);
+    });
+});
+
 export default router;

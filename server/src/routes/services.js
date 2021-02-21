@@ -73,4 +73,12 @@ router.put('/:service_id', (req, res) => {
     });
 });
 
+/* DELETE service(s). */
+router.delete('/', (req, res) => {
+    Service.remove(req.body, err => {
+        if (err) throw err;
+        res.status(200);
+    });
+});
+
 export default router;
