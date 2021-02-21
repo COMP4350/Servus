@@ -65,10 +65,14 @@ router.put('/:service_id', (req, res) => {
     }
 
     //update the service based on req.body
-    Service.findByIdAndUpdate(req.params.service_id, req.body, (err, service) => {
-        if (err) return res.status(500).json({ error: err });
-        return res.status(200).json({ success: true, result: service });
-    });
+    Service.findByIdAndUpdate(
+        req.params.service_id,
+        req.body,
+        (err, service) => {
+            if (err) return res.status(500).json({ error: err });
+            return res.status(200).json({ success: true, result: service });
+        }
+    );
 });
 
 /* DELETE service(s). */

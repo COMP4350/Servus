@@ -34,22 +34,21 @@ const login = (req, res) => {
 };
 
 const verifyPassword = (username, password) => {
-    User.findOne({ username: username })
-        .then(user => {
-            if (!user) {
-                return false
-            } else {
-                bcrypt
-                    .compare(password, user.password)
-                    .then(isMatch => {
-                        return isMatch
-                    })
-                    .catch(err => {
-                        return false
-                        // TODO? error
-                    });
-            }
-        })
-}
+    User.findOne({ username: username }).then(user => {
+        if (!user) {
+            return false;
+        } else {
+            bcrypt
+                .compare(password, user.password)
+                .then(isMatch => {
+                    return isMatch;
+                })
+                .catch(err => {
+                    return false;
+                    // TODO? error
+                });
+        }
+    });
+};
 
 export default { login, verifyPassword };
