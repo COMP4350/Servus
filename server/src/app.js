@@ -17,6 +17,8 @@ mongoose
     .connect('mongodb://localhost:27017/Test', {
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true,
     })
     .catch(error => handleError(error));
 

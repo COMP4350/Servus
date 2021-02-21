@@ -54,4 +54,9 @@ router.post('/', (req, res) => {
     );
 });
 
+/* UPDATE a service. */
+router.put('/', (req, res) => {
+    //TODO
+});
+
 export default router;
