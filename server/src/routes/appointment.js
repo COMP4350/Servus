@@ -5,11 +5,12 @@ import Appointment from '../db/models/appointment.js';
 const router = Router();
 
 /* Get appointments for username */
+//TODO: Refine filter by date.
 router.get('/:username', (req, res) => {
     Appointment.find({
         $or: [
-            { buyer: req.params.username },
-            { provider: req.params.username },
+            { buyer: req.params.username, ...req.body },
+            { provider: req.params.username, ...req.body },
         ],
     }).then(appointments => {
         if (appointments) {
@@ -20,6 +21,7 @@ router.get('/:username', (req, res) => {
 });
 
 /* Create new appointment */
+//TODO: Availability?
 router.post('/:buyer', (req, res) => {
     let provider = '';
 
@@ -61,6 +63,14 @@ router.post('/:buyer', (req, res) => {
             }
         }
     );
+});
+
+/* DELETE appointments(s). */
+router.delete('/:appointment_id', (req, res) => {
+    Appointment.findByIdAndRemove(appointment_id, err => {
+        if (err) throw err;
+        res.status(200);
+    });
 });
 
 export default router;
