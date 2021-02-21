@@ -4,9 +4,11 @@ const { Schema } = mongoose;
 
 const appointmentSchema = new Schema({
     id: {
-        username: { type: String, required: true },
+        buyer: { type: String, required: true },
+        provider: { type: String, required: true },
         service_id: { type: String, required: true },
         date_time: { type: Date, required: true },
+        booked_time: { type: Date, required: true },
     },
 });
 
