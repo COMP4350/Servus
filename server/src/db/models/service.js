@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const { Schema, ObjectId } = mongoose;
+const { Schema } = mongoose;
 
 const serviceSchema = new Schema({
     provider: { type: String, required: true },
