@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const serviceSchema = new Schema({
-    id: { type: String, required: true },
     provider: { type: String, required: true },
+    name: { type: String, required: true },
     description: { type: String, required: false },
     cost: { type: String, required: true },
     duration: { type: String, required: false },
