@@ -1,11 +1,14 @@
+import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
 import express, { json, urlencoded } from 'express';
 import mongoose from 'mongoose';
-import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import indexRouter from './routes/index.js';
 import servicesRouter from './routes/services.js';
 import userRouter from './routes/user.js';
 import appointmentRouter from './routes/appointment.js';
+
+dotenv.config();
 
 const app = express();
 const handleError = error => {
@@ -15,7 +18,7 @@ const handleError = error => {
 };
 
 mongoose
-    .connect('mongodb://localhost:27017/Test', {
+    .connect(process.env.DB_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false,
