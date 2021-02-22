@@ -6,9 +6,11 @@ import About from './components/About';
 import Header from './components/Header';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import dotenv from 'dotenv';
 import Appointment from './components/Appointments';
 
 const App = () => {
+    dotenv.config();
     const classes = makeStyles({});
     return (
         <div className={classes.container}>
