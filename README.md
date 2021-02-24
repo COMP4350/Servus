@@ -24,6 +24,10 @@ Servus is an operation to connect customers with service providers. Customers ar
 
 -   The meeting notes can be found [here](wiki/meeting_log.md).
 
+## Diagrams
+
+-   Project structure diagrams can be found [here](wiki/diagrams.md).
+
 <table>
 <tr>
     <td style="text-align: center;">
