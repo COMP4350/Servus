@@ -13,17 +13,15 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const ServiceCard = (props) => {
+const ServiceCard = props => {
     const classes = useStyles();
     return (
         <Card
-            style={ props.bg }
+            style={props.bg}
             variant="outlined"
             className={classes.cardView}
             key={props.index}>
-            <h2 className={classes.title}>
-                {props.service.name}
-            </h2>
+            <h2 className={classes.title}>{props.service.name}</h2>
             <div className={classes.details}>
                 <p>Provider: {props.service.provider}</p>
                 <p>Info: {props.service.description}</p>
@@ -31,8 +29,7 @@ const ServiceCard = (props) => {
                 <p>Time: {props.service.duration}</p>
             </div>
         </Card>
-    )
-
+    );
 };
 
 export default ServiceCard;

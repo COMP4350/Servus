@@ -15,7 +15,9 @@ const GetServices = () => {
     const [services, setServices] = useState(null);
     const classes = useStyles();
     const fetchData = async () => {
-        const response = await axios.get(`${process.env.REACT_APP_API_HOST}/services/`);
+        const response = await axios.get(
+            `${process.env.REACT_APP_API_HOST}/services/`
+        );
         setServices(response.data.result);
     };
     useEffect(() => {
@@ -25,15 +27,17 @@ const GetServices = () => {
     return (
         <div>
             <div className={classes.root}>
-                {services ?
-                    services.map((service, index) => {
-                        return (
-                            <ServiceCard
-                                service={service}
-                                index={index}
-                                bg={{ backgroundColor: '#647AA3' }} />
-                        );
-                    }) : null}
+                {services
+                    ? services.map((service, index) => {
+                          return (
+                              <ServiceCard
+                                  service={service}
+                                  index={index}
+                                  bg={{ backgroundColor: '#647AA3' }}
+                              />
+                          );
+                      })
+                    : null}
             </div>
         </div>
     );
