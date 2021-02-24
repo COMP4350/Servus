@@ -17,6 +17,7 @@ jobs:
             - name: Format
               run: |
                   npm ci
+                  npx eslint --fix-dry-run .
                   npx prettier --check "**/*.{js,md}"
     Mobile:
         runs-on: ubuntu-latest
