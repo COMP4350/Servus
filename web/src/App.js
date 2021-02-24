@@ -1,14 +1,14 @@
 import React from 'react';
 import './stylesheets/index.css';
-import Home from './components/Home';
-import Contact from './components/Contact';
-import About from './components/About';
+import Home from './pages/Home';
+import Contact from './pages/Contact';
+import About from './pages/About';
 import Header from './components/Header';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import Appointment from './components/Appointments';
-import Login from './components/Login';
-import SignUp from './components/SignUp';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
+import Appointment from './pages/Appointments';
 
 const App = () => {
     const classes = makeStyles({});
