@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Card, CardContent, Typography, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
-    root: {},
     date: {
         marginBottom: 12,
     },
@@ -27,7 +26,7 @@ const AppointmentCard = props => {
     }, [props]);
 
     return (
-        <Card className={classes.root}>
+        <Card>
             <CardContent>
                 <Typography color="textSecondary" className={classes.provider}>
                     {props.service.provider}
