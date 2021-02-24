@@ -3,12 +3,27 @@ import Service from '../db/models/service.js';
 
 const router = Router();
 
-/* GET services. 
-if empty body, returns ALL services.
-filter services by adding params to body
-*/
+/* GET services.
+ */
 router.get('/', (req, res) => {
-    Service.find(req.body).then(services => {
+    Service.find().then(services => {
+        if (services) {
+            return res.status(200).json({
+                success: true,
+                result: services,
+            });
+        } else {
+            return res
+                .status(404)
+                .json({ errors: [{ service: 'services are empty' }] });
+        }
+    });
+});
+
+/* GET 1 service.
+ */
+router.get('/:service_id', (req, res) => {
+    Service.findById(req.params.service_id).then(services => {
         if (services) {
             return res.status(200).json({
                 success: true,
