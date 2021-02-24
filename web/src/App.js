@@ -47,6 +47,16 @@ const App = () => {
                         path="/about"
                         render={props => <About {...props} />}
                     />
+                    <Route
+                        exact
+                        path="/login"
+                        render={props => <Login {...props} />}
+                    />
+                    <Route
+                        exact
+                        path="/signup"
+                        render={props => <SignUp {...props} />}
+                    />
                 </Switch>
             </BrowserRouter>
         </div>
