@@ -1,123 +1,150 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { TextField, IconButton } from '@material-ui/core';
+import MyLocationIcon from '@material-ui/icons/MyLocation';
 import {
-    Button,
-    Checkbox,
-    FormControlLabel,
-    TextField,
-} from '@material-ui/core';
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+    Autocomplete,
+    GoogleMap,
+    useJsApiLoader,
+} from '@react-google-maps/api';
+import mapStyle from './mapStyle.json';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     root: {
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-evenly',
         alignItems: 'center',
-        margin: '10%',
+        margin: '2%',
+        height: '100%',
+        width: '100%',
     },
     textField: {
+        backgroundColor: 'white',
+    },
+    addressContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '2%',
+        width: '100%',
+    },
+    mapContainer: {
         width: '50%',
-        marginBottom: '3%',
+        height: '50%',
     },
     button: {
-        marginBottom: '3%',
+        backgroundColor: 'white',
+        position: 'absolute',
+        bottom: '110px',
+        right: '10px',
+        borderRadius: '2px',
+        padding: '8px',
+        '&:hover': { backgroundColor: 'white' },
+    },
+    icon: {
+        '&:hover': { color: 'black' },
     },
 }));
-
-const mapStyle = {
-    width: '400px',
-    height: '400px',
-};
 
 const winnipeg = {
     lat: 49.8951,
     lng: -97.1384,
 };
 
+const mapLibraries = ['places'];
+
+const defaultBounds = {
+    north: winnipeg.lat + 1.0,
+    south: winnipeg.lat - 1.0,
+    east: winnipeg.lng + 1.0,
+    west: winnipeg.lng - 1.0,
+};
+
+const autocompleteOptions = {
+    bounds: defaultBounds,
+    componentRestrictions: { country: 'ca' },
+    fields: ['address_components', 'geometry', 'icon', 'name'],
+    origin: winnipeg,
+    strictBounds: true,
+};
+
+const mapOptions = {
+    mapTypeControl: false,
+    disableDefaultUI: true,
+    zoomControl: true,
+    styles: mapStyle,
+};
+
 const Location = () => {
     const classes = useStyles();
-    const [center, setCenter] = useState();
-    const [address, setAddress] = useState();
-    const [userLocation, setUserLocation] = useState(true);
+    const [center, setCenter] = useState(winnipeg);
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
+        libraries: mapLibraries,
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY,
     });
-    let geocoder;
 
-    const [map, setMap] = useState(null);
-    const geocode = coords => {
-        if (geocoder && coords) {
-            geocoder.geocode({ location: coords }, (results, status) => {
-                if (status === 'OK') {
-                    if (results[0]) {
-                        setAddress(results[0].formatted_address);
-                    } else {
-                        window.alert('No results found');
-                    }
-                } else {
-                    window.alert('Geocoder failed due to: ' + status);
-                }
-            });
-        }
-    };
-    const onLoad = useCallback(map => {
-        const bounds = new window.google.maps.LatLngBounds();
-        geocoder = new window.google.maps.Geocoder();
+    let marker = useRef();
+    let autocomplete = useRef();
+
+    const onMapLoad = useCallback(map => {
         getUserLocation();
-        map.fitBounds(bounds);
-        setMap(map);
+        marker.current = new window.google.maps.Marker({
+            map,
+            anchorPoint: new window.google.maps.Point(0, -29),
+        });
     }, []);
 
-    useEffect(() => {
-        geocode(center);
-    }, [center]);
+    const onAutoCompleteLoad = useCallback(autocompleteLoaded => {
+        autocomplete.current = autocompleteLoaded;
+    }, []);
 
     const getUserLocation = () => {
-        if ('geolocation' in navigator) {
-            navigator.geolocation.getCurrentPosition(position => {
-                setCenter({
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                });
+        navigator.geolocation?.getCurrentPosition(position => {
+            setCenter({
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
             });
-        } else {
-            setCenter(winnipeg);
-        }
+        });
     };
-    const toggleLocation = () => {
-        setUserLocation(!userLocation);
-        if (userLocation) {
-            getUserLocation();
-        }
+
+    const onSearchAddressChanged = () => {
+        setCenter(autocomplete.current?.getPlace().geometry?.location);
     };
+
+    useEffect(() => {
+        marker.current?.setPosition(center);
+        marker.current?.setVisible(true);
+    }, [center]);
 
     return (
         <div className={classes.root}>
             {isLoaded && (
                 <GoogleMap
-                    mapContainerStyle={mapStyle}
+                    mapContainerClassName={classes.mapContainer}
+                    mapId="eea06274c208fbb5"
                     center={center}
-                    zoom={10}
-                    onLoad={onLoad}
-                />
+                    zoom={12}
+                    mapTypeControl={false}
+                    onLoad={onMapLoad}
+                    options={mapOptions}>
+                    <div className={classes.addressContainer}>
+                        <Autocomplete
+                            options={{ ...autocompleteOptions, origin: center }}
+                            onPlaceChanged={onSearchAddressChanged}
+                            onLoad={onAutoCompleteLoad}>
+                            <TextField
+                                className={classes.textField}
+                                id="search-address"
+                            />
+                        </Autocomplete>
+                    </div>
+                    <IconButton
+                        className={classes.button}
+                        onClick={getUserLocation}>
+                        <MyLocationIcon className={classes.icon} />
+                    </IconButton>
+                </GoogleMap>
             )}
-            <TextField
-                className={classes.textField}
-                id="outlined-basic"
-                label="Location"
-                value={address}
-            />
-            <FormControlLabel
-                label="Use my location"
-                control={
-                    <Checkbox
-                        checked={userLocation}
-                        onChange={toggleLocation}
-                    />
-                }
-            />
         </div>
     );
 };

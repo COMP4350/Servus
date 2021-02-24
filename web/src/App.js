@@ -7,12 +7,20 @@ import Header from './components/Header';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Appointment from './components/Appointments';
-import { requirePropFactory } from '@material-ui/core';
-require('dotenv').config();
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const useStyles = makeStyles(() => ({
+    container: {
+        width: '100%',
+        height: '100%',
+    },
+}));
 
 const App = () => {
     console.log(process.env);
-    const classes = makeStyles({});
+    const classes = useStyles();
     return (
         <div className={classes.container}>
             <BrowserRouter>
