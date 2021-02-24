@@ -1,4 +1,5 @@
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { json, urlencoded } from 'express';
 import mongoose from 'mongoose';
@@ -33,6 +34,7 @@ app.use(logger('dev'));
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors({ origin: true, credentials: true }));
 
 app.use('/', indexRouter);
 app.use('/services', servicesRouter);
