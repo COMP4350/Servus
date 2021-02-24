@@ -67,7 +67,7 @@ router.post('/:buyer', (req, res) => {
 
 /* DELETE appointments(s). */
 router.delete('/:appointment_id', (req, res) => {
-    Appointment.findByIdAndRemove(appointment_id, err => {
+    Appointment.findByIdAndRemove(req.params.appointment_id, err => {
         if (err) throw err;
         res.status(200);
     });

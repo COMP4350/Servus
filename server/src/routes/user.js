@@ -91,7 +91,7 @@ router.put('/:username', (req, res) => {
     let query = { username: req.params.username }; //what user are we updating?
 
     //if we want to change the password we have to encrypt it
-    if (req.body.hasOwnProperty('password'))
+    if (Object.prototype.hasOwnProperty.call(req.body, 'password'))
         encryptPassword(req.body.password)
             .then(encrpytedPassword => {
                 req.body.password = encrpytedPassword;
@@ -118,10 +118,7 @@ router.get('/:username/services', (req, res) => {
 
 /* DELETE user(s). */
 router.delete('/:username', (req, res) => {
-    if (
-        req.body.hasOwnProperty(password) &&
-        req.params.hasOwnProperty(username)
-    ) {
+    if (Object.prototype.hasOwnProperty.call(req.body, 'password')) {
         if (verifyPassword(req.params.username, req.body.password)) {
             User.remove({ username: req.params.username }, err => {
                 if (err) throw err;
