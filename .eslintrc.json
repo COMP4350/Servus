@@ -17,6 +17,8 @@
     "plugins": ["react", "prettier"],
     "rules": {
         "prettier/prettier": "error",
-        "no-unused-vars": ["error", { "argsIgnorePattern": "next" }]
+        "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
+        "react/jsx-uses-react": "error",
+        "react/jsx-uses-vars": "error"
     }
 }
