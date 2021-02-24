@@ -9,9 +9,19 @@ import { makeStyles } from '@material-ui/core/styles';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Appointment from './pages/Appointments';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const useStyles = makeStyles(() => ({
+    container: {
+        width: '100%',
+        height: '100%',
+    },
+}));
 
 const App = () => {
-    const classes = makeStyles({});
+    const classes = useStyles();
     return (
         <div className={classes.container}>
             <BrowserRouter>
