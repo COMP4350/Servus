@@ -1,7 +1,7 @@
 import React from 'react';
 import Map from '../components/map/Map';
 import { makeStyles } from '@material-ui/core/styles';
-import ServiceList from '../components/ServiceList';
+import GetServices from '../components/GetServices';
 
 const useStyles = makeStyles(() => ({
     container: {
@@ -15,7 +15,7 @@ const Home = () => {
     const classes = useStyles();
     return (
         <div className={classes.container}>
-            <ServiceList />
+            <GetServices />
             <Map />
         </div>
     );
