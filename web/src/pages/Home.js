@@ -1,5 +1,5 @@
 import React from 'react';
-import Map from './Map';
+import Map from '../components/map/Map';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
