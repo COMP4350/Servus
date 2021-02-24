@@ -19,7 +19,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 const App = () => {
-    console.log(process.env);
     const classes = useStyles();
     return (
         <div className={classes.container}>
