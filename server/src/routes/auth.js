@@ -43,7 +43,7 @@ const verifyPassword = (username, password) => {
                 .then(isMatch => {
                     return isMatch;
                 })
-                .catch(err => {
+                .catch(() => {
                     return false;
                     // TODO? error
                 });

@@ -75,7 +75,7 @@ router.post('/', (req, res) => {
 /* UPDATE a service. Returns the OLD object */
 router.put('/:service_id', (req, res) => {
     //can't change the username attached to service
-    if (req.body.hasOwnProperty('username')) {
+    if (Object.prototype.hasOwnProperty.call(req.body, 'username')) {
         return res.status(500).json({ error: 'Cannot change user in service' });
     }
 
