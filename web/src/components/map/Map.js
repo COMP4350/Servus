@@ -14,7 +14,6 @@ const useStyles = makeStyles(() => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        margin: '2%',
         height: '100%',
         width: '100%',
     },
@@ -28,8 +27,9 @@ const useStyles = makeStyles(() => ({
         width: '100%',
     },
     mapContainer: {
-        width: '50%',
-        height: '50%',
+        width: '100%',
+        height: '90%',
+        margin: 10,
     },
     button: {
         backgroundColor: 'white',

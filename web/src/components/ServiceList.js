@@ -4,7 +4,9 @@ import { Card, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        maxWidth: 250,
+        maxWidth: 400,
+        marginLeft: 10,
+        marginTop: 10,
     },
     title: {
         fontSize: 14,
