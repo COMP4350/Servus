@@ -14,7 +14,7 @@ router.get('/:username', (req, res) => {
         ],
     }).then(appointments => {
         if (appointments) {
-            return res.status(200).json(appointments);
+            return res.status(200).json({ result: appointments });
         }
         return res.status(404).json([]);
     });
