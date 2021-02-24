@@ -121,7 +121,6 @@ const Map = () => {
             {isLoaded && (
                 <GoogleMap
                     mapContainerClassName={classes.mapContainer}
-                    mapId="eea06274c208fbb5"
                     center={center}
                     zoom={12}
                     mapTypeControl={false}
