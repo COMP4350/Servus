@@ -2,26 +2,9 @@ import { Router } from 'express';
 import Service from '../db/models/service.js';
 import User from '../db/models/user.js';
 import bcrypt from 'bcrypt';
-import verifyPassword from './auth.js';
+import { verifyPassword, encryptPassword } from '../utils/authUtils.js';
 
 const router = Router();
-
-/* Encryption Helper. Promises to return an encrypted password*/
-const encryptPassword = password => {
-    return new Promise((resolve, reject) => {
-        bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(password, salt, (err, hash) => {
-                if (err) {
-                    //reject, we couldn't encrypt :(
-                    reject(new TypeError('Password Encryption Failed!'));
-                } else {
-                    //send the hash!
-                    resolve(hash);
-                }
-            });
-        });
-    });
-};
 
 router.get('/:username', (req, res) => {
     User.findOne({ username: req.params.username }).then(user => {
