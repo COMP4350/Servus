@@ -11,17 +11,17 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const GetServices = () => {
+const ServiceList = () => {
     const [services, setServices] = useState(null);
     const classes = useStyles();
-    const fetchData = async () => {
+    const getServices = async () => {
         const response = await axios.get(
             `${process.env.REACT_APP_API_HOST}/services/`
         );
         setServices(response.data.result);
     };
     useEffect(() => {
-        fetchData();
+        getServices();
     }, []);
 
     return (
@@ -43,4 +43,4 @@ const GetServices = () => {
     );
 };
 
-export default GetServices;
+export default ServiceList;
