@@ -1,17 +1,24 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Container from '@material-ui/core/Container';
+import Map from '../components/map/Map';
+import { makeStyles } from '@material-ui/core/styles';
 import ServiceList from './ServiceList';
 
+const useStyles = makeStyles(() => ({
+    container: {
+        display: 'flex',
+        width: '100%',
+        height: '100%',
+    },
+}));
+
 const Home = () => {
+    const classes = useStyles();
     return (
-        <Container className="Home" maxWidth="lg">
-            <ServiceList></ServiceList>
-        </Container>
+        <div className={classes.container}>
+            <ServiceList />
+            <Map />
+        </div>
     );
 };
-
-const rootElement = document.getElementById('root');
-ReactDOM.render(<Home />, rootElement);
 
 export default Home;
