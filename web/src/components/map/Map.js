@@ -74,7 +74,7 @@ const mapOptions = {
     styles: mapStyle,
 };
 
-const Location = () => {
+const Map = () => {
     const classes = useStyles();
     const [center, setCenter] = useState(winnipeg);
     const { isLoaded } = useJsApiLoader({
@@ -149,4 +149,4 @@ const Location = () => {
     );
 };
 
-export default Location;
+export default Map;
