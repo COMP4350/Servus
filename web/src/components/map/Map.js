@@ -3,7 +3,8 @@ import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, IconButton } from '@material-ui/core';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
-import { renderToString } from 'react-dom/server';
+import ReactDOM from 'react-dom';
+
 
 import {
     Autocomplete,
@@ -104,6 +105,7 @@ const Map = () => {
                 let services = response.data.result;
                 services &&
                     services.map(service => {
+                        var div = document.createElement('div');
                         //build the content string
                         const contentString = (
                             <ServiceWindow
@@ -111,9 +113,10 @@ const Map = () => {
                                 username={'zimbakor'}
                             />
                         );
+                        ReactDOM.render( contentString, div );
 
                         const infowindow = new window.google.maps.InfoWindow({
-                            content: renderToString(contentString),
+                            content: div,
                         });
 
                         let serviceMarker = new window.google.maps.Marker({

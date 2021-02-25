@@ -55,7 +55,7 @@ const SignUp = () => {
         }
         setErrors(errors);
         setFormValid(
-            Object.getOwnPropertyNames(errors).length == 0 ? true : false
+            Object.getOwnPropertyNames(errors).length == 0
         );
     };
     const createAccount = async () => {

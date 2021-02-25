@@ -79,7 +79,7 @@ const Account = props => {
         }
         setErrors(errors);
         setFormValid(
-            Object.getOwnPropertyNames(errors).length == 0 ? true : false
+            Object.getOwnPropertyNames(errors).length == 0
         );
     };
     const logout = () => {
