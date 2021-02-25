@@ -2,26 +2,9 @@ import { Router } from 'express';
 import Service from '../db/models/service.js';
 import User from '../db/models/user.js';
 import bcrypt from 'bcrypt';
-import verifyPassword from './auth.js';
+import { verifyPassword, encryptPassword } from '../utils/authUtils.js';
 
 const router = Router();
-
-/* Encryption Helper. Promises to return an encrypted password*/
-const encryptPassword = password => {
-    return new Promise((resolve, reject) => {
-        bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(password, salt, (err, hash) => {
-                if (err) {
-                    //reject, we couldn't encrypt :(
-                    reject(new TypeError('Password Encryption Failed!'));
-                } else {
-                    //send the hash!
-                    resolve(hash);
-                }
-            });
-        });
-    });
-};
 
 router.get('/:username', (req, res) => {
     User.findOne({ username: req.params.username }).then(user => {
@@ -38,8 +21,44 @@ router.get('/:username', (req, res) => {
     });
 });
 
+router.post('/:username/login', (req, res) => {
+    const username = req.params.username;
+    const password = req.body.password;
+    User.findOne({ username: username })
+        .then(user => {
+            if (!user) {
+                return res.status(404).json({
+                    errors: [{ user: 'not found' }],
+                });
+            } else {
+                bcrypt
+                    .compare(password, user.password)
+                    .then(isMatch => {
+                        if (!isMatch) {
+                            return res
+                                .status(400)
+                                .json({ errors: [{ password: 'incorrect' }] });
+                        }
+                        res.cookie('username', user.username, {
+                            maxAge: 2 * 60 * 60 * 1000,
+                        });
+                        return res.status(200).json({
+                            result: user,
+                        });
+                    })
+                    .catch(err => {
+                        res.status(500).json({ errors: err });
+                    });
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ errors: err });
+        });
+});
+
 /* Add a new user */
 router.post('/:username', (req, res) => {
+    console.log(req.body);
     User.findOne({ username: req.params.username }).then(user => {
         if (user)
             return res
@@ -51,7 +70,6 @@ router.post('/:username', (req, res) => {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 password: req.body.password,
-                services: [],
             });
             encryptPassword(newUser.password)
                 .then(encrpytedPassword => {
@@ -59,12 +77,16 @@ router.post('/:username', (req, res) => {
                     newUser
                         .save()
                         .then(response => {
+                            res.cookie('username', newUser.username, {
+                                maxAge: 2 * 60 * 60 * 1000,
+                            });
                             res.status(200).json({
                                 success: true,
                                 result: response,
                             });
                         })
                         .catch(err => {
+                            console.log(err);
                             res.status(500).json({
                                 errors: [{ error: err }],
                             });
@@ -79,7 +101,7 @@ router.post('/:username', (req, res) => {
     });
 });
 
-/* Update a new user. DOES NOT ADD IF IT DOESN'T EXIST. */
+/* Update a user. DOES NOT update IF IT DOESN'T EXIST. */
 /* Returns the OLD object */
 router.put('/:username', (req, res) => {
     const updateOneUser = (query, filter) => {

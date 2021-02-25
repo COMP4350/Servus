@@ -6,7 +6,7 @@
         "mocha": true,
         "jest": true
     },
-    "extends": ["eslint:recommended", "plugin:react/recommended", "prettier"],
+    "extends": ["eslint:recommended", "plugin:react/recommended"],
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
@@ -14,9 +14,8 @@
         "ecmaVersion": 12,
         "sourceType": "module"
     },
-    "plugins": ["react", "prettier"],
+    "plugins": ["react"],
     "rules": {
-        "prettier/prettier": "error",
         "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
         "no-unused-expressions": "off",
         "react/jsx-uses-react": "error",

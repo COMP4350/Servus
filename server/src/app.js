@@ -12,6 +12,7 @@ import appointmentRouter from './routes/appointment.js';
 dotenv.config();
 
 const app = express();
+app.use(cors({ origin: true, credentials: true }));
 const handleError = error => {
     console.log('########## Error Occured #########\n\n');
     console.error(error);
