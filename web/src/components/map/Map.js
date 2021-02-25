@@ -3,7 +3,7 @@ import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, IconButton } from '@material-ui/core';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
-import { renderToStaticMarkup } from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
 
 import {
     Autocomplete,
@@ -113,7 +113,7 @@ const Map = () => {
                         );
 
                         const infowindow = new window.google.maps.InfoWindow({
-                            content: renderToStaticMarkup(contentString),
+                            content: renderToString(contentString),
                         });
 
                         let serviceMarker = new window.google.maps.Marker({
