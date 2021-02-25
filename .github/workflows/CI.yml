@@ -17,6 +17,7 @@ jobs:
             - name: Format
               run: |
                   npm ci
+                  echo "Running Prettier"
                   npx prettier --check "**/*.{js,md}"
     Mobile:
         runs-on: ubuntu-latest

@@ -10,6 +10,7 @@ import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 
 const useStyles = makeStyles(theme => ({
@@ -31,8 +32,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const Header = props => {
-    const { history } = props;
+const Header = ({ history }) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -106,10 +106,11 @@ const Header = props => {
                                 }}
                                 open={open}
                                 onClose={() => setAnchorEl(null)}>
-                                {menuItems.map(menuItem => {
+                                {menuItems.map((menuItem, i) => {
                                     const { menuTitle, pageURL } = menuItem;
                                     return (
                                         <MenuItem
+                                            key={i}
                                             onClick={() =>
                                                 handleMenuClick(pageURL)
                                             }>
@@ -155,6 +156,11 @@ const Header = props => {
             </AppBar>
         </div>
     );
+};
+
+Header.propTypes = {
+    history: PropTypes.any,
+    push: PropTypes.func,
 };
 
 export default withRouter(Header);
