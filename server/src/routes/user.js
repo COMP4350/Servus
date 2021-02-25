@@ -58,6 +58,7 @@ router.post('/:username/login', (req, res) => {
 
 /* Add a new user */
 router.post('/:username', (req, res) => {
+    console.log(req.body);
     User.findOne({ username: req.params.username }).then(user => {
         if (user)
             return res
@@ -76,12 +77,16 @@ router.post('/:username', (req, res) => {
                     newUser
                         .save()
                         .then(response => {
+                            res.cookie('username', newUser.username, {
+                                maxAge: 2 * 60 * 60 * 1000,
+                            });
                             res.status(200).json({
                                 success: true,
                                 result: response,
                             });
                         })
                         .catch(err => {
+                            console.log(err);
                             res.status(500).json({
                                 errors: [{ error: err }],
                             });
@@ -96,7 +101,7 @@ router.post('/:username', (req, res) => {
     });
 });
 
-/* Update a new user. DOES NOT ADD IF IT DOESN'T EXIST. */
+/* Update a user. DOES NOT update IF IT DOESN'T EXIST. */
 /* Returns the OLD object */
 router.put('/:username', (req, res) => {
     const updateOneUser = (query, filter) => {

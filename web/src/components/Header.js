@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -11,7 +10,7 @@ import Button from '@material-ui/core/Button';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
+import { useCookies } from 'react-cookie';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -19,10 +18,14 @@ const useStyles = makeStyles(theme => ({
     },
     menuButton: {
         marginRight: theme.spacing(2),
+        color: 'white',
     },
     title: {
         [theme.breakpoints.down('xs')]: {
             flexGrow: 1,
+        },
+        '&:hover': {
+            cursor: 'pointer',
         },
     },
     headerOptions: {
@@ -34,11 +37,12 @@ const useStyles = makeStyles(theme => ({
 
 const Header = ({ history }) => {
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [cookies] = useCookies();
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
-
+    const [username, setUsername] = useState();
     const handleMenu = event => {
         setAnchorEl(event.currentTarget);
     };
@@ -51,6 +55,10 @@ const Header = ({ history }) => {
     const handleButtonClick = pageURL => {
         history.push(pageURL);
     };
+
+    useEffect(() => {
+        if (cookies.username) setUsername(cookies.username);
+    }, []);
 
     const menuItems = [
         {
@@ -71,7 +79,7 @@ const Header = ({ history }) => {
         },
         {
             menuTitle: 'Login',
-            pageUrl: '/login'
+            pageUrl: '/login',
         },
     ];
 
@@ -79,9 +87,11 @@ const Header = ({ history }) => {
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                    <Typography variant="h6" className={classes.title}>
-                        Servus
-                    </Typography>
+                    <div
+                        className={classes.title}
+                        onClick={() => handleButtonClick('/')}>
+                        <h1>Servus</h1>
+                    </div>
                     {isMobile ? (
                         <>
                             <IconButton
@@ -123,34 +133,28 @@ const Header = ({ history }) => {
                     ) : (
                         <div className={classes.headerOptions}>
                             <Button
-                                variant="contained"
-                                onClick={() => handleButtonClick('/')}>
-                                HOME
-                            </Button>
-                            <Button
-                                variant="contained"
+                                className={classes.menuButton}
                                 onClick={() =>
                                     handleButtonClick('/appointment')
                                 }>
-                                APPOINTMENT
+                                Appointments
                             </Button>
                             <Button
-                                variant="contained"
+                                className={classes.menuButton}
                                 onClick={() => handleButtonClick('/contact')}>
-                                CONTACT
+                                Contact
                             </Button>
                             <Button
-                                variant="contained"
+                                className={classes.menuButton}
                                 onClick={() => handleButtonClick('/about')}>
-                                ABOUT
+                                About
                             </Button>
                             <Button
-                                variant="contained"
+                                className={classes.menuButton}
                                 onClick={() => handleButtonClick('/login')}>
-                                LOGIN
+                                {username ? username : 'LOGIN'}
                             </Button>
                         </div>
-                        
                     )}
                 </Toolbar>
             </AppBar>

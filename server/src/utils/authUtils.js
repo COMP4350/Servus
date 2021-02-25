@@ -7,10 +7,8 @@ export const encryptPassword = password => {
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(password, salt, (err, hash) => {
                 if (err) {
-                    //reject, we couldn't encrypt :(
                     reject(new TypeError('Password Encryption Failed!'));
                 } else {
-                    //send the hash!
                     resolve(hash);
                 }
             });

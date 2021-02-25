@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { Button, TextField } from '@material-ui/core';
 import axios from 'axios';
 import useForm from '../hooks/useForm';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     root: {
         display: 'flex',
         flexDirection: 'column',
@@ -25,28 +25,50 @@ const useStyles = makeStyles(theme => ({
 const Login = () => {
     const classes = useStyles();
     const history = useHistory();
+    const [errors, setErrors] = useState({});
+    const [formValid, setFormValid] = useState(false);
     const [loginForm, onFormChange] = useForm({
         username: '',
         password: '',
     });
-    const validateLogin = async () => {
-        axios
-            .post(
-                `http://localhost:5000/user/${loginForm.username}/login`,
-                {
-                    password: loginForm.password,
-                },
-                {
-                    withCredentials: true,
-                }
-            )
-            .then(() => {
-                history.push('/');
-            })
-            .catch(() => {
-                alert('User not found.');
-            });
+    const validate = () => {
+        let errors = {};
+        if (!loginForm.username) {
+            errors.username = 'username is required';
+        }
+        if (!loginForm.password) {
+            errors.password = 'password is required';
+        }
+        setErrors(errors);
+        setFormValid(
+            Object.getOwnPropertyNames(errors).length == 0 ? true : false
+        );
     };
+    const login = async () => {
+        if (formValid) {
+            axios
+                .post(
+                    `${process.env.REACT_APP_API_HOST}/user/${loginForm.username}/login`,
+                    {
+                        password: loginForm.password,
+                    },
+                    {
+                        withCredentials: true,
+                    }
+                )
+                .then(() => {
+                    history.push('/');
+                })
+                .catch(() => {
+                    alert('User not found.');
+                });
+            return;
+        }
+    };
+
+    useEffect(() => {
+        login();
+    }, [formValid]);
 
     return (
         <div className={classes.root}>
@@ -58,6 +80,7 @@ const Login = () => {
                 name="username"
                 value={loginForm.username}
                 onChange={onFormChange}
+                error={errors.username}
             />
             <TextField
                 className={classes.textField}
@@ -68,11 +91,12 @@ const Login = () => {
                 autoComplete="current-password"
                 value={loginForm.password}
                 onChange={onFormChange}
+                error={errors.password}
             />
             <Button
                 className={classes.button}
                 variant="contained"
-                onClick={validateLogin}>
+                onClick={validate}>
                 LOGIN
             </Button>
             <Button

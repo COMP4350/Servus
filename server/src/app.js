@@ -8,7 +8,6 @@ import indexRouter from './routes/index.js';
 import servicesRouter from './routes/services.js';
 import userRouter from './routes/user.js';
 import appointmentRouter from './routes/appointment.js';
-import cors from 'cors';
 
 dotenv.config();
 

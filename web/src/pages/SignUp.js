@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { Button, TextField } from '@material-ui/core';
 import useForm from '../hooks/useForm';
+import axios from 'axios';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     root: {
         display: 'flex',
         flexDirection: 'column',
@@ -20,9 +21,12 @@ const useStyles = makeStyles(theme => ({
         marginBottom: '3%',
     },
 }));
+
 const SignUp = () => {
     const classes = useStyles();
     const history = useHistory();
+    const [errors, setErrors] = useState({});
+    const [formValid, setFormValid] = useState();
     const [signUpForm, onFormChange] = useForm({
         username: '',
         password: '',
@@ -31,11 +35,67 @@ const SignUp = () => {
         lastName: '',
     });
     const validate = () => {
-        // validate login
+        let errors = {};
+        if (!signUpForm.firstName) {
+            errors.username = 'first name is required';
+        }
+        if (!signUpForm.lastName) {
+            errors.username = 'last name is required';
+        }
+        if (!signUpForm.username) {
+            errors.username = 'username is required';
+        }
+        if (!signUpForm.password) {
+            errors.password = 'password is required';
+        }
+        if (!signUpForm.confirmPassword) {
+            errors.confirmPassword = 'confirm password is required';
+        } else if (signUpForm.confirmPassword !== signUpForm.password) {
+            errors.confirmPassword = 'passwords must match';
+        }
+        setErrors(errors);
+        setFormValid(
+            Object.getOwnPropertyNames(errors).length == 0 ? true : false
+        );
     };
-    const createAccount = () => {
-        history.push('/home');
+    const createAccount = async () => {
+        if (formValid) {
+            axios
+                .post(
+                    `${process.env.REACT_APP_API_HOST}/user/${signUpForm.username}`,
+                    {
+                        password: signUpForm.password,
+                        firstName: signUpForm.firstName,
+                        lastName: signUpForm.lastName,
+                    },
+                    {
+                        withCredentials: true,
+                    }
+                )
+                .then(() => {
+                    axios.post(
+                        `${process.env.REACT_APP_API_HOST}/user/${signUpForm.username}/login`,
+                        {
+                            password: signUpForm.password,
+                        },
+                        {
+                            withCredentials: true,
+                        }
+                    );
+                    history.push('/');
+                })
+                .catch(err => {
+                    if (err.response.status == 422)
+                        alert('username already exists');
+                    else alert(err);
+                    setFormValid(false);
+                });
+            return;
+        }
     };
+    useEffect(() => {
+        createAccount();
+    }, [formValid]);
 
     return (
         <div className={classes.root}>
@@ -47,6 +107,7 @@ const SignUp = () => {
                 name="firstName"
                 value={signUpForm.firstName}
                 onChange={onFormChange}
+                error={errors.firstName}
             />
             <TextField
                 className={classes.textField}
@@ -55,6 +116,7 @@ const SignUp = () => {
                 name="lastName"
                 value={signUpForm.lastName}
                 onChange={onFormChange}
+                error={errors.lastName}
             />
             <TextField
                 className={classes.textField}
@@ -63,6 +125,7 @@ const SignUp = () => {
                 name="username"
                 value={signUpForm.username}
                 onChange={onFormChange}
+                error={errors.username}
             />
             <TextField
                 className={classes.textField}
@@ -73,6 +136,7 @@ const SignUp = () => {
                 name="password"
                 value={signUpForm.password}
                 onChange={onFormChange}
+                error={errors.password}
             />
             <TextField
                 className={classes.textField}
@@ -82,11 +146,12 @@ const SignUp = () => {
                 name="confirmPassword"
                 value={signUpForm.confirmPassword}
                 onChange={onFormChange}
+                error={errors.confirmPassword}
             />
             <Button
                 className={classes.button}
                 variant="contained"
-                onClick={createAccount}>
+                onClick={validate}>
                 CREATE ACCOUNT
             </Button>
         </div>
