@@ -28,6 +28,10 @@ Servus is an operation to connect customers with service providers. Customers ar
 
 -   Project structure diagrams can be found [here](wiki/diagrams.md).
 
+## Testing Plan
+
+-   The testing plan document can be found [here](wiki/SERVUS_Test_Plan_Sprint_2.pdf).
+
 <table>
 <tr>
     <td style="text-align: center;">
