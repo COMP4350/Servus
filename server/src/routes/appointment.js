@@ -56,6 +56,7 @@ router.post('/:buyer', (req, res) => {
                         });
                     })
                     .catch(err => {
+                        console.log(err);
                         return res.status(500).json({
                             errors: [{ error: err }],
                         });

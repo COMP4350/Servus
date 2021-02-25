@@ -17,21 +17,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ServiceWindow = props => {
-    const [form, onFormChange] = useForm(
-        {
-            time: '2017-05-24T10:30'
-        }
-    )
+    const [form, onFormChange] = useForm({
+        time: '2017-05-24T10:30',
+    });
     const [errors, setErrors] = useState({});
     const validate = () => {
         let errors = {};
-        if(!form.time)
-        {
+        if (!form.time) {
             errors.time = 'time is required';
         }
         setErrors(errors);
         setValid(Object.getOwnPropertyNames(errors).length == 0);
-    }
+    };
+
     const classes = useStyles();
     const [valid, setValid] = useState(false);
     const bookAppointment = () => {
@@ -42,18 +40,22 @@ const ServiceWindow = props => {
                     {
                         service_id: props.service._id,
                         provider: props.service.provider,
-                        date_time: Date.now(),
+                        date_time: form.time,
+                    },
+                    {
+                        withCredentials: true,
                     }
                 )
                 .then(() => {
-                    alert(`Successfully booked Service with ${props.service.provider}`);
+                    alert(
+                        `Successfully booked Service with ${props.service.provider}`
+                    );
                 });
         }
-
     };
     useEffect(() => {
         bookAppointment();
-    }, [valid]);
+    }, [valid, form]);
     return (
         <Card>
             <Typography color="textSecondary">
@@ -77,10 +79,7 @@ const ServiceWindow = props => {
                     }}
                 />
             </form>
-            <Button
-                onClick={validate}>
-                BOOK
-            </Button>
+            <Button onClick={validate}>BOOK</Button>
         </Card>
     );
 };

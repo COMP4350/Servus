@@ -54,9 +54,7 @@ const SignUp = () => {
             errors.confirmPassword = 'passwords must match';
         }
         setErrors(errors);
-        setFormValid(
-            Object.getOwnPropertyNames(errors).length == 0
-        );
+        setFormValid(Object.getOwnPropertyNames(errors).length == 0);
     };
     const createAccount = async () => {
         if (formValid) {

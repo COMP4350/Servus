@@ -5,7 +5,6 @@ import { TextField, IconButton } from '@material-ui/core';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
 import ReactDOM from 'react-dom';
 
-
 import {
     Autocomplete,
     GoogleMap,
@@ -113,7 +112,7 @@ const Map = () => {
                                 username={'zimbakor'}
                             />
                         );
-                        ReactDOM.render( contentString, div );
+                        ReactDOM.render(contentString, div);
 
                         const infowindow = new window.google.maps.InfoWindow({
                             content: div,

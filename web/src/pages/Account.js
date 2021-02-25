@@ -78,9 +78,7 @@ const Account = props => {
             errors.username = 'username is required';
         }
         setErrors(errors);
-        setFormValid(
-            Object.getOwnPropertyNames(errors).length == 0
-        );
+        setFormValid(Object.getOwnPropertyNames(errors).length == 0);
     };
     const logout = () => {
         removeCookie('username', '');
