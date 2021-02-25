@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 
 const ServiceWindow = props => {
     const [form, onFormChange] = useForm({
-        time: '2017-05-24T10:30',
+        time: '',
     });
     const [errors, setErrors] = useState({});
     const validate = () => {
@@ -67,10 +67,11 @@ const ServiceWindow = props => {
             </Typography>
             <form className={classes.container} noValidate>
                 <TextField
-                    id="datetime-local"
-                    label="Next appointment"
+                    id="time"
+                    label="Appointment Time"
                     type="datetime-local"
                     onChange={onFormChange}
+                    name="time"
                     value={form.time}
                     error={errors.time}
                     className={classes.textField}
