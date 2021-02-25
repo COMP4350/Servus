@@ -10,8 +10,11 @@
 -   Business: scheduler, map API
 -   Persistence: users index, services index
 -   Database: database
+
 ---
+
 ### Class Diagram
+
 ![UML Class Diagram](class_diagram_routes.png)
 
 ---
