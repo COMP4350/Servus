@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const { Schema, Decimal128 } = mongoose;
+const { Schema } = mongoose;
 
 const serviceSchema = new Schema({
     provider: { type: String, required: true },
@@ -10,8 +10,8 @@ const serviceSchema = new Schema({
     duration: { type: String, required: false },
     availability: { type: String, required: true },
     location: {
-        lat: { type: Decimal128, required: true },
-        lng: { type: Decimal128, required: true },
+        lat: { type: Number, required: true },
+        lng: { type: Number, required: true },
         address: { type: String, required: true },
     },
 });

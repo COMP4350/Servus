@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, IconButton } from '@material-ui/core';
@@ -77,6 +78,7 @@ const mapOptions = {
 const Map = () => {
     const classes = useStyles();
     const [center, setCenter] = useState(winnipeg);
+
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         libraries: mapLibraries,
@@ -92,6 +94,22 @@ const Map = () => {
             map,
             anchorPoint: new window.google.maps.Point(0, -29),
         });
+        axios
+            .get(`${process.env.REACT_APP_API_HOST}/services/`)
+            .then(response => {
+                let services = response.data.result;
+                services &&
+                    services.map(service => {
+                        new window.google.maps.Marker({
+                            map,
+                            position: {
+                                lat: service.location.lat,
+                                lng: service.location.lng,
+                            },
+                            visible: true,
+                        });
+                    });
+            });
     }, []);
 
     const onAutoCompleteLoad = useCallback(autocompleteLoaded => {
@@ -115,7 +133,6 @@ const Map = () => {
         marker.current?.setPosition(center);
         marker.current?.setVisible(true);
     }, [center]);
-
     return (
         <div className={classes.root}>
             {isLoaded && (

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { makeStyles } from '@material-ui/core';
 import AppointmentCard from '../components/AppointmentCard';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     container: {},
 }));
 
