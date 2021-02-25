@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
         flexDirection: 'column',
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        margin: '10%',
+        margin: '2%',
     },
     textField: {
         width: '50%',
@@ -19,10 +19,11 @@ const useStyles = makeStyles(() => ({
     },
     button: {
         marginBottom: '3%',
+        textTransform: 'capitalize',
     },
 }));
 
-const Login = () => {
+const Login = props => {
     const classes = useStyles();
     const history = useHistory();
     const [errors, setErrors] = useState({});
@@ -56,7 +57,9 @@ const Login = () => {
                         withCredentials: true,
                     }
                 )
-                .then(() => {
+                .then(res => {
+                    console.log(res.data.result.username);
+                    props.setUsername(res.data.result.username);
                     history.push('/');
                 })
                 .catch(() => {
@@ -97,13 +100,13 @@ const Login = () => {
                 className={classes.button}
                 variant="contained"
                 onClick={validate}>
-                LOGIN
+                Login
             </Button>
             <Button
                 className={classes.button}
                 variant="contained"
                 onClick={() => history.push('/signup')}>
-                SIGN UP
+                Sign up
             </Button>
         </div>
     );

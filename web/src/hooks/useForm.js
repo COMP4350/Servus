@@ -9,7 +9,7 @@ function useForm(initialValues = {}) {
             [evt.target.name]: evt.target.value,
         });
 
-    return [values, onChange];
+    return [values, onChange, setValues];
 }
 
 export default useForm;

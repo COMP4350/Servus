@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './stylesheets/index.css';
 import Home from './pages/Home';
-import Contact from './pages/Contact';
-import About from './pages/About';
 import Header from './components/Header';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Appointment from './pages/Appointments';
+import Account from './pages/Account';
 import dotenv from 'dotenv';
+import { useCookies } from 'react-cookie';
 
 dotenv.config();
 
@@ -22,10 +22,16 @@ const useStyles = makeStyles(() => ({
 
 const App = () => {
     const classes = useStyles();
+    const [cookies] = useCookies();
+    const [username, setUsername] = useState();
+
+    useEffect(() => {
+        if (cookies.username) setUsername(cookies.username);
+    }, []);
     return (
         <div className={classes.container}>
             <BrowserRouter>
-                <Header />
+                <Header username={username} />
                 <Switch>
                     <Route
                         exact
@@ -34,28 +40,27 @@ const App = () => {
                     />
                     <Route
                         exact
-                        path="/Appointment"
+                        path="/appointment"
                         render={props => <Appointment {...props} />}
                     />
                     <Route
                         exact
-                        path="/contact"
-                        render={props => <Contact {...props} />}
-                    />
-                    <Route
-                        exact
-                        path="/about"
-                        render={props => <About {...props} />}
-                    />
-                    <Route
-                        exact
                         path="/login"
-                        render={props => <Login {...props} />}
+                        render={props => (
+                            <Login {...props} setUsername={setUsername} />
+                        )}
                     />
                     <Route
                         exact
                         path="/signup"
                         render={props => <SignUp {...props} />}
+                    />
+                    <Route
+                        exact
+                        path="/account"
+                        render={props => (
+                            <Account {...props} setUsername={setUsername} />
+                        )}
                     />
                 </Switch>
             </BrowserRouter>

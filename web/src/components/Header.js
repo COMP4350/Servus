@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -10,7 +10,6 @@ import Button from '@material-ui/core/Button';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useCookies } from 'react-cookie';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -18,7 +17,9 @@ const useStyles = makeStyles(theme => ({
     },
     menuButton: {
         marginRight: theme.spacing(2),
+        fontSize: '2em',
         color: 'white',
+        textTransform: 'capitalize',
     },
     title: {
         [theme.breakpoints.down('xs')]: {
@@ -27,51 +28,38 @@ const useStyles = makeStyles(theme => ({
         '&:hover': {
             cursor: 'pointer',
         },
+        fontsize: '2em',
     },
     headerOptions: {
         display: 'flex',
         flex: 1,
-        justifyContent: 'space-evenly',
+        justifyContent: 'flex-end',
     },
 }));
 
-const Header = ({ history }) => {
+const Header = props => {
     const classes = useStyles();
-    const [cookies] = useCookies();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
-    const [username, setUsername] = useState();
     const handleMenu = event => {
         setAnchorEl(event.currentTarget);
     };
 
     const handleMenuClick = pageURL => {
-        history.push(pageURL);
+        props.history.push(pageURL);
         setAnchorEl(null);
     };
 
     const handleButtonClick = pageURL => {
-        history.push(pageURL);
+        props.history.push(pageURL);
     };
-
-    useEffect(() => {
-        if (cookies.username) setUsername(cookies.username);
-    }, []);
 
     const menuItems = [
         {
             menuTitle: 'Home',
             pageURL: '/',
-        },
-        {
-            menuTitle: 'Contact',
-            pageURL: '/contact',
-        },
-        {
-            menuTitle: 'About',
-            pageURL: '/about',
         },
         {
             menuTitle: 'Appointment',
@@ -141,18 +129,12 @@ const Header = ({ history }) => {
                             </Button>
                             <Button
                                 className={classes.menuButton}
-                                onClick={() => handleButtonClick('/contact')}>
-                                Contact
-                            </Button>
-                            <Button
-                                className={classes.menuButton}
-                                onClick={() => handleButtonClick('/about')}>
-                                About
-                            </Button>
-                            <Button
-                                className={classes.menuButton}
-                                onClick={() => handleButtonClick('/login')}>
-                                {username ? username : 'LOGIN'}
+                                onClick={
+                                    props.username
+                                        ? () => handleButtonClick('/account')
+                                        : () => handleButtonClick('/login')
+                                }>
+                                {props.username ? props.username : 'Login'}
                             </Button>
                         </div>
                     )}
