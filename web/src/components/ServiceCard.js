@@ -27,6 +27,8 @@ const ServiceCard = props => {
                 <p>Info: {props.service.description}</p>
                 <p>$: {props.service.cost}</p>
                 <p>Time: {props.service.duration}</p>
+                <p>availability: {props.service.availability}</p>
+
             </div>
         </Card>
     );

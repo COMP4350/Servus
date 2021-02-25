@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, IconButton, Card, Typography } from '@material-ui/core';
+import { TextField, IconButton, Card, Typography, Button } from '@material-ui/core';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
 import { renderToStaticMarkup } from 'react-dom/server';
 
@@ -13,7 +13,8 @@ import {
 import mapStyle from './mapStyle.json';
 import ServiceIcon from '../../images/flag_icon.png';
 
-const useStyles = makeStyles(() => ({
+
+const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
         flexDirection: 'column',
@@ -46,6 +47,15 @@ const useStyles = makeStyles(() => ({
     },
     icon: {
         '&:hover': { color: 'black' },
+    },
+    container2: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    textField2: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        width: 200,
     },
 }));
 
@@ -115,6 +125,19 @@ const Map = () => {
                                 <Typography variant="body2" component="p">
                                     {service.description}
                                 </Typography>
+                                <Button>BOOK</Button>
+                                <form className={classes.container} noValidate>
+                                    <TextField
+                                        id="datetime-local"
+                                        label="Next appointment"
+                                        type="datetime-local"
+                                        defaultValue={Date().toLocaleString}
+                                        className={classes.textField}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+                                </form>
                             </Card>
                         );
 
