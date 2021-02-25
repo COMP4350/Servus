@@ -41,9 +41,7 @@ const Login = props => {
             errors.password = 'password is required';
         }
         setErrors(errors);
-        setFormValid(
-            Object.getOwnPropertyNames(errors).length == 0 ? true : false
-        );
+        setFormValid(Object.getOwnPropertyNames(errors).length == 0);
     };
     const login = async () => {
         if (formValid) {

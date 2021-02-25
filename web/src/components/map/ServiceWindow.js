@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, Typography, Button, TextField } from '@material-ui/core';
+import { Card, Typography, TextField, Button } from '@material-ui/core';
+import useForm from '../../hooks/useForm';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -16,21 +17,45 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ServiceWindow = props => {
-    const classes = useStyles();
-    const bookAppointment = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_API_HOST}/appointment/${props.username}`,
-                {
-                    service_id: props.service._id,
-                    provider: props.service.provider,
-                    date_time: Date.now(),
-                }
-            )
-            .then(() => {
-                console.log('Success!!! :D');
-            });
+    const [form, onFormChange] = useForm({
+        time: '',
+    });
+    const [errors, setErrors] = useState({});
+    const validate = () => {
+        let errors = {};
+        if (!form.time) {
+            errors.time = 'time is required';
+        }
+        setErrors(errors);
+        setValid(Object.getOwnPropertyNames(errors).length == 0);
     };
+
+    const classes = useStyles();
+    const [valid, setValid] = useState(false);
+    const bookAppointment = () => {
+        if (valid) {
+            axios
+                .post(
+                    `${process.env.REACT_APP_API_HOST}/appointment/${props.username}`,
+                    {
+                        service_id: props.service._id,
+                        provider: props.service.provider,
+                        date_time: form.time,
+                    },
+                    {
+                        withCredentials: true,
+                    }
+                )
+                .then(() => {
+                    alert(
+                        `Successfully booked Service with ${props.service.provider}`
+                    );
+                });
+        }
+    };
+    useEffect(() => {
+        bookAppointment();
+    }, [valid, form]);
     return (
         <Card>
             <Typography color="textSecondary">
@@ -42,22 +67,20 @@ const ServiceWindow = props => {
             </Typography>
             <form className={classes.container} noValidate>
                 <TextField
-                    id="datetime-local"
-                    label="Next appointment"
+                    id="time"
+                    label="Appointment Time"
                     type="datetime-local"
-                    defaultValue={Date().toLocaleString}
+                    onChange={onFormChange}
+                    name="time"
+                    value={form.time}
+                    error={errors.time}
                     className={classes.textField}
                     InputLabelProps={{
                         shrink: true,
                     }}
                 />
             </form>
-            <Button
-                onClick={() => {
-                    bookAppointment();
-                }}>
-                BOOK
-            </Button>
+            <Button onClick={validate}>BOOK</Button>
         </Card>
     );
 };
