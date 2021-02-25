@@ -31,6 +31,7 @@ const ServiceList = () => {
                     ? services.map((service, index) => {
                           return (
                               <ServiceCard
+                                  key={index}
                                   service={service}
                                   index={index}
                                   bg={{ backgroundColor: '#647AA3' }}
