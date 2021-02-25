@@ -1,13 +1,17 @@
+import axios from 'axios';
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, IconButton } from '@material-ui/core';
+import { TextField, IconButton, Card, Typography } from '@material-ui/core';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
+import { renderToStaticMarkup } from 'react-dom/server';
+
 import {
     Autocomplete,
     GoogleMap,
     useJsApiLoader,
 } from '@react-google-maps/api';
 import mapStyle from './mapStyle.json';
+import ServiceIcon from '../../images/flag_icon.png';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -77,6 +81,7 @@ const mapOptions = {
 const Map = () => {
     const classes = useStyles();
     const [center, setCenter] = useState(winnipeg);
+
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         libraries: mapLibraries,
@@ -92,6 +97,45 @@ const Map = () => {
             map,
             anchorPoint: new window.google.maps.Point(0, -29),
         });
+        axios
+            .get(`${process.env.REACT_APP_API_HOST}/services/`)
+            .then(response => {
+                let services = response.data.result;
+                services &&
+                    services.map(service => {
+                        //build the content string
+                        const contentString = (
+                            <Card>
+                                <Typography color="textSecondary">
+                                    {service.provider}
+                                </Typography>
+                                <Typography variant="h5">
+                                    {service.name}
+                                </Typography>
+                                <Typography variant="body2" component="p">
+                                    {service.description}
+                                </Typography>
+                            </Card>
+                        );
+
+                        const infowindow = new window.google.maps.InfoWindow({
+                            content: renderToStaticMarkup(contentString),
+                        });
+
+                        let serviceMarker = new window.google.maps.Marker({
+                            map,
+                            position: {
+                                lat: service.location.lat,
+                                lng: service.location.lng,
+                            },
+                            icon: ServiceIcon,
+                            visible: true,
+                        });
+                        serviceMarker.addListener('click', () => {
+                            infowindow.open(map, serviceMarker);
+                        });
+                    });
+            });
     }, []);
 
     const onAutoCompleteLoad = useCallback(autocompleteLoaded => {
@@ -115,7 +159,6 @@ const Map = () => {
         marker.current?.setPosition(center);
         marker.current?.setVisible(true);
     }, [center]);
-
     return (
         <div className={classes.root}>
             {isLoaded && (

@@ -53,6 +53,7 @@ router.post('/', (req, res) => {
                     cost: req.body.cost,
                     duration: req.body.duration,
                     availability: req.body.availability,
+                    location: req.body.location,
                 });
                 newService
                     .save()
