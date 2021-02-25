@@ -9,6 +9,11 @@ const serviceSchema = new Schema({
     cost: { type: String, required: true },
     duration: { type: String, required: false },
     availability: { type: String, required: true },
+    location: {
+        lat: { type: Number, required: true },
+        lng: { type: Number, required: true },
+        address: { type: String, required: true },
+    },
 });
 
 const Service = mongoose.model('Service', serviceSchema);
