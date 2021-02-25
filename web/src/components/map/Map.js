@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, IconButton, Card, Typography } from '@material-ui/core';
+import { TextField, IconButton } from '@material-ui/core';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
-import { renderToStaticMarkup } from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
 
 import {
     Autocomplete,
@@ -12,6 +12,7 @@ import {
 } from '@react-google-maps/api';
 import mapStyle from './mapStyle.json';
 import ServiceIcon from '../../images/flag_icon.png';
+import ServiceWindow from './ServiceWindow';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -105,21 +106,14 @@ const Map = () => {
                     services.map(service => {
                         //build the content string
                         const contentString = (
-                            <Card>
-                                <Typography color="textSecondary">
-                                    {service.provider}
-                                </Typography>
-                                <Typography variant="h5">
-                                    {service.name}
-                                </Typography>
-                                <Typography variant="body2" component="p">
-                                    {service.description}
-                                </Typography>
-                            </Card>
+                            <ServiceWindow
+                                service={service}
+                                username={'zimbakor'}
+                            />
                         );
 
                         const infowindow = new window.google.maps.InfoWindow({
-                            content: renderToStaticMarkup(contentString),
+                            content: renderToString(contentString),
                         });
 
                         let serviceMarker = new window.google.maps.Marker({
