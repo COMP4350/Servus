@@ -2,6 +2,13 @@
 
 > sorted by most recent
 
+**Sprint 2 Meeting 6**
+
+> Feb 25th 11:00 AM
+> _Attending Members: Caden, Arvind, Andy, Risto_
+
+Summary: This short meeting was to reconvene, clean up the repository, and go over submission requirements.
+
 **Sprint 2 Meeting 5**
 
 > Feb 24nd 4:00-11:00 PM
