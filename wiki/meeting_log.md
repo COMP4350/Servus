@@ -3,24 +3,28 @@
 > sorted by most recent
 
 **Sprint 2 Meeting 5**
+
 > Feb 24nd 4:00-11:00 PM
 > _Attending Members: Caden, Arvind, Andy, Risto_
 
 Summary: This meeting was to collaboratively finish up remaining tasks and prepare for the submission of Sprint 2.
 
 **Sprint 2 Meeting 4**
+
 > Feb 21st Standup (1 hour)
 > _Attending Members: Caden, Arvind, Andy, Risto_
 
 Summary: This short meeting was used to discuss remaining concerns, and it segued into a pair programming session.
 
 **Sprint 2 Meeting 3**
+
 > Feb 20th Standup (1 hour)
 > _Attending Members: Caden, Arvind, Andy, Risto_
 
 Summary: This brief meeting was used to discuss any changes in priorities for the remaining few days, and collectively review some of the required diagrams for Sprint 2.
 
 **Sprint 2 Meeting 2**
+
 > Feb 19th
 > _Attending Members: Caden, Arvind, Andy, Risto_
 
