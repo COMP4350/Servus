@@ -21,6 +21,41 @@ router.get('/:username', (req, res) => {
     });
 });
 
+router.post('/:username/login', (req, res) => {
+    const username = req.params.username;
+    const password = req.body.password;
+    User.findOne({ username: username })
+        .then(user => {
+            if (!user) {
+                return res.status(404).json({
+                    errors: [{ user: 'not found' }],
+                });
+            } else {
+                bcrypt
+                    .compare(password, user.password)
+                    .then(isMatch => {
+                        if (!isMatch) {
+                            return res
+                                .status(400)
+                                .json({ errors: [{ password: 'incorrect' }] });
+                        }
+                        res.cookie('username', user.username, {
+                            maxAge: 2 * 60 * 60 * 1000,
+                        });
+                        return res.status(200).json({
+                            result: user,
+                        });
+                    })
+                    .catch(err => {
+                        res.status(500).json({ errors: err });
+                    });
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ errors: err });
+        });
+});
+
 /* Add a new user */
 router.post('/:username', (req, res) => {
     User.findOne({ username: req.params.username }).then(user => {
@@ -34,7 +69,6 @@ router.post('/:username', (req, res) => {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 password: req.body.password,
-                services: [],
             });
             encryptPassword(newUser.password)
                 .then(encrpytedPassword => {

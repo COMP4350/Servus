@@ -6,7 +6,6 @@ import logger from 'morgan';
 import indexRouter from './routes/index.js';
 import servicesRouter from './routes/services.js';
 import userRouter from './routes/user.js';
-import authRouter from './routes/auth.js';
 import appointmentRouter from './routes/appointment.js';
 import cors from 'cors';
 
@@ -40,7 +39,6 @@ app.use(cookieParser());
 app.use('/', indexRouter);
 app.use('/services', servicesRouter);
 app.use('/user', userRouter);
-app.use('/login', authRouter);
 app.use('/appointment', appointmentRouter);
 
 export default app;

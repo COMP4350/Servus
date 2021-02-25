@@ -30,14 +30,21 @@ const Login = () => {
         password: '',
     });
     const validateLogin = async () => {
-        history.push('/home');
         axios
-            .post('http://localhost:5000/login', {
-                username: loginForm.username,
-                password: loginForm.password,
+            .post(
+                `http://localhost:5000/user/${loginForm.username}/login`,
+                {
+                    password: loginForm.password,
+                },
+                {
+                    withCredentials: true,
+                }
+            )
+            .then(() => {
+                history.push('/');
             })
-            .then(response => {
-                console.log(response);
+            .catch(() => {
+                alert('User not found.');
             });
     };
 
