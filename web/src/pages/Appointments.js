@@ -10,9 +10,7 @@ const Appointment = () => {
     const history = useHistory();
     const fetchAppointments = async username => {
         //this gets appointments where the user is both the buyer and provider
-        const res = await axios.get(
-            `${process.env.REACT_APP_API_HOST}/appointment/${username}`
-        );
+        const res = await axios.get(`/appointment/${username}`);
         setAppointments(res.data.result);
         console.log(appointments);
     };

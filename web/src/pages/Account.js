@@ -54,7 +54,7 @@ const Account = props => {
     });
     const getUserInfo = () => {
         axios
-            .get(`${process.env.REACT_APP_API_HOST}/user/${cookies.username}`)
+            .get(`/user/${cookies.username}`)
             .then(res => {
                 setForm({
                     username: res.data.result.username,
@@ -103,12 +103,9 @@ const Account = props => {
     const updatePassword = async () => {
         if (passwordValid) {
             axios
-                .put(
-                    `${process.env.REACT_APP_API_HOST}/user/${form.username}`,
-                    {
-                        password: form.password,
-                    }
-                )
+                .put(`/user/${form.username}`, {
+                    password: form.password,
+                })
                 .then(() => {
                     alert('Password updated successfully');
                     setUpdatingPassword(false);
@@ -123,7 +120,7 @@ const Account = props => {
         if (formValid) {
             axios
                 .put(
-                    `${process.env.REACT_APP_API_HOST}/user/${form.username}`,
+                    `/user/${form.username}`,
                     {
                         password: form.password,
                         firstName: form.firstName,

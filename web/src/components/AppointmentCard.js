@@ -17,9 +17,7 @@ const AppointmentCard = props => {
 
     useEffect(() => {
         const fetchServiceInfo = async () => {
-            const res = await axios.get(
-                `${process.env.REACT_APP_API_HOST}/services/${props.service.id}`
-            );
+            const res = await axios.get(`/services/${props.service.id}`);
             setService(res.data.result);
         };
         fetchServiceInfo();
