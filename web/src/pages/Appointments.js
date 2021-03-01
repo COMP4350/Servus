@@ -33,7 +33,7 @@ const Appointment = () => {
                           <AppointmentCard
                               service={service}
                               key={i}
-                              date_time={apt.date_time}></AppointmentCard>
+                              date_time={apt.booked_time}></AppointmentCard>
                       );
                   })
                 : null}

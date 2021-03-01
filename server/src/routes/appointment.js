@@ -5,14 +5,24 @@ import Appointment from '../db/models/appointment.js';
 const router = Router();
 
 /* Get appointments for username */
-//TODO: Refine filter by date.
 router.get('/:username', (req, res) => {
-    Appointment.find({
+    let searchQuery = {
         $or: [
-            { buyer: req.params.username, ...req.body },
-            { provider: req.params.username, ...req.body },
+            { buyer: req.params.username },
+            { provider: req.params.username },
         ],
-    }).then(appointments => {
+    };
+
+    if (Object.prototype.hasOwnProperty.call(req.query, 'start_date')) {
+        searchQuery.booked_time = {
+            $gte: new Date(req.query.start_date),
+        };
+
+        if (Object.prototype.hasOwnProperty.call(req.query, 'end_date'))
+            searchQuery.booked_time.$lt = new Date(req.query.end_date);
+    }
+
+    Appointment.find(searchQuery).then(appointments => {
         if (appointments) {
             return res.status(200).json({ result: appointments });
         }
@@ -44,8 +54,8 @@ router.post('/:buyer', (req, res) => {
                     buyer: req.params.buyer,
                     provider: provider,
                     service_id: req.body.service_id,
-                    date_time: req.body.date_time,
-                    booked_time: Date.now(),
+                    booked_time: req.body.booked_time,
+                    created_at: Date.now(),
                 });
                 newAppointment
                     .save()
