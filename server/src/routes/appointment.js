@@ -6,21 +6,17 @@ const router = Router();
 
 /* Get appointments for username */
 router.get('/:username', (req, res) => {
+    const { start_date, end_date } = req.query;
     let searchQuery = {
         $or: [
             { buyer: req.params.username },
             { provider: req.params.username },
         ],
     };
+    if (start_date || end_date) searchQuery.booked_time = {};
 
-    if (Object.prototype.hasOwnProperty.call(req.query, 'start_date')) {
-        searchQuery.booked_time = {
-            $gte: new Date(req.query.start_date),
-        };
-
-        if (Object.prototype.hasOwnProperty.call(req.query, 'end_date'))
-            searchQuery.booked_time.$lt = new Date(req.query.end_date);
-    }
+    if (start_date) searchQuery.booked_time.$gte = new Date(start_date);
+    if (end_date) searchQuery.booked_time.$lt = new Date(end_date);
 
     Appointment.find(searchQuery).then(appointments => {
         if (appointments) {
