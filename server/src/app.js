@@ -29,7 +29,7 @@ mongoose
     .catch(error => handleError(error));
 
 mongoose.connection.on('error', error => handleError(error));
-mongoose.connection.once('open', () => console.log('connected to database'));
+mongoose.connection.once('open', () => console.log('Connected to database'));
 
 app.use(logger('dev'));
 app.use(json());
@@ -42,5 +42,7 @@ app.use('/', indexRouter);
 app.use('/services', servicesRouter);
 app.use('/user', userRouter);
 app.use('/appointment', appointmentRouter);
+
+console.log('Server online');
 
 export default app;
