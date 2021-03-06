@@ -40,7 +40,7 @@ const ServiceWindow = props => {
                     {
                         service_id: props.service._id,
                         provider: props.service.provider,
-                        date_time: form.time,
+                        booked_time: form.time,
                     },
                     {
                         withCredentials: true,

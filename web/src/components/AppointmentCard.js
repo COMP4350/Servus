@@ -33,7 +33,7 @@ const AppointmentCard = props => {
                     {service ? service.name : null}
                 </Typography>
                 <Typography className={classes.date}>
-                    {props.date_time}
+                    {props.booked_time}
                 </Typography>
                 <Typography variant="body2" component="p">
                     {service ? service.description : null}
