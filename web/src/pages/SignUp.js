@@ -60,7 +60,7 @@ const SignUp = () => {
         if (formValid) {
             axios
                 .post(
-                    `${process.env.REACT_APP_API_HOST}/user/${signUpForm.username}`,
+                    `/user/${signUpForm.username}`,
                     {
                         password: signUpForm.password,
                         firstName: signUpForm.firstName,
@@ -72,7 +72,7 @@ const SignUp = () => {
                 )
                 .then(() => {
                     axios.post(
-                        `${process.env.REACT_APP_API_HOST}/user/${signUpForm.username}/login`,
+                        `/user/${signUpForm.username}/login`,
                         {
                             password: signUpForm.password,
                         },

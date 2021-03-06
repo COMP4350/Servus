@@ -36,7 +36,7 @@ const ServiceWindow = props => {
         if (valid) {
             axios
                 .post(
-                    `${process.env.REACT_APP_API_HOST}/appointment/${props.username}`,
+                    `/appointment/${props.username}`,
                     {
                         service_id: props.service._id,
                         provider: props.service.provider,

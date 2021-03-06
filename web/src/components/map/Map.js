@@ -98,40 +98,38 @@ const Map = () => {
             map,
             anchorPoint: new window.google.maps.Point(0, -29),
         });
-        axios
-            .get(`${process.env.REACT_APP_API_HOST}/services/`)
-            .then(response => {
-                let services = response.data.result;
-                services &&
-                    services.map(service => {
-                        var div = document.createElement('div');
-                        //build the content string
-                        const contentString = (
-                            <ServiceWindow
-                                service={service}
-                                username={'zimbakor'}
-                            />
-                        );
-                        ReactDOM.render(contentString, div);
+        axios.get(`/services/`).then(response => {
+            let services = response.data.result;
+            services &&
+                services.map(service => {
+                    var div = document.createElement('div');
+                    //build the content string
+                    const contentString = (
+                        <ServiceWindow
+                            service={service}
+                            username={'zimbakor'}
+                        />
+                    );
+                    ReactDOM.render(contentString, div);
 
-                        const infowindow = new window.google.maps.InfoWindow({
-                            content: div,
-                        });
-
-                        let serviceMarker = new window.google.maps.Marker({
-                            map,
-                            position: {
-                                lat: service.location.lat,
-                                lng: service.location.lng,
-                            },
-                            icon: ServiceIcon,
-                            visible: true,
-                        });
-                        serviceMarker.addListener('click', () => {
-                            infowindow.open(map, serviceMarker);
-                        });
+                    const infowindow = new window.google.maps.InfoWindow({
+                        content: div,
                     });
-            });
+
+                    let serviceMarker = new window.google.maps.Marker({
+                        map,
+                        position: {
+                            lat: service.location.lat,
+                            lng: service.location.lng,
+                        },
+                        icon: ServiceIcon,
+                        visible: true,
+                    });
+                    serviceMarker.addListener('click', () => {
+                        infowindow.open(map, serviceMarker);
+                    });
+                });
+        });
     }, []);
 
     const onAutoCompleteLoad = useCallback(autocompleteLoaded => {

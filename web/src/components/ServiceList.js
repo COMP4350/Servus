@@ -15,9 +15,7 @@ const ServiceList = () => {
     const [services, setServices] = useState(null);
     const classes = useStyles();
     const getServices = async () => {
-        const response = await axios.get(
-            `${process.env.REACT_APP_API_HOST}/services/`
-        );
+        const response = await axios.get(`/services/`);
         setServices(response.data.result);
     };
     useEffect(() => {

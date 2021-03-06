@@ -47,7 +47,7 @@ const Login = props => {
         if (formValid) {
             axios
                 .post(
-                    `${process.env.REACT_APP_API_HOST}/user/${loginForm.username}/login`,
+                    `/user/${loginForm.username}/login`,
                     {
                         password: loginForm.password,
                     },
