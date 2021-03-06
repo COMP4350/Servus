@@ -6,7 +6,7 @@ const appointmentSchema = new Schema({
     buyer: { type: String, required: true },
     provider: { type: String, required: true },
     service_id: { type: String, required: true },
-    date_time: { type: Date, required: true },
+    created_at: { type: Date, required: true },
     booked_time: { type: Date, required: true },
 });
 
