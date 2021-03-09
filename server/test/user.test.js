@@ -20,7 +20,7 @@ const createDummyUser = () => {
                 password: 'test123!@#',
             })
             .then(response => {
-                resolve(response.body.result);
+                resolve(response.body);
             })
             .catch(error => {
                 reject(error);
@@ -51,7 +51,7 @@ const createDummyUserWithServices = () => {
                         location: { lat: 42, lng: 43, address: '123' },
                     })
                     .then(service => {
-                        resolve(service.body.result);
+                        resolve(service.body);
                     })
                     .catch(error => {
                         reject(error);
@@ -84,7 +84,8 @@ describe('Users', () => {
         it('should GET a created user', done => {
             // first we have to create the user
             createDummyUser()
-                .then(user => {
+                .then(res => {
+                    const user = res.result;
                     chai.request(app)
                         .get('/user/testuser')
                         .end((err, res) => {
@@ -139,7 +140,9 @@ describe('Users', () => {
     it('should GET a users services', done => {
         // first we have to create the user
         createDummyUserWithServices()
-            .then(service => {
+            .then(res => {
+                const service = res.result;
+
                 chai.request(app)
                     .get('/user/testuser/services')
                     .end((err, res) => {
@@ -172,5 +175,42 @@ describe('Users', () => {
             .catch(err => {
                 throw err;
             });
+    });
+    describe('POST user/', () => {
+        it('should POST new user', done => {
+            createDummyUser()
+                .then(res => {
+                    res.should.have.property('result');
+                    res.should.have.property('success').eql(true);
+                    res.result.should.have.property('username');
+                    res.result.should.have.property('firstName');
+                    res.result.should.have.property('lastName');
+                    res.result.should.have.property('password');
+                    done();
+                })
+                .catch(err => {
+                    throw err;
+                });
+        });
+        it('should fail to create duplicate user', done => {
+            createDummyUser()
+                .then(res => {
+                    res.should.have.property('result');
+                    res.should.have.property('success').eql(true);
+                    createDummyUser()
+                        .then(response => {
+                            response.errors[0].should.have
+                                .property('user')
+                                .eql('username already exists');
+                            done();
+                        })
+                        .catch(err => {
+                            throw err;
+                        });
+                })
+                .catch(err => {
+                    throw err;
+                });
+        });
     });
 });
