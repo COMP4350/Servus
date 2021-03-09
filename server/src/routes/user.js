@@ -60,7 +60,6 @@ router.post('/:username/login', (req, res) => {
 
 /* Add a new user */
 router.post('/:username', (req, res) => {
-    console.log(req.body);
     User.findOne({ username: req.params.username }).then(user => {
         if (user)
             return res
@@ -88,7 +87,6 @@ router.post('/:username', (req, res) => {
                             });
                         })
                         .catch(err => {
-                            console.log(err);
                             res.status(500).json({
                                 errors: [{ error: err }],
                             });
@@ -132,7 +130,7 @@ router.put('/:username', (req, res) => {
 
 /* Get all user's services */
 router.get('/:username/services', (req, res) => {
-    Service.find({ providers: req.params.username }).then(services => {
+    Service.find({ provider: req.params.username }).then(services => {
         res.status(200).json({
             success: true,
             result: services,
