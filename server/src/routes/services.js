@@ -1,7 +1,7 @@
-import { Router } from 'express';
-import Service from '../db/models/service.js';
+const express = require('express');
+const Service = require('../db/models/service.js');
 
-const router = Router();
+const router = express.Router();
 
 /* GET services.
  */
@@ -99,4 +99,4 @@ router.delete('/:service_id', (req, res) => {
     });
 });
 
-export default router;
+module.exports = router;

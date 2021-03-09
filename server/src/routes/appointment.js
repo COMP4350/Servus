@@ -1,8 +1,8 @@
-import { Router } from 'express';
-import Service from '../db/models/service.js';
-import Appointment from '../db/models/appointment.js';
+const express = require('express');
+const Service = require('../db/models/service.js');
+const Appointment = require('../db/models/appointment.js');
 
-const router = Router();
+const router = express.Router();
 
 /* Get appointments for username */
 router.get('/:username', (req, res) => {
@@ -80,4 +80,4 @@ router.delete('/:appointment_id', (req, res) => {
     });
 });
 
-export default router;
+module.exports = router;

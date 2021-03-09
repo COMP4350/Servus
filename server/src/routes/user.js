@@ -1,16 +1,18 @@
-import { Router } from 'express';
-import Service from '../db/models/service.js';
-import User from '../db/models/user.js';
-import bcrypt from 'bcrypt';
-import { verifyPassword, encryptPassword } from '../utils/authUtils.js';
+const express = require('express');
+const Service = require('../db/models/service.js');
+const User = require('../db/models/user.js');
+const bcrypt = require('bcrypt');
+const authUtils = require('../utils/authUtils.js');
 
-const router = Router();
+const { verifyPassword, encryptPassword } = authUtils;
+
+const router = express.Router();
 
 router.get('/:username', (req, res) => {
     User.findOne({ username: req.params.username }).then(user => {
         if (!user)
             return res
-                .status(422)
+                .status(404)
                 .json({ errors: [{ user: "username doesn't exist" }] });
         else {
             res.status(200).json({
@@ -150,4 +152,4 @@ router.delete('/:username', (req, res) => {
     }
 });
 
-export default router;
+module.exports = router;

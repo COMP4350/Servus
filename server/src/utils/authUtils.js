@@ -1,8 +1,8 @@
-import User from '../db/models/user.js';
-import bcrypt from 'bcrypt';
+const User = require('../db/models/user.js');
+const bcrypt = require('bcrypt');
 
 /* Encryption Helper. Promises to return an encrypted password*/
-export const encryptPassword = password => {
+exports.encryptPassword = password => {
     return new Promise((resolve, reject) => {
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(password, salt, (err, hash) => {
@@ -16,7 +16,7 @@ export const encryptPassword = password => {
     });
 };
 
-export const verifyPassword = (username, password) => {
+exports.verifyPassword = (username, password) => {
     User.findOne({ username: username }).then(user => {
         if (!user) {
             return false;

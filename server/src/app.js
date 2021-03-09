@@ -1,13 +1,13 @@
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import express, { json, urlencoded } from 'express';
-import mongoose from 'mongoose';
-import logger from 'morgan';
-import indexRouter from './routes/index.js';
-import servicesRouter from './routes/services.js';
-import userRouter from './routes/user.js';
-import appointmentRouter from './routes/appointment.js';
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const express = require('express');
+const mongoose = require('mongoose');
+const logger = require('morgan');
+const indexRouter = require('./routes/index');
+const servicesRouter = require('./routes/services');
+const userRouter = require('./routes/user');
+const appointmentRouter = require('./routes/appointment');
 
 dotenv.config();
 
@@ -19,8 +19,13 @@ const handleError = error => {
     console.log('##################################\n');
 };
 
+const DB_URI =
+    process.env.NODE_ENV === 'test'
+        ? process.env.TEST_DB_URI
+        : process.env.DB_URI;
+
 mongoose
-    .connect(process.env.DB_URI, {
+    .connect(DB_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false,
@@ -32,8 +37,8 @@ mongoose.connection.on('error', error => handleError(error));
 mongoose.connection.once('open', () => console.log('Connected to database'));
 
 app.use(logger('dev'));
-app.use(json());
-app.use(urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors({ origin: true, credentials: true }));
 
@@ -43,6 +48,4 @@ app.use('/services', servicesRouter);
 app.use('/user', userRouter);
 app.use('/appointment', appointmentRouter);
 
-console.log('Server online');
-
-export default app;
+module.exports = app;
