@@ -308,4 +308,153 @@ describe('Users', () => {
                 });
         });
     });
+    describe('PUT user/', () => {
+        it('should not update non-existent user', done => {
+            chai.request(app)
+                .put('/user/testuser')
+                .send({
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    password: '123',
+                })
+                .then(res => {
+                    res.should.have.status(200);
+                    done();
+                })
+                .catch(error => {
+                    throw error;
+                });
+        });
+        it('should update username', done => {
+            createDummyUser()
+                .then(res => {
+                    const newUsername = 'newuser';
+                    res = res.body;
+                    res.should.have.property('result');
+                    res.should.have.property('success').eql(true);
+                    chai.request(app)
+                        .put('/user/testuser')
+                        .send({
+                            username: newUsername,
+                        })
+                        .then(res => {
+                            res.should.have.status(200);
+                            chai.request(app)
+                                .get(`/user/${newUsername}`)
+                                .end((err, res) => {
+                                    res.should.have.status(200);
+                                    res.body.result.should.have
+                                        .property('username')
+                                        .eql(newUsername);
+                                    done();
+                                });
+                        })
+                        .catch(error => {
+                            throw error;
+                        });
+                })
+                .catch(err => {
+                    throw err;
+                });
+        });
+        it('should update firstname', done => {
+            createDummyUser()
+                .then(res => {
+                    const newProperty = 'newprop';
+                    res = res.body;
+                    res.should.have.property('result');
+                    res.should.have.property('success').eql(true);
+                    chai.request(app)
+                        .put('/user/testuser')
+                        .send({
+                            firstName: newProperty,
+                        })
+                        .then(res => {
+                            res.should.have.status(200);
+                            chai.request(app)
+                                .get(`/user/testuser`)
+                                .end((err, res) => {
+                                    res.should.have.status(200);
+                                    res.body.result.should.have
+                                        .property('firstName')
+                                        .eql(newProperty);
+                                    done();
+                                });
+                        })
+                        .catch(error => {
+                            throw error;
+                        });
+                })
+                .catch(err => {
+                    throw err;
+                });
+        });
+        it('should update lastname', done => {
+            createDummyUser()
+                .then(res => {
+                    const newProperty = 'newprop';
+                    res = res.body;
+                    res.should.have.property('result');
+                    res.should.have.property('success').eql(true);
+                    chai.request(app)
+                        .put('/user/testuser')
+                        .send({
+                            lastName: newProperty,
+                        })
+                        .then(res => {
+                            res.should.have.status(200);
+                            res.should.have.status(200);
+                            chai.request(app)
+                                .get(`/user/testuser`)
+                                .end((err, res) => {
+                                    res.should.have.status(200);
+                                    res.body.result.should.have
+                                        .property('lastName')
+                                        .eql(newProperty);
+                                    done();
+                                });
+                        })
+                        .catch(error => {
+                            throw error;
+                        });
+                })
+                .catch(err => {
+                    throw err;
+                });
+        });
+        it('should update password', done => {
+            createDummyUser()
+                .then(res => {
+                    const newProperty = 'newprop';
+                    res = res.body;
+                    const oldPassword = res.result.password;
+                    res.should.have.property('result');
+                    res.should.have.property('success').eql(true);
+                    chai.request(app)
+                        .put('/user/testuser')
+                        .send({
+                            password: newProperty,
+                        })
+                        .then(res => {
+                            res.should.have.status(200);
+                            res.should.have.status(200);
+                            chai.request(app)
+                                .get(`/user/testuser`)
+                                .end((err, res) => {
+                                    res.should.have.status(200);
+                                    res.body.result.should.have
+                                        .property('password')
+                                        .not.eql(oldPassword);
+                                    done();
+                                });
+                        })
+                        .catch(error => {
+                            throw error;
+                        });
+                })
+                .catch(err => {
+                    throw err;
+                });
+        });
+    });
 });
