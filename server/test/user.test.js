@@ -10,17 +10,20 @@ const expect = chai.expect;
 
 chai.use(chaiHttp);
 
-const createDummyUser = () => {
+const createDummyUser = (
+    options = {
+        //default options
+        firstName: 'FirstName',
+        lastName: 'LastName',
+        password: 'test123!@#',
+    }
+) => {
     return new Promise((resolve, reject) => {
         chai.request(app)
             .post('/user/testuser')
-            .send({
-                firstName: 'FirstName',
-                lastName: 'LastName',
-                password: 'test123!@#',
-            })
+            .send(options)
             .then(response => {
-                resolve(response.body);
+                resolve(response);
             })
             .catch(error => {
                 reject(error);
@@ -51,7 +54,7 @@ const createDummyUserWithServices = () => {
                         location: { lat: 42, lng: 43, address: '123' },
                     })
                     .then(service => {
-                        resolve(service.body);
+                        resolve(service);
                     })
                     .catch(error => {
                         reject(error);
@@ -85,7 +88,7 @@ describe('Users', () => {
             // first we have to create the user
             createDummyUser()
                 .then(res => {
-                    const user = res.result;
+                    const user = res.body.result;
                     chai.request(app)
                         .get('/user/testuser')
                         .end((err, res) => {
@@ -141,8 +144,7 @@ describe('Users', () => {
         // first we have to create the user
         createDummyUserWithServices()
             .then(res => {
-                const service = res.result;
-
+                const service = res.body.result;
                 chai.request(app)
                     .get('/user/testuser/services')
                     .end((err, res) => {
@@ -180,6 +182,7 @@ describe('Users', () => {
         it('should POST new user', done => {
             createDummyUser()
                 .then(res => {
+                    res = res.body;
                     res.should.have.property('result');
                     res.should.have.property('success').eql(true);
                     res.result.should.have.property('username');
@@ -195,11 +198,13 @@ describe('Users', () => {
         it('should fail to create duplicate user', done => {
             createDummyUser()
                 .then(res => {
+                    res = res.body;
                     res.should.have.property('result');
                     res.should.have.property('success').eql(true);
                     createDummyUser()
                         .then(response => {
-                            response.errors[0].should.have
+                            response.should.have.status(422);
+                            response.body.errors[0].should.have
                                 .property('user')
                                 .eql('username already exists');
                             done();
@@ -207,6 +212,96 @@ describe('Users', () => {
                         .catch(err => {
                             throw err;
                         });
+                })
+                .catch(err => {
+                    throw err;
+                });
+        });
+        it('should fail to create without password', done => {
+            createDummyUser({ firstName: 'John', lastname: 'Doe' })
+                .then(res => {
+                    res.should.have.status(500);
+
+                    done();
+                })
+                .catch(err => {
+                    throw err;
+                });
+        });
+        it('should fail to create without firstname', done => {
+            createDummyUser({ password: 'John', lastname: 'Doe' })
+                .then(res => {
+                    res.should.have.status(500);
+                    done();
+                })
+                .catch(err => {
+                    throw err;
+                });
+        });
+        it('should fail to create without lastname', done => {
+            createDummyUser({ firstName: 'John', password: 'Doe' })
+                .then(res => {
+                    res.should.have.status(500);
+                    done();
+                })
+                .catch(err => {
+                    throw err;
+                });
+        });
+        it('should fail to create without username', done => {
+            chai.request(app)
+                .post('/user/')
+                .send({
+                    //default options
+                    firstName: 'FirstName',
+                    lastName: 'LastName',
+                    password: 'test123!@#',
+                })
+                .then(res => {
+                    //path doesnt exist
+                    res.should.have.status(404);
+                    done();
+                })
+                .catch(err => {
+                    throw err;
+                });
+        });
+        it('should fail to create with only username', done => {
+            createDummyUser({})
+                .then(res => {
+                    res.should.have.status(500);
+                    done();
+                })
+                .catch(err => {
+                    throw err;
+                });
+        });
+        it('should fail to create without anything', done => {
+            chai.request(app)
+                .post('/user/')
+                .send({})
+                .then(res => {
+                    //path doesnt exist
+                    res.should.have.status(404);
+                    done();
+                })
+                .catch(err => {
+                    throw err;
+                });
+        });
+        it('should encrpyt password', done => {
+            const testPassword = '123';
+            createDummyUser({
+                firstName: 'John',
+                lastName: 'Doe',
+                password: testPassword,
+            })
+                .then(res => {
+                    res.should.have.status(200);
+                    res.body.result.should.have
+                        .property('password')
+                        .not.eql(testPassword);
+                    done();
                 })
                 .catch(err => {
                     throw err;
