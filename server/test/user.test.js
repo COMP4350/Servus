@@ -252,6 +252,54 @@ describe('Users', () => {
                     throw err;
                 });
         });
+        it('should not login with non-existent user', done => {
+            chai.request(app)
+                .post('/user/nonexistent/login')
+                .send({ password: 'testPassword' })
+                .then(res => {
+                    res.should.have.status(404);
+                    done();
+                })
+                .catch(err => {
+                    throw err;
+                });
+        });
+        it('should not login with wrong password for  user', done => {
+            createDummyUser()
+                .then(() => {
+                    chai.request(app)
+                        .post('/user/testuser/login')
+                        .send({ password: 'testPassword' })
+                        .then(res => {
+                            res.should.have.status(400);
+                            done();
+                        })
+                        .catch(err => {
+                            throw err;
+                        });
+                })
+                .catch(err => {
+                    throw err;
+                });
+        });
+        it('should login with corecct password for  user', done => {
+            createDummyUser()
+                .then(() => {
+                    chai.request(app)
+                        .post('/user/testuser/login')
+                        .send({ password: 'test123!@#' })
+                        .then(res => {
+                            res.should.have.status(200);
+                            done();
+                        })
+                        .catch(err => {
+                            throw err;
+                        });
+                })
+                .catch(err => {
+                    throw err;
+                });
+        });
     });
     describe('PUT user/', () => {
         it('should not update non-existent user', done => {

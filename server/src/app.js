@@ -4,7 +4,6 @@ const dotenv = require('dotenv');
 const express = require('express');
 const mongoose = require('mongoose');
 const logger = require('morgan');
-const indexRouter = require('./routes/index');
 const servicesRouter = require('./routes/services');
 const userRouter = require('./routes/user');
 const appointmentRouter = require('./routes/appointment');
@@ -42,7 +41,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors({ origin: true, credentials: true }));
 
-app.use('/', indexRouter);
 app.use('/services', servicesRouter);
 app.use('/user', userRouter);
 app.use('/appointment', appointmentRouter);

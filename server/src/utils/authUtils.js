@@ -16,23 +16,26 @@ const encryptPassword = password => {
     });
 };
 
-const verifyPassword = async (username, password) => {
+const verifyPassword = (username, password) => {
     return new Promise((resolve, reject) => {
-        User.findOne({ username: username }).then(user => {
-            if (!user) {
-                reject(false);
-            } else {
-                bcrypt
-                    .compare(password, user.password)
-                    .then(isMatch => {
-                        resolve(isMatch);
-                    })
-                    .catch(() => {
-                        reject(false);
-                        // TODO? error
-                    });
-            }
-        });
+        User.findOne({ username: username })
+            .then(user => {
+                if (user) {
+                    bcrypt
+                        .compare(password, user.password)
+                        .then(isMatch => {
+                            resolve(isMatch);
+                        })
+                        .catch(err => {
+                            reject(err);
+                        });
+                } else {
+                    resolve(false);
+                }
+            })
+            .catch(err => {
+                reject(err);
+            });
     });
 };
 
