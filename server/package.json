@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "start": "NODE_ENV=dev && node ./src/index.js",
-        "test": "NODE_ENV=test && mocha --timeout=25000"
+        "test": "NODE_ENV=test && mocha --timeout=5000 --exit"
     },
     "dependencies": {
         "bcrypt": "^5.0.0",
