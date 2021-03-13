@@ -73,8 +73,8 @@ router.post('/:username', (req, res) => {
                 password: req.body.password,
             });
             encryptPassword(newUser.password)
-                .then(encrpytedPassword => {
-                    newUser.password = encrpytedPassword;
+                .then(encryptedPassword => {
+                    newUser.password = encryptedPassword;
                     newUser
                         .save()
                         .then(response => {
@@ -115,8 +115,8 @@ router.put('/:username', (req, res) => {
     //if we want to change the password we have to encrypt it
     if (Object.prototype.hasOwnProperty.call(req.body, 'password'))
         encryptPassword(req.body.password)
-            .then(encrpytedPassword => {
-                req.body.password = encrpytedPassword;
+            .then(encryptedPassword => {
+                req.body.password = encryptedPassword;
                 return updateOneUser(query, req.body);
             })
             .catch(err => {
@@ -141,12 +141,28 @@ router.get('/:username/services', (req, res) => {
 /* DELETE user(s). */
 router.delete('/:username', (req, res) => {
     if (Object.prototype.hasOwnProperty.call(req.body, 'password')) {
-        if (verifyPassword(req.params.username, req.body.password)) {
-            User.remove({ username: req.params.username }, err => {
-                if (err) throw err;
-                res.status(200);
+        verifyPassword(req.params.username, req.body.password)
+            .then(isMatch => {
+                if (isMatch) {
+                    User.findOneAndRemove({ username: req.params.username })
+                        .then(() => {
+                            return res.status(200).json({ success: true });
+                        })
+                        .catch(err => {
+                            return res
+                                .status(200)
+                                .json({ errors: [{ error: err }] });
+                        });
+                } else
+                    return res
+                        .status(400)
+                        .json({ errors: [{ password: 'incorrect' }] });
+            })
+            .catch(err => {
+                return res.status(404).json({ error: err });
             });
-        }
+    } else {
+        return res.status(404).json({ error: 'Must pass password' });
     }
 });
 

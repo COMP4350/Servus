@@ -1,5 +1,6 @@
 const express = require('express');
 const Service = require('../db/models/service.js');
+const User = require('../db/models/user.js');
 
 const router = express.Router();
 
@@ -23,61 +24,84 @@ router.get('/', (req, res) => {
 /* GET 1 service.
  */
 router.get('/:service_id', (req, res) => {
-    Service.findById(req.params.service_id).then(services => {
-        if (services) {
-            return res.status(200).json({
-                success: true,
-                result: services,
-            });
-        } else {
+    Service.findById(req.params.service_id)
+        .then(services => {
+            if (services) {
+                return res.status(200).json({
+                    success: true,
+                    result: services,
+                });
+            } else {
+                return res
+                    .status(404)
+                    .json({ errors: [{ service: 'services are empty' }] });
+            }
+        })
+        .catch(err => {
             return res
                 .status(404)
-                .json({ errors: [{ service: 'services are empty' }] });
-        }
-    });
+                .json({ errors: [{ service: 'service doesnt exist' }, err] });
+        });
 });
 
 /* ADD a service. */
 router.post('/', (req, res) => {
-    Service.findOne({ provider: req.body.username, name: req.body.name }).then(
-        service => {
-            if (service)
-                return res
-                    .status(422)
-                    .json({ errors: [{ service: 'service already exists' }] });
-            else {
-                const newService = new Service({
+    User.findOne({ username: req.body.username })
+        .then(user => {
+            if (user) {
+                Service.findOne({
                     provider: req.body.username,
                     name: req.body.name,
-                    description: req.body.description,
-                    cost: req.body.cost,
-                    duration: req.body.duration,
-                    availability: req.body.availability,
-                    location: req.body.location,
+                }).then(service => {
+                    if (service)
+                        return res.status(422).json({
+                            errors: [{ service: 'service already exists' }],
+                        });
+                    else {
+                        const newService = new Service({
+                            provider: req.body.username,
+                            name: req.body.name,
+                            description: req.body.description,
+                            cost: req.body.cost,
+                            duration: req.body.duration,
+                            availability: req.body.availability,
+                            location: req.body.location,
+                        });
+                        newService
+                            .save()
+                            .then(response => {
+                                return res.status(200).json({
+                                    success: true,
+                                    result: response,
+                                });
+                            })
+                            .catch(err => {
+                                return res.status(500).json({
+                                    errors: [{ error: err }],
+                                });
+                            });
+                    }
                 });
-                newService
-                    .save()
-                    .then(response => {
-                        return res.status(200).json({
-                            success: true,
-                            result: response,
-                        });
-                    })
-                    .catch(err => {
-                        return res.status(500).json({
-                            errors: [{ error: err }],
-                        });
-                    });
+            } else {
+                return res.status(500).json({
+                    errors: [{ error: 'user not found' }],
+                });
             }
-        }
-    );
+        })
+        .catch(err => {
+            return res.status(500).json({
+                errors: [{ error: err }],
+            });
+        });
 });
 
 /* UPDATE a service. Returns the OLD object */
 router.put('/:service_id', (req, res) => {
     //can't change the username attached to service
     if (Object.prototype.hasOwnProperty.call(req.body, 'username')) {
-        return res.status(500).json({ error: 'Cannot change user in service' });
+        return res
+            .status(500)
+            .json({ errors: 'Cannot change user in service' });
     }
 
     //update the service based on req.body
@@ -85,7 +109,7 @@ router.put('/:service_id', (req, res) => {
         req.params.service_id,
         req.body,
         (err, service) => {
-            if (err) return res.status(500).json({ error: err });
+            if (err) return res.status(500).json({ errors: err });
             return res.status(200).json({ success: true, result: service });
         }
     );
@@ -93,10 +117,13 @@ router.put('/:service_id', (req, res) => {
 
 /* DELETE service(s). */
 router.delete('/:service_id', (req, res) => {
-    Service.findByIdAndRemove(req.params.service_id, err => {
-        if (err) throw err;
-        res.status(200);
-    });
+    Service.findOneAndRemove({ _id: req.params.service_id })
+        .then(() => {
+            return res.status(200).json({ success: true });
+        })
+        .catch(err => {
+            return res.status(500).json({ errors: [{ error: err }] });
+        });
 });
 
 module.exports = router;
