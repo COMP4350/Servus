@@ -155,7 +155,7 @@ router.delete('/:username', (req, res) => {
                         });
                 } else
                     return res
-                        .status(400)
+                        .status(404)
                         .json({ errors: [{ password: 'incorrect' }] });
             })
             .catch(err => {

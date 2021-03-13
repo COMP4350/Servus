@@ -486,7 +486,7 @@ describe('Users', () => {
                             password: 'notrealpassword',
                         })
                         .end((err, res) => {
-                            res.should.have.status(400);
+                            res.should.have.status(404);
                             done();
                         });
                 })
