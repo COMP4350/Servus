@@ -40,7 +40,7 @@ router.get('/:service_id', (req, res) => {
         .catch(err => {
             return res
                 .status(404)
-                .json({ errors: [{ service: 'service doesnt exist' }, err] });
+                .json({ errors: [{ service: "service doesn't exist" }, err] });
         });
 });
 
