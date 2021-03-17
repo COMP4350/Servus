@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ServiceList renders correctly 1`] = `
+<DocumentFragment>
+  <div>
+    <div
+      class="makeStyles-root-1"
+    >
+      <div
+        class="MuiPaper-root MuiCard-root makeStyles-cardView-2 MuiPaper-outlined MuiPaper-rounded"
+        style="background-color: rgb(100, 122, 163);"
+      >
+        <h2
+          class="makeStyles-title-3"
+        >
+          Risto's Painting
+        </h2>
+        <div
+          class="makeStyles-details-4"
+        >
+          <p>
+            Provider: Risto
+          </p>
+          <p>
+            Info: Risto paints you
+          </p>
+          <p>
+            $: 100
+          </p>
+          <p>
+            Time: 60
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiPaper-root MuiCard-root makeStyles-cardView-2 MuiPaper-outlined MuiPaper-rounded"
+        style="background-color: rgb(100, 122, 163);"
+      >
+        <h2
+          class="makeStyles-title-3"
+        >
+          Reesto's Painting
+        </h2>
+        <div
+          class="makeStyles-details-4"
+        >
+          <p>
+            Provider: Reesto
+          </p>
+          <p>
+            Info: Reesto paints yee
+          </p>
+          <p>
+            $: 120
+          </p>
+          <p>
+            Time: 80
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiPaper-root MuiCard-root makeStyles-cardView-2 MuiPaper-outlined MuiPaper-rounded"
+        style="background-color: rgb(100, 122, 163);"
+      >
+        <h2
+          class="makeStyles-title-3"
+        >
+          Rasta's Painting
+        </h2>
+        <div
+          class="makeStyles-details-4"
+        >
+          <p>
+            Provider: Rasta
+          </p>
+          <p>
+            Info: Rasta paints yaa
+          </p>
+          <p>
+            $: 150
+          </p>
+          <p>
+            Time: 90
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
