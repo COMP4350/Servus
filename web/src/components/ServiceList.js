@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core';
 import ServiceCard from './ServiceCard';
-const dotenv = require('dotenv');
 
 const useStyles = makeStyles(() => ({
     root: {
