@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import ServiceCard from '../../components/ServiceCard';
-import { mockService } from '../../mocks/getMockService';
+import { mockService } from '../../__mocks__/getMockService';
 
 describe('ServiceCard', () => {
     it('renders correctly', () => {
