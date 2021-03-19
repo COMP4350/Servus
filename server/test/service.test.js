@@ -170,7 +170,7 @@ describe('Services', () => {
                     throw err;
                 });
         });
-        it('should not POST a service without availability', done => {
+        it('should POST a service without availability', done => {
             // first we have to create the user
             let noPropService = JSON.parse(
                 JSON.stringify(defaultServiceOptions)
@@ -182,8 +182,7 @@ describe('Services', () => {
                         .post(`/services/`)
                         .send(noPropService)
                         .end((err, res) => {
-                            res.should.have.status(500);
-                            res.body.should.have.property('errors');
+                            res.should.have.status(200);
                             done();
                         });
                 })

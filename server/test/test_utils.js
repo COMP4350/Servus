@@ -17,8 +17,11 @@ const defaultServiceOptions = {
     name: 'testservice',
     description: '123',
     cost: '123',
-    duration: '123',
-    availability: '123',
+    duration: '1',
+    availability: {
+        week: ['M', 'W', 'F', 'SA'],
+        time: { start: '0800', end: '1800' },
+    },
     location: { lat: 42, lng: 43, address: '123' },
 };
 const defaultServiceOptions2 = {
@@ -26,8 +29,11 @@ const defaultServiceOptions2 = {
     name: 'testservice',
     description: '123',
     cost: '123',
-    duration: '123',
-    availability: '123',
+    duration: '1',
+    availability: {
+        week: ['M', 'W', 'F', 'SA'],
+        time: { start: '0800', end: '1800' },
+    },
     location: { lat: 42, lng: 43, address: '123' },
 };
 
