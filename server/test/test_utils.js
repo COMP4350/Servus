@@ -18,10 +18,10 @@ const defaultServiceOptions = {
     description: '123',
     cost: '123',
     duration: '1',
-    availability: {
-        week: ['M', 'W', 'F', 'SA'],
-        time: { start: '0800', end: '1800' },
-    },
+    availability: [
+        { weekday: 'M', start_time: '0800', end_time: '0600' },
+        { weekday: 'W', start_time: '0700', end_time: '0600' },
+    ],
     location: { lat: 42, lng: 43, address: '123' },
 };
 const defaultServiceOptions2 = {
@@ -30,10 +30,10 @@ const defaultServiceOptions2 = {
     description: '123',
     cost: '123',
     duration: '1',
-    availability: {
-        week: ['M', 'W', 'F', 'SA'],
-        time: { start: '0800', end: '1800' },
-    },
+    availability: [
+        { weekday: 'M', start_time: '0800', end_time: '0600' },
+        { weekday: 'W', start_time: '0700', end_time: '0600' },
+    ],
     location: { lat: 42, lng: 43, address: '123' },
 };
 

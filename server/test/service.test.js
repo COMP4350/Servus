@@ -355,7 +355,7 @@ describe('Services', () => {
                 });
         });
         it('should update service availability ', done => {
-            const newProps = { availability: 'availability' };
+            const newProps = { availability: [] };
             createDummyUserWithServices()
                 .then(service => {
                     chai.request(app)

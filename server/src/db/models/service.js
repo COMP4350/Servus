@@ -2,20 +2,19 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
+const availabilitySchema = new Schema({
+    weekday: { type: String, required: true },
+    start_time: { type: String, required: true },
+    end_time: { type: String, required: true },
+});
+
 const serviceSchema = new Schema({
     provider: { type: String, required: true },
     name: { type: String, required: true },
     description: { type: String, required: false },
     cost: { type: String, required: true },
     duration: { type: String, required: false },
-    availability: {
-        week: [{ type: String, required: false }],
-        time: {
-            //stored in 24 hour time
-            start: { type: String, required: false },
-            end: { type: String, required: false },
-        },
-    },
+    availability: { type: [availabilitySchema], required: false },
     location: {
         lat: { type: Number, required: true },
         lng: { type: Number, required: true },
