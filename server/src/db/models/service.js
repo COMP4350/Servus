@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const availabilitySchema = new Schema({
-    weekday: { type: String, required: true },
+    weekday: { type: Number, required: true },
     start_time: { type: String, required: true },
     end_time: { type: String, required: true },
 });

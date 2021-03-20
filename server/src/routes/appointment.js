@@ -5,6 +5,38 @@ const User = require('../db/models/user.js');
 
 const router = express.Router();
 
+const convertToHHMM = datetime => {
+    const minutes =
+        datetime.getMinutes() >= 10
+            ? `${datetime.getMinutes()}`
+            : `0${datetime.getMinutes()}`;
+    return `${datetime.getHours()}${minutes}`;
+};
+
+const inTimeSlot = (service, request) => {
+    for (let index in service.availability) {
+        let availability = service.availability[index];
+        if (
+            new Date(request.body.booked_time).getDay() == availability.weekday
+        ) {
+            //so the service is available on the DAY
+            //now we must check time slot
+            const desired_time = convertToHHMM(
+                new Date(request.body.booked_time)
+            );
+            if (
+                !(
+                    parseInt(availability.start_time) <= desired_time &&
+                    parseInt(availability.end_time) <
+                        desired_time + parseInt(service.duration)
+                )
+            ) {
+                return false;
+            }
+        }
+    }
+    return true;
+};
 /* Get appointments for username */
 router.get('/:username', (req, res) => {
     const { start_date, end_date } = req.query;
@@ -48,14 +80,54 @@ router.get('/:username', (req, res) => {
         });
 });
 
+router.get('/service/:id', (req, res) => {
+    let searchQuery = {
+        service_id: req.params.id,
+    };
+
+    Appointment.find(searchQuery)
+        .then(appointments => {
+            if (appointments) {
+                return res.status(200).json({ result: appointments });
+            } else {
+                return res.status(404).json([]);
+            }
+        })
+        .catch(err => {
+            return res.status(500).json({ errors: [{ error: err }] });
+        });
+});
+
 /* Create new appointment */
 //TODO: Availability?
 router.post('/:buyer', (req, res) => {
     let provider = '';
 
+    //if the date is in the past, you cannot book an appointment
+    if (new Date(req.body.booked_time) < Date.now()) {
+        return res.status(500).json({
+            errors: [{ appointment: 'appointment time invalid – in the past' }],
+        });
+    }
     Service.findById(req.body.service_id).then(service => {
         if (service) {
             provider = service.provider;
+
+            //we need to verify that the buyer is able to book for the time they choose
+            //so we need to check that:
+            //1: this fits in the service timeslot
+            //2: there are no conflicting appointments with this service
+
+            if (service.availability && !inTimeSlot(service, req)) {
+                return res.status(500).json({
+                    errors: [
+                        {
+                            appointment:
+                                'appointment time invalid – not available',
+                        },
+                    ],
+                });
+            }
 
             Appointment.findOne({ ...req.body, buyer: req.params.buyer }).then(
                 appointment => {
