@@ -42,7 +42,8 @@ app.use('/', indexRouter);
 app.use('/services', servicesRouter);
 app.use('/user', userRouter);
 app.use('/appointment', appointmentRouter);
-
+app.use('/images', imagesRouter);
+app.use('/uploads', express.static('uploads'));
 console.log('Server online');
 
-export default app;
+module.exports = app;
