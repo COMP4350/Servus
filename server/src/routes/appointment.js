@@ -3,7 +3,6 @@ const Service = require('../db/models/service.js');
 const Appointment = require('../db/models/appointment.js');
 const User = require('../db/models/user.js');
 const moment = require('moment');
-const { duration } = require('moment');
 
 const router = express.Router();
 
