@@ -1,8 +1,8 @@
-import User from '../db/models/user.js';
-import bcrypt from 'bcrypt';
+const User = require('../db/models/user.js');
+const bcrypt = require('bcrypt');
 
 /* Encryption Helper. Promises to return an encrypted password*/
-export const encryptPassword = password => {
+const encryptPassword = password => {
     return new Promise((resolve, reject) => {
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(password, salt, (err, hash) => {
@@ -16,20 +16,27 @@ export const encryptPassword = password => {
     });
 };
 
-export const verifyPassword = (username, password) => {
-    User.findOne({ username: username }).then(user => {
-        if (!user) {
-            return false;
-        } else {
-            bcrypt
-                .compare(password, user.password)
-                .then(isMatch => {
-                    return isMatch;
-                })
-                .catch(() => {
-                    return false;
-                    // TODO? error
-                });
-        }
+const verifyPassword = (username, password) => {
+    return new Promise((resolve, reject) => {
+        User.findOne({ username: username })
+            .then(user => {
+                if (user) {
+                    bcrypt
+                        .compare(password, user.password)
+                        .then(isMatch => {
+                            resolve(isMatch);
+                        })
+                        .catch(err => {
+                            reject(err);
+                        });
+                } else {
+                    resolve(false);
+                }
+            })
+            .catch(err => {
+                reject(err);
+            });
     });
 };
+
+module.exports = { verifyPassword, encryptPassword };
