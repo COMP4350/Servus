@@ -7,6 +7,7 @@ const logger = require('morgan');
 const servicesRouter = require('./routes/services');
 const userRouter = require('./routes/user');
 const appointmentRouter = require('./routes/appointment');
+const imagesRouter = require('./routes/images');
 
 dotenv.config();
 
