@@ -291,8 +291,11 @@ const FlexibleSpace = withStyles(styles, { name: 'ToolbarRoot' })(({ classes, ..
 ));
 
 const Calendar = () => {
-    const [data, setData] = useState(appointments);
-    setData(appointments);
+    const [data, setData] = useState();
+    if(!data)
+    {
+        setData(appointments);
+    }
     // const [state, setState] = useState();
 
     // // #FOLD_BLOCK
