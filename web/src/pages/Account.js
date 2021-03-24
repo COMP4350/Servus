@@ -38,6 +38,15 @@ const useStyles = makeStyles(() => ({
         marginBottom: '3%',
         alignItems: 'center',
     },
+    servicesContainer: {
+        width: '100%',
+    },
+    serviceForm: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        alignItems: 'center',
+    },
 }));
 
 const Account = props => {
@@ -57,6 +66,17 @@ const Account = props => {
         firstName: '',
         lastName: '',
     });
+    const [addingService, setAddingService] = useState(false);
+    const [serviceForm, onServiceFormChange] = useForm({
+        name: '',
+        description: '',
+        cost: '',
+        duration: '',
+        availability: '',
+        location: '',
+    });
+    const [servicesErrors, setServiceErrors] = useState({});
+    const [serviceFormValid, setServiceFormValid] = useState({});
     const getUserInfo = () => {
         axios
             .get(`/user/${cookies.username}`)
@@ -148,6 +168,69 @@ const Account = props => {
             return;
         }
     };
+    const validateService = () => {
+        let errors = {};
+        if (!serviceForm.name) {
+            errors.name = 'name is required';
+        }
+        if (!serviceForm.description) {
+            errors.description = 'description is required';
+        }
+        if (!serviceForm.cost) {
+            errors.cost = 'cost is required';
+        }
+        if (!serviceForm.duration) {
+            errors.duration = 'duration is required';
+        }
+        if (!serviceForm.availability) {
+            errors.availability = 'availability is required';
+        }
+        if (!serviceForm.location) {
+            errors.location = 'location is required';
+        }
+        setServiceErrors(errors);
+        setServiceFormValid(Object.getOwnPropertyNames(errors).length == 0);
+    };
+    const addService = () => {
+        if (serviceFormValid) {
+            axios
+                .post(
+                    '/services',
+                    {
+                        username: cookies.username,
+                        name: serviceForm.name,
+                        description: serviceForm.description,
+                        cost: serviceForm.cost,
+                        duration: serviceForm.duration,
+                        /*availability: serviceForm.availability,*/
+                        availability: {
+                            weekday: 0,
+                            start_time: '1:00',
+                            end_time: '2:00',
+                        },
+                        /*location: serviceForm.location*/
+                        location: {
+                            lat: 100,
+                            lng: 100,
+                            address: '1223 fake street',
+                        },
+                    },
+                    {
+                        withCredentials: true,
+                    }
+                )
+                .then(() => {
+                    alert('Service added successfully');
+                })
+                .catch(err => {
+                    alert(err);
+                    setServiceFormValid(false);
+                });
+            setServiceFormValid(false);
+            setAddingService(false);
+            return;
+        }
+    };
     useEffect(() => {
         updateInfo();
     }, [formValid]);
@@ -155,6 +238,10 @@ const Account = props => {
     useEffect(() => {
         updatePassword();
     }, [passwordValid]);
+
+    useEffect(() => {
+        addService();
+    }, [serviceFormValid]);
 
     useEffect(() => {
         getUserInfo();
@@ -255,6 +342,74 @@ const Account = props => {
                     onClick={logout}>
                     Logout
                 </Button>
+            </div>
+            <div className={classes.servicesContainer}>
+                {!addingService ? (
+                    <Button
+                        className={classes.button}
+                        variant="contained"
+                        onClick={() => setAddingService(true)}>
+                        Add Service
+                    </Button>
+                ) : null}
+                {addingService ? (
+                    <div className={classes.serviceForm}>
+                        <TextField
+                            className={classes.textField}
+                            label="Service Name"
+                            name="name"
+                            value={serviceForm.name}
+                            onChange={onServiceFormChange}
+                            error={servicesErrors.name}
+                        />
+                        <TextField
+                            className={classes.textField}
+                            label="Service Description"
+                            name="description"
+                            value={serviceForm.description}
+                            onChange={onServiceFormChange}
+                            error={servicesErrors.description}
+                        />
+                        <TextField
+                            className={classes.textField}
+                            label="Service Cost"
+                            name="cost"
+                            value={serviceForm.cost}
+                            onChange={onServiceFormChange}
+                            error={servicesErrors.cost}
+                        />
+                        <TextField
+                            className={classes.textField}
+                            label="Service Duration"
+                            name="duration"
+                            value={serviceForm.duration}
+                            onChange={onServiceFormChange}
+                            error={servicesErrors.duration}
+                        />
+                        <TextField
+                            className={classes.textField}
+                            label="Service Location"
+                            name="location"
+                            value={serviceForm.location}
+                            onChange={onServiceFormChange}
+                            error={servicesErrors.location}
+                        />
+                        <TextField
+                            className={classes.textField}
+                            label="Service Availability"
+                            name="availability"
+                            value={serviceForm.availability}
+                            onChange={onServiceFormChange}
+                            error={servicesErrors.availability}
+                        />
+                        <Button
+                            className={classes.button}
+                            variant="contained"
+                            onClick={validateService}>
+                            Add Service
+                        </Button>
+                    </div>
+                ) : null}
             </div>
         </div>
         </div>
