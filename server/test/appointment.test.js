@@ -7,6 +7,8 @@ const {
     createDummyUser,
     createDummyUserWithServices,
     createDummyUsersWithServicesAndAppointments,
+    getTestingDate,
+    defaultUserOptions,
 } = require('./test_utils');
 
 const chai = require('chai');
@@ -88,7 +90,7 @@ describe('Appointment', () => {
                 .then(() => {
                     chai.request(app)
                         .post('/appointment/unknownuser')
-                        .send({ booked_time: Date.now() })
+                        .send({ booked_time: getTestingDate(2) })
                         .end((err, res) => {
                             res.should.have.status(404);
                             done();
@@ -98,8 +100,8 @@ describe('Appointment', () => {
                     throw err;
                 });
         });
-        it('should not create duplicate appointment', done => {
-            const time = Date.now();
+        it('can not create an appointment with conflicting time', done => {
+            const time = getTestingDate(2);
             createDummyUserWithServices()
                 .then(service => {
                     chai.request(app)
@@ -116,7 +118,49 @@ describe('Appointment', () => {
                                     booked_time: time,
                                 })
                                 .then(res => {
-                                    res.should.have.status(422);
+                                    res.should.have.status(500);
+                                    res.body.should.have.property('errors');
+                                    done();
+                                })
+                                .catch(error => {
+                                    throw error;
+                                });
+                        })
+                        .catch(error => {
+                            throw error;
+                        });
+                })
+                .catch(err => {
+                    throw err;
+                });
+        });
+        it('can not create an appointment out of the availability', done => {
+            const time = getTestingDate(2);
+            createDummyUserWithServices('testuser', defaultUserOptions, {
+                username: 'testuser',
+                name: 'testservice',
+                description: '123',
+                cost: '123',
+                duration: '0000',
+                availability: [], //NO AVAILABILITY
+                location: { lat: 42, lng: 43, address: '123' },
+            })
+                .then(service => {
+                    chai.request(app)
+                        .post(`/appointment/testuser`)
+                        .send({
+                            service_id: service.body.result._id,
+                            booked_time: time,
+                        })
+                        .then(() => {
+                            chai.request(app)
+                                .post(`/appointment/testuser`)
+                                .send({
+                                    service_id: service.body.result._id,
+                                    booked_time: time,
+                                })
+                                .then(res => {
+                                    res.should.have.status(500);
                                     res.body.should.have.property('errors');
                                     done();
                                 })
@@ -139,7 +183,7 @@ describe('Appointment', () => {
                         .post(`/appointment/testuser`)
                         .send({
                             service_id: service.body.result._id,
-                            booked_time: Date.now(),
+                            booked_time: getTestingDate(2),
                         })
                         .then(res => {
                             res.should.have.status(200);
@@ -172,7 +216,7 @@ describe('Appointment', () => {
                         .post(`/appointment/testuser`)
                         .send({
                             service_id: service.body.result._id,
-                            booked_time: Date.now(),
+                            booked_time: getTestingDate(2),
                         })
                         .then(appointment => {
                             chai.request(app)

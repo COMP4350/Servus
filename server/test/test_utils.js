@@ -17,8 +17,16 @@ const defaultServiceOptions = {
     name: 'testservice',
     description: '123',
     cost: '123',
-    duration: '123',
-    availability: '123',
+    duration: '0000',
+    availability: [
+        { weekday: 0, start_time: '0100', end_time: '2400' },
+        { weekday: 1, start_time: '0100', end_time: '2400' },
+        { weekday: 2, start_time: '0100', end_time: '2400' },
+        { weekday: 3, start_time: '0100', end_time: '2400' },
+        { weekday: 4, start_time: '0100', end_time: '2400' },
+        { weekday: 5, start_time: '0100', end_time: '2400' },
+        { weekday: 6, start_time: '0100', end_time: '2400' },
+    ],
     location: { lat: 42, lng: 43, address: '123' },
 };
 const defaultServiceOptions2 = {
@@ -26,8 +34,16 @@ const defaultServiceOptions2 = {
     name: 'testservice',
     description: '123',
     cost: '123',
-    duration: '123',
-    availability: '123',
+    duration: '0000',
+    availability: [
+        { weekday: 0, start_time: '0100', end_time: '2400' },
+        { weekday: 1, start_time: '0100', end_time: '2400' },
+        { weekday: 2, start_time: '0100', end_time: '2400' },
+        { weekday: 3, start_time: '0100', end_time: '2400' },
+        { weekday: 4, start_time: '0100', end_time: '2400' },
+        { weekday: 5, start_time: '0100', end_time: '2400' },
+        { weekday: 6, start_time: '0100', end_time: '2400' },
+    ],
     location: { lat: 42, lng: 43, address: '123' },
 };
 
@@ -72,14 +88,20 @@ const createDummyUserWithServices = (
     });
 };
 
+const getTestingDate = h => {
+    let date = new Date(2026, 1, 1, 9, 30, 0, 0);
+    date.setTime(date.getTime() + h * 60 * 60 * 1000);
+    return date;
+};
+
 const createDummyUsersWithServicesAndAppointments = (
     usernameOne = 'testuser',
     usernameTwo = 'testuser2',
     options = defaultUserOptions,
     serviceOptions = defaultServiceOptions,
     serviceOptions2 = defaultServiceOptions2,
-    booked_time1 = Date.now(),
-    booked_time2 = Date.now()
+    booked_time1 = getTestingDate(1),
+    booked_time2 = getTestingDate(2)
 ) => {
     return new Promise((resolve, reject) => {
         createDummyUserWithServices(usernameOne, options, serviceOptions)
@@ -133,4 +155,5 @@ module.exports = {
     createDummyUserWithServices,
     createDummyUsersWithServicesAndAppointments,
     defaultServiceOptions,
+    getTestingDate,
 };
