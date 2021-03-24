@@ -89,7 +89,7 @@ const createDummyUserWithServices = (
 };
 
 const getTestingDate = h => {
-    let date = new Date();
+    let date = new Date(2026, 1, 1, 9, 30, 0, 0);
     date.setTime(date.getTime() + h * 60 * 60 * 1000);
     return date;
 };
@@ -101,7 +101,7 @@ const createDummyUsersWithServicesAndAppointments = (
     serviceOptions = defaultServiceOptions,
     serviceOptions2 = defaultServiceOptions2,
     booked_time1 = getTestingDate(1),
-    booked_time2 = getTestingDate(3)
+    booked_time2 = getTestingDate(2)
 ) => {
     return new Promise((resolve, reject) => {
         createDummyUserWithServices(usernameOne, options, serviceOptions)

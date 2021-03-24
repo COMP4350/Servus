@@ -66,7 +66,6 @@ router.get('/:username', (req, res) => {
 /* POST a new image.
  */
 router.route('/upload').post(upload.single('imageData'), (req, res) => {
-    console.log(req.body);
     const newImage = new Image({
         ownerUsername: req.body.ownerUsername,
         uploadDate: Date.now(),
@@ -77,7 +76,6 @@ router.route('/upload').post(upload.single('imageData'), (req, res) => {
     newImage
         .save()
         .then(response => {
-            console.log(response);
             res.status(200).json({
                 success: true,
                 result: response,
@@ -92,8 +90,8 @@ router.route('/upload').post(upload.single('imageData'), (req, res) => {
 
 router.delete('/:image_id', (req, res) => {
     Image.findByIdAndRemove(req.params.image_id, err => {
-        if (err) throw err;
-        res.status(200);
+        if (err) return res.status(500).json({ errors: [err] });
+        res.status(200).json({ success: true });
     });
 });
 
