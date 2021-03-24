@@ -7,6 +7,7 @@ const logger = require('morgan');
 const servicesRouter = require('./routes/services');
 const userRouter = require('./routes/user');
 const appointmentRouter = require('./routes/appointment');
+const imagesRouter = require('./routes/images');
 
 dotenv.config();
 
@@ -44,5 +45,8 @@ app.use(cors({ origin: true, credentials: true }));
 app.use('/services', servicesRouter);
 app.use('/user', userRouter);
 app.use('/appointment', appointmentRouter);
+app.use('/images', imagesRouter);
+app.use('/uploads', express.static('uploads'));
+console.log('Server online');
 
 module.exports = app;
