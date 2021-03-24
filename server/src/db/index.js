@@ -1,6 +1,6 @@
-import { Service } from './models/service';
-import { User } from './models/user';
+const Service = require('../db/models/service.js');
+const User = require('../db/models/user.js');
 
 const models = { Service, User };
 
-export default models;
+module.exports = models;

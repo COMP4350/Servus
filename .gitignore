@@ -258,3 +258,6 @@ package-lock.json
 
 # Android memory profiler files
 *.hprof
+
+# Images in the uploads folder
+/server/uploads/*.png

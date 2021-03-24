@@ -1,6 +1,12 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
+
+const availabilitySchema = new Schema({
+    weekday: { type: Number, required: true },
+    start_time: { type: String, required: true },
+    end_time: { type: String, required: true },
+});
 
 const serviceSchema = new Schema({
     provider: { type: String, required: true },
@@ -8,7 +14,7 @@ const serviceSchema = new Schema({
     description: { type: String, required: false },
     cost: { type: String, required: true },
     duration: { type: String, required: false },
-    availability: { type: String, required: true },
+    availability: { type: [availabilitySchema], required: false },
     location: {
         lat: { type: Number, required: true },
         lng: { type: Number, required: true },
@@ -18,4 +24,4 @@ const serviceSchema = new Schema({
 
 const Service = mongoose.model('Service', serviceSchema);
 
-export default Service;
+module.exports = Service;
