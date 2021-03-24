@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Appointment from './pages/Appointments';
 import Account from './pages/Account';
+import Profile from './pages/Profile';
 import dotenv from 'dotenv';
 import { useCookies } from 'react-cookie';
 
@@ -60,6 +61,13 @@ const App = () => {
                         path="/account"
                         render={props => (
                             <Account {...props} setUsername={setUsername} />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path="/profile"
+                        render={props => (
+                            <Profile {...props} setUsername={setUsername} />
                         )}
                     />
                 </Switch>

@@ -131,7 +131,7 @@ const Header = props => {
                                 className={classes.menuButton}
                                 onClick={
                                     props.username
-                                        ? () => handleButtonClick('/account')
+                                        ? () => handleButtonClick('/profile')
                                         : () => handleButtonClick('/login')
                                 }>
                                 {props.username ? props.username : 'Login'}
