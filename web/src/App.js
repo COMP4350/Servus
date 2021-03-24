@@ -65,7 +65,7 @@ const App = () => {
                     />
                     <Route
                         exact
-                        path="/profile"
+                        path={`/profile/:targetUsername`}
                         render={props => (
                             <Profile {...props} setUsername={setUsername} />
                         )}

@@ -42,6 +42,7 @@ const Header = props => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const theme = useTheme();
+
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
     const handleMenu = event => {
         setAnchorEl(event.currentTarget);
@@ -131,7 +132,10 @@ const Header = props => {
                                 className={classes.menuButton}
                                 onClick={
                                     props.username
-                                        ? () => handleButtonClick('/profile')
+                                        ? () =>
+                                              handleButtonClick(
+                                                  `/profile/${props.username}`
+                                              )
                                         : () => handleButtonClick('/login')
                                 }>
                                 {props.username ? props.username : 'Login'}
