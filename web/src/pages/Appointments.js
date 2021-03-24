@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import AppointmentCard from '../components/AppointmentCard';
+import Calendar from '../components/Calendar';
 import { useCookies } from 'react-cookie';
 import { useHistory } from 'react-router-dom';
 
@@ -21,6 +22,8 @@ const Appointment = () => {
     }, []);
     return (
         <div>
+            <Calendar></Calendar>
+            <div>
             {appointments
                 ? appointments.map((apt, i) => {
                       let service = {
@@ -36,6 +39,8 @@ const Appointment = () => {
                   })
                 : null}
         </div>
+        </div>
+        
     );
 };
 
