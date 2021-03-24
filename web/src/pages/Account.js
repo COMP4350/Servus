@@ -3,8 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Button, TextField } from '@material-ui/core';
 import useForm from '../hooks/useForm';
 import axios from 'axios';
+import isWeekend from 'date-fns/isWeekend';
 import { useCookies } from 'react-cookie';
 import { useHistory } from 'react-router';
+import LocalizaitonProvider from '@material-ui/lab/LocalizationProvider';
+import StaticDatePicker from '@material-ui/lab/StaticDatePicker';
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -39,6 +43,7 @@ const useStyles = makeStyles(() => ({
 const Account = props => {
     const classes = useStyles();
     const history = useHistory();
+    const [value, setValue] = useState(new Date());
     const [cookies, removeCookie] = useCookies(['username']);
     const [errors, setErrors] = useState({});
     const [passwordErrors, setPasswordErrors] = useState({});
@@ -156,8 +161,21 @@ const Account = props => {
     }, []);
 
     return (
-        <div className={classes.root}>
-            <h2>Account Details</h2>
+        <div>
+            <LocalizaitonProvider dateAdapter={AdapterDateFns}>
+                <StaticDatePicker
+                    orientation="landscape"
+                    openTo="date"
+                    value={value}
+                    shouldDisableDate={isWeekend}
+                    onChange={(newValue) => {
+                        setValue(newValue);
+                    }}
+                    renderInput={(params) => <TextField {...params} variant="standard" />}
+                />
+            </LocalizaitonProvider>
+            <div className={classes.root}>
+            <h2>Update Account Details</h2>
             <TextField
                 className={classes.textField}
                 id="outlined-basic"
@@ -238,6 +256,7 @@ const Account = props => {
                     Logout
                 </Button>
             </div>
+        </div>
         </div>
     );
 };
