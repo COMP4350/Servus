@@ -4,13 +4,18 @@ import { makeStyles } from '@material-ui/core/styles';
 import { TextField, IconButton } from '@material-ui/core';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
 import ReactDOM from 'react-dom';
+import {
+    winnipeg,
+    mapLibraries,
+    mapOptions,
+    autocompleteOptions,
+} from './mapUtils';
 
 import {
     Autocomplete,
     GoogleMap,
     useJsApiLoader,
 } from '@react-google-maps/api';
-import mapStyle from './mapStyle.json';
 import ServiceIcon from '../../images/flag_icon.png';
 import ServiceWindow from './ServiceWindow';
 
@@ -49,35 +54,6 @@ const useStyles = makeStyles(() => ({
         '&:hover': { color: 'black' },
     },
 }));
-
-const winnipeg = {
-    lat: 49.8951,
-    lng: -97.1384,
-};
-
-const mapLibraries = ['places'];
-
-const defaultBounds = {
-    north: winnipeg.lat + 1.0,
-    south: winnipeg.lat - 1.0,
-    east: winnipeg.lng + 1.0,
-    west: winnipeg.lng - 1.0,
-};
-
-const autocompleteOptions = {
-    bounds: defaultBounds,
-    componentRestrictions: { country: 'ca' },
-    fields: ['address_components', 'geometry', 'icon', 'name'],
-    origin: winnipeg,
-    strictBounds: true,
-};
-
-const mapOptions = {
-    mapTypeControl: false,
-    disableDefaultUI: true,
-    zoomControl: true,
-    styles: mapStyle,
-};
 
 const Map = () => {
     const classes = useStyles();
@@ -165,7 +141,10 @@ const Map = () => {
                     options={mapOptions}>
                     <div className={classes.addressContainer}>
                         <Autocomplete
-                            options={{ ...autocompleteOptions, origin: center }}
+                            options={{
+                                ...autocompleteOptions,
+                                origin: center,
+                            }}
                             onPlaceChanged={onSearchAddressChanged}
                             onLoad={onAutoCompleteLoad}>
                             <TextField
