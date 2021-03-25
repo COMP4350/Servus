@@ -5,6 +5,8 @@ import { Card, Typography, Button } from '@material-ui/core';
 import moment from 'moment';
 import MomentUtils from '@date-io/moment';
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
+import { useCookies } from 'react-cookie';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -21,6 +23,9 @@ const useStyles = makeStyles(theme => ({
 const ServiceWindow = props => {
     const [form, setForm] = useState();
     const [errors, setErrors] = useState({});
+    const [cookies] = useCookies();
+    const history = useHistory();
+
     const validate = () => {
         let errors = {};
         if (!form) {
@@ -36,7 +41,7 @@ const ServiceWindow = props => {
         if (valid) {
             axios
                 .post(
-                    `/appointment/${props.username}`,
+                    `/appointment/${cookies.username}`,
                     {
                         service_id: props.service._id,
                         provider: props.service.provider,
@@ -79,8 +84,10 @@ const ServiceWindow = props => {
         }
     };
     useEffect(() => {
-        bookAppointment();
+        if (cookies.username) bookAppointment();
+        else history.push('/login');
     }, [valid, form]);
+
     return (
         <Card>
             <Typography color="textSecondary">
