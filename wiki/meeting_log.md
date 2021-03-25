@@ -2,6 +2,43 @@
 
 > sorted by most recent
 
+**Sprint 3 Meeting 5**
+
+> Mar 24th 11:00 PM
+> _Attending Members: Caden, Arvind, Andy, Risto_
+
+Summary: Frantic discussion of the final distribution of tasks and sprint logistics, documentation, and handin details.
+
+**Sprint 3 Meeting 4**
+
+> Mar 18th
+> _Attending Members: Caden, Arvind, Andy, Risto_
+
+-   Pair programming sessions
+
+**Sprint 3 Meeting 3**
+
+> Mar 16th 10:00 PM
+> _Attending Members: Caden, Arvind, Andy, Risto_
+
+Summary: Discussed the technique seminar presentation. Delegated some issues and a plan for developing Sprint 3 tasks.
+
+**Sprint 3 Meeting 2**
+
+> Mar 6th 8:00 PM
+> _Attending Members: Caden, Arvind, Andy, Risto_
+
+Summary: This short meeting was to discuss who wanted to do which issues, and we started looking at frontend testing together.
+
+**Sprint 3 Meeting 1**
+
+> Feb 26th 3:00 PM
+> _Attending Members: Caden, Arvind, Andy, Risto_
+
+Summary: This meeting was used to discuss what we wanted to do in Sprint 3 and create issues.
+
+---
+
 **Sprint 2 Meeting 6**
 
 > Feb 25th 11:00 AM

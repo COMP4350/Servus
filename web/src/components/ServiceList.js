@@ -15,8 +15,12 @@ const ServiceList = () => {
     const [services, setServices] = useState(null);
     const classes = useStyles();
     const getServices = async () => {
-        const response = await axios.get(`/services/`);
-        setServices(response.data.result);
+        try {
+            const response = await axios.get(`/services/`);
+            setServices(response.data.result);
+        } catch {
+            err => alert(err);
+        }
     };
     useEffect(() => {
         getServices();
