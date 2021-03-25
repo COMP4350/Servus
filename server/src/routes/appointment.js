@@ -88,20 +88,22 @@ router.post('/:buyer', (req, res) => {
                 //1: this fits in the service timeslot
                 //2: there are no conflicting appointments with this service
 
-                if (service.availability && !inTimeSlot(service, req)) {
-                    return res.status(500).json({
+                let timeslot = inTimeSlot(service, req);
+                if (service.availability && !timeslot.success) {
+                    return res.json({
                         errors: [
                             {
                                 appointment:
                                     'appointment time invalid – not available',
                             },
                         ],
+                        timeslot,
                     });
                 }
 
                 noConflicts(service, req)
                     .then(nocons => {
-                        if (nocons) {
+                        if (nocons.success) {
                             Appointment.findOne({
                                 ...req.body,
                                 buyer: req.params.buyer,
@@ -128,13 +130,14 @@ router.post('/:buyer', (req, res) => {
                                     });
                             });
                         } else {
-                            return res.status(500).json({
+                            return res.json({
                                 errors: [
                                     {
                                         error:
                                             'appointment time invalid – conflicts with other appointments',
                                     },
                                 ],
+                                nocons,
                             });
                         }
                     })
@@ -149,8 +152,8 @@ router.post('/:buyer', (req, res) => {
                     .json({ error: 'service does not exist for appointment' });
             }
         })
-        .catch(() => {
-            console.log('we in catch');
+        .catch(err => {
+            console.log(err);
             return res
                 .status(404)
                 .json({ error: 'service does not exist for appointment' });

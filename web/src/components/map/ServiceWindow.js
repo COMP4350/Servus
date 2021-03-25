@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, Button } from '@material-ui/core';
-// import moment from 'moment';
+import moment from 'moment';
 import MomentUtils from '@date-io/moment';
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 
@@ -19,11 +19,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ServiceWindow = props => {
-    const [form, setForm] = useState({});
+    const [form, setForm] = useState();
     const [errors, setErrors] = useState({});
     const validate = () => {
         let errors = {};
-        if (!form.time) {
+        if (!form) {
             errors.time = 'time is required';
         }
         setErrors(errors);
@@ -40,23 +40,44 @@ const ServiceWindow = props => {
                     {
                         service_id: props.service._id,
                         provider: props.service.provider,
-                        booked_time: form.time,
+                        booked_time: form,
                     },
                     {
                         withCredentials: true,
                     }
                 )
-                .then(() => {
-                    alert(
-                        `Successfully booked Service with ${props.service.provider}`
-                    );
+                .then(res => {
+                    if (res.data.errors) {
+                        if (res.data.timeslot) {
+                            if (res.data.timeslot.availability_start) {
+                                alert(
+                                    `Please book within timeslot ${res.data.timeslot.availability_start} to ${res.data.timeslot.availability_end}`
+                                );
+                            } else {
+                                alert('Service not available on this day');
+                            }
+                        } else if (res.data.nocons) {
+                            alert(
+                                `Conflict with another appointment from time ${moment(
+                                    res.data.nocons.conflict_start
+                                ).local()} to ${moment(
+                                    res.data.nocons.conflict_end
+                                ).local()}`
+                            );
+                        } else {
+                            alert(`Error occured when trying to book`);
+                        }
+                    } else {
+                        alert(
+                            `Successfully booked Service with ${props.service.provider}`
+                        );
+                    }
                 })
                 .catch(err => {
-                    alert(`Error in booking service ${err}`);
+                    throw err;
                 });
         }
     };
-    const setSelectedTime = () => {};
     useEffect(() => {
         bookAppointment();
     }, [valid, form]);
@@ -74,17 +95,15 @@ const ServiceWindow = props => {
                     <div className="timepicker">
                         <DateTimePicker
                             label={'Appointment Time'}
-                            value={form.time}
+                            value={form}
                             initialFocusedDate={Date.now()}
                             ampm={false}
-                            onAccept={date => {
-                                setForm({ time: date });
-                            }}
-                            onChange={date => setSelectedTime(date)}
+                            onAccept={setForm}
+                            onChange={setForm}
                             name="time"
                             autoOk={true}
                             disablePast={true}
-                            error={errors.time}
+                            errors={errors.time}
                         />
                     </div>
                 </MuiPickersUtilsProvider>

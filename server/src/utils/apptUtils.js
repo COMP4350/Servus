@@ -10,6 +10,15 @@ const convertToHHMM = datetime => {
 };
 
 const inTimeSlot = (service, request) => {
+    let duration_hours = service.duration.slice(0, 2);
+    let duration_minutes = service.duration.slice(2);
+    console.log(request.body.booked_time);
+    let desired_start_time = moment(request.body.booked_time).format('HHmm');
+    let desired_end_time = moment(request.body.booked_time)
+        .add(duration_hours, 'H')
+        .add(duration_minutes, 'm')
+        .format('HHmm');
+
     for (let index in service.availability) {
         let availability = service.availability[index];
         if (
@@ -17,28 +26,32 @@ const inTimeSlot = (service, request) => {
         ) {
             //so the service is available on the DAY
             //now we must check time slot
-            const desired_time = convertToHHMM(
-                new Date(request.body.booked_time)
+            let start_t = moment(availability.start_time, 'HHmm').format(
+                'HHmm'
             );
-            if (
-                !(
-                    parseInt(availability.start_time) <= desired_time &&
-                    parseInt(availability.end_time) <
-                        desired_time + parseInt(service.duration)
-                )
-            ) {
-                return false;
+            let end_t = moment(availability.end_time, 'HHmm').format('HHmm');
+            if (start_t > desired_start_time || desired_end_time >= end_t) {
+                return {
+                    success: false,
+                    availability_start: availability.start_time,
+                    availability_end: availability.end_time,
+                };
             }
+            return {
+                success: true,
+                availability_start: availability.start_time,
+                availability_end: availability.end_time,
+            };
         }
     }
-    return true;
+    return { success: true };
 };
 
 const noConflicts = (service, request) => {
-    const duration_hours = service.duration.slice(0, 2);
-    const duration_minutes = service.duration.slice(2);
-    const desired_start_time = moment(new Date(request.body.booked_time));
-    const desired_end_time = moment(new Date(request.body.booked_time))
+    let duration_hours = service.duration.slice(0, 2);
+    let duration_minutes = service.duration.slice(2);
+    let desired_start_time = moment(new Date(request.body.booked_time));
+    let desired_end_time = moment(new Date(request.body.booked_time))
         .add(duration_hours, 'h')
         .add(duration_minutes, 'm');
 
@@ -58,16 +71,28 @@ const noConflicts = (service, request) => {
                         apt_start_time <= desired_start_time &&
                         apt_end_time >= desired_start_time
                     ) {
-                        return resolve(false);
+                        return resolve({
+                            success: false,
+                            conflict_start: apt_start_time,
+                            conflict_end: apt_end_time,
+                        });
                     }
                     if (
                         apt_start_time <= desired_end_time &&
                         apt_end_time >= desired_end_time
                     ) {
-                        return resolve(false);
+                        return resolve({
+                            success: false,
+                            conflict_start: apt_start_time,
+                            conflict_end: apt_end_time,
+                        });
                     }
                 }
-                return resolve(true);
+                return resolve({
+                    success: true,
+                    apt_start: desired_start_time,
+                    apt_end: desired_end_time,
+                });
             })
             .catch(err => {
                 return reject(err);
