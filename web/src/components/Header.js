@@ -70,10 +70,6 @@ const Header = props => {
             menuTitle: 'Login',
             pageUrl: '/login',
         },
-        {
-            menuTitle: 'Services',
-            pageUrl: '/services',
-        },
     ];
 
     return (
@@ -131,11 +127,6 @@ const Header = props => {
                                     handleButtonClick('/appointment')
                                 }>
                                 Appointments
-                            </Button>
-                            <Button
-                                className={classes.menuButton}
-                                onClick={() => handleButtonClick('/services')}>
-                                Services
                             </Button>
                             <Button
                                 className={classes.menuButton}
