@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Paper from '@material-ui/core/Paper';
 import TableCell from '@material-ui/core/TableCell';
+import axios from 'axios';
 import { darken, fade, lighten } from '@material-ui/core/styles/colorManipulator';
 import Typography from '@material-ui/core/Typography';
-import { ViewState, EditingState } from '@devexpress/dx-react-scheduler';
+import { EditingState, ViewState } from '@devexpress/dx-react-scheduler';
 import classNames from 'clsx';
 import {
     Scheduler,
@@ -17,84 +18,47 @@ import {
     Resources,
     DragDropProvider,
 } from '@devexpress/dx-react-scheduler-material-ui';
-import WbSunny from '@material-ui/icons/WbSunny';
-import FilterDrama from '@material-ui/icons/FilterDrama';
-import Opacity from '@material-ui/icons/Opacity';
-import ColorLens from '@material-ui/icons/ColorLens';
 import { withStyles } from '@material-ui/core/styles';
 
-const appointments = [
+
+const owners = [
     {
-        id: 0,
-        title: 'Watercolor Landscape',
-        startDate: new Date(2018, 6, 23, 9, 30),
-        endDate: new Date(2018, 6, 23, 11, 30),
-        ownerId: 1,
-    }, {
+        text: 'zimbakor',
         id: 1,
-        title: 'Monthly Planning',
-        startDate: new Date(2018, 5, 28, 9, 30),
-        endDate: new Date(2018, 5, 28, 11, 30),
-        ownerId: 1,
+        color: '#7E57C2',
     }, {
+        text: 'arvind',
         id: 2,
-        title: 'Recruiting students',
-        startDate: new Date(2018, 6, 9, 12, 0),
-        endDate: new Date(2018, 6, 9, 13, 0),
-        ownerId: 2,
+        color: '#FF7043',
     }, {
+        text: 'Andus odonus',
         id: 3,
-        title: 'Oil Painting',
-        startDate: new Date(2018, 6, 18, 14, 30),
-        endDate: new Date(2018, 6, 18, 15, 30),
-        ownerId: 2,
+        color: '#E91E63',
     }, {
+        text: 'Taylor Riley',
         id: 4,
-        title: 'Open Day',
-        startDate: new Date(2018, 6, 20, 12, 0),
-        endDate: new Date(2018, 6, 20, 13, 35),
-        ownerId: 6,
+        color: '#E91E63',
     }, {
+        text: 'Brad Farkus',
         id: 5,
-        title: 'Watercolor Landscape',
-        startDate: new Date(2018, 6, 6, 13, 0),
-        endDate: new Date(2018, 6, 6, 14, 0),
-        rRule: 'FREQ=WEEKLY;BYDAY=FR;UNTIL=20180816',
-        exDate: '20180713T100000Z,20180727T100000Z',
-        ownerId: 2,
+        color: '#AB47BC',
     }, {
+        text: 'Arthur Miller',
         id: 6,
-        title: 'Meeting of Instructors',
-        startDate: new Date(2018, 5, 28, 12, 0),
-        endDate: new Date(2018, 5, 28, 12, 30),
-        rRule: 'FREQ=WEEKLY;BYDAY=TH;UNTIL=20180727',
-        exDate: '20180705T090000Z,20180719T090000Z',
-        ownerId: 5,
-    }, {
-        id: 7,
-        title: 'Oil Painting for Beginners',
-        startDate: new Date(2018, 6, 3, 11, 0),
-        endDate: new Date(2018, 6, 3, 12, 0),
-        rRule: 'FREQ=WEEKLY;BYDAY=TU;UNTIL=20180801',
-        exDate: '20180710T080000Z,20180724T080000Z',
-        ownerId: 3,
-    }, {
-        id: 8,
-        title: 'Watercolor Workshop',
-        startDate: new Date(2018, 6, 9, 11, 0),
-        endDate: new Date(2018, 6, 9, 12, 0),
-        ownerId: 3,
+        color: '#FFA726',
     },
 ];
+
 
 const resources = [{
     fieldName: 'ownerId',
     title: 'Owners',
+    instances: owners,
 }];
 
 const getBorder = theme => (`1px solid ${theme.palette.type === 'light'
-        ? lighten(fade(theme.palette.divider, 1), 0.88)
-        : darken(fade(theme.palette.divider, 1), 0.68)
+    ? lighten(fade(theme.palette.divider, 1), 0.88)
+    : darken(fade(theme.palette.divider, 1), 0.68)
     }`);
 
 const DayScaleCell = props => (
@@ -221,19 +185,6 @@ const styles = theme => ({
     },
 });
 
-const WeatherIcon = ({ classes, id }) => {
-    switch (id) {
-        case 0:
-            return <Opacity className={classes.rain} fontSize="large" />;
-        case 1:
-            return <WbSunny className={classes.sun} fontSize="large" />;
-        case 2:
-            return <FilterDrama className={classes.cloud} fontSize="large" />;
-        default:
-            return null;
-    }
-};
-
 // #FOLD_BLOCK
 const CellBase = React.memo(({
     classes,
@@ -242,7 +193,6 @@ const CellBase = React.memo(({
     otherMonth,
     // #FOLD_BLOCK
 }) => {
-    const iconId = Math.abs(Math.floor(Math.sin(startDate.getDate()) * 10) % 3);
     const isFirstMonthDay = startDate.getDate() === 1;
     const formatOptions = isFirstMonthDay
         ? { day: 'numeric', month: 'long' }
@@ -252,14 +202,10 @@ const CellBase = React.memo(({
             tabIndex={0}
             className={classNames({
                 [classes.cell]: true,
-                [classes.rainBack]: iconId === 0,
-                [classes.sunBack]: iconId === 1,
-                [classes.cloudBack]: iconId === 2,
                 [classes.opacity]: otherMonth,
             })}
         >
             <div className={classes.content}>
-                <WeatherIcon classes={classes} id={iconId} />
             </div>
             <div className={classes.text}>
                 {formatDate(startDate, formatOptions)}
@@ -284,79 +230,119 @@ const AppointmentContent = withStyles(styles, { name: 'AppointmentContent' })(({
 const FlexibleSpace = withStyles(styles, { name: 'ToolbarRoot' })(({ classes, ...restProps }) => (
     <Toolbar.FlexibleSpace {...restProps} className={classes.flexibleSpace}>
         <div className={classes.flexContainer}>
-            <ColorLens fontSize="large" htmlColor="#FF7043" />
-            <Typography variant="h5" sytyle={{ marginLeft: '10px' }}>Art School</Typography>
+            <Typography variant="h5" sytyle={{ marginLeft: '10px' }}>My Calendar</Typography>
         </div>
     </Toolbar.FlexibleSpace>
 ));
 
-const Calendar = () => {
+/*  MUBY ARVY
+Provider: arvind
+Info: Make up by the best maan!
+$: 40CAD
+Time: 0100*/
+
+// const appointments = [
+//     {
+//       id: 0,
+//       title: 'Big Cuts from Big Risto',
+//       startDate: new Date(2021, 2, 25, 9, 30),
+//       endDate: new Date(2021, 2, 25, 11, 30),
+//       ownerId: 1,
+//     },
+//     {
+//         id: 1,
+//         title: 'Make up by the best maan!',
+//         startDate: new Date(2021, 2, 28, 9, 30),
+//         endDate: new Date(2021, 2, 28, 11, 30),
+//         ownerId: 2,
+//     },
+//     {
+//         id: 1,
+//         title: 'MUBY ARVY',
+//         startDate: new Date(2021, 2, 28, 9, 30),
+//         endDate: new Date(2021, 2, 28, 11, 30),
+//         ownerId: 2,
+//     },
+//     {
+//         id: 2,
+//         title: 'Make up by the best maan!',
+//         startDate: new Date(2021, 2, 3, 9, 30),
+//         endDate: new Date(2021, 2, 3, 11, 30),
+//         ownerId: 2,
+//     }
+// ] 
+
+const Calendar = ({ appointments }) => {
+    console.log(appointments);
     const [data, setData] = useState();
-    if(!data)
-    {
-        setData(appointments);
+    const newDate = new Date();
+
+    const passData = () => {
+        appointments?.map((apt, i) => {
+            axios.get(`/service/${apt.service_id}`)
+                .then(response => {
+                    console.log(response.data.result);
+                    const service = response.data.result;
+                    const endtime = apt.booked_time;
+                    endtime.setTime(endtime.getTime() + service.duration * 60 * 1000);
+                    return {
+                        id: i,
+                        title: service.name,
+                        startDate: apt.booked_time,
+                        endDate: endtime,
+                        ownerId: 2,
+                    }
+                }
+                );
+        })
     }
-    // const [state, setState] = useState();
 
-    // // #FOLD_BLOCK
-    // const commitChanges = ({ added, changed, deleted }) => {
-    //     this.setState((state) => {
-    //         let { data } = state;
-    //         if (added) {
-    //             const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
-    //             setData( [...data, { id: startingAddedId, ...added }]);
-    //         }
-    //         if (changed) {
-    //             data = data.map(appointment => (
-    //                 changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
-    //         }
-    //         if (deleted !== undefined) {
-    //             data = data.filter(appointment => appointment.id !== deleted);
-    //         }
-    //         return { data };
-    //     });
-    // }
 
-        return (
-            <Paper>
-                <Scheduler
-                    data={data}
-                >
-                    <EditingState
-                    />
-                    <ViewState
-                        defaultCurrentDate="2018-07-17"
-                    />
+    useEffect(() => {
+        if (!data) {
+            setData(passData());
+        }
+    }, [])
 
-                    <MonthView
-                        timeTableCellComponent={TimeTableCell}
-                        dayScaleCellComponent={DayScaleCell}
-                    />
+    return (
+        <Paper>
+            <Scheduler
+                data={data}
+            >
+                <EditingState></EditingState>
+                <ViewState
+                    defaultCurrentDate={newDate}
+                />
 
-                    <Appointments
-                        appointmentComponent={Appointment}
-                        appointmentContentComponent={AppointmentContent}
-                    />
-                    <Resources
-                        data={resources}
-                    />
+                <MonthView
+                    timeTableCellComponent={TimeTableCell}
+                    dayScaleCellComponent={DayScaleCell}
+                />
 
-                    <Toolbar
-                        flexibleSpaceComponent={FlexibleSpace}
-                    />
-                    <DateNavigator />
+                <Appointments
+                    appointmentComponent={Appointment}
+                    appointmentContentComponent={AppointmentContent}
+                />
+                <Resources
+                    data={resources}
+                />
 
-                    <EditRecurrenceMenu />
-                    <AppointmentTooltip
-                        showCloseButton
-                        showDeleteButton
-                        showOpenButton
-                    />
-                    <AppointmentForm />
-                    <DragDropProvider />
-                </Scheduler>
-            </Paper>
-        );
+                <Toolbar
+                    flexibleSpaceComponent={FlexibleSpace}
+                />
+                <DateNavigator />
+
+                <EditRecurrenceMenu />
+                <AppointmentTooltip
+                    showCloseButton
+                    showDeleteButton
+                    showOpenButton
+                />
+                <AppointmentForm />
+                <DragDropProvider />
+            </Scheduler>
+        </Paper>
+    );
 }
 
 export default Calendar;
