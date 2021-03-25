@@ -235,11 +235,6 @@ const FlexibleSpace = withStyles(styles, { name: 'ToolbarRoot' })(({ classes, ..
     </Toolbar.FlexibleSpace>
 ));
 
-/*  MUBY ARVY
-Provider: arvind
-Info: Make up by the best maan!
-$: 40CAD
-Time: 0100*/
 
 // const appointments = [
 //     {
@@ -273,37 +268,34 @@ Time: 0100*/
 // ] 
 
 const Calendar = ({ appointments }) => {
-    console.log(appointments);
-    const [data, setData] = useState();
+    const [data, setData] = useState([]);
     const newDate = new Date();
-
     const passData = () => {
-        appointments?.map((apt, i) => {
-            axios.get(`/service/${apt.service_id}`)
+        const temp = [];
+        appointments?.forEach(apt => {
+            axios.get(`/services/${apt.service_id}`)
                 .then(response => {
-                    console.log(response.data.result);
                     const service = response.data.result;
-                    const endtime = apt.booked_time;
-                    endtime.setTime(endtime.getTime() + service.duration * 60 * 1000);
-                    return {
-                        id: i,
+                    // const endtime = apt.booked_time;
+                    // endtime.setTime(endtime.getTime() + service.duration * 60 * 1000);
+                    const tempObj = {
+                        id: 0,
                         title: service.name,
-                        startDate: apt.booked_time,
-                        endDate: endtime,
-                        ownerId: 2,
+                        startDate: new Date(2021, 2, 3, 9, 30),
+                        endDate: new Date(2021, 2, 3, 11, 30),
+                        ownerId: 1,
                     }
+                    temp.push(tempObj);
                 }
                 );
-        })
+        });
+        console.log(`this is temp: ${temp}`);
+        return temp;
     }
-
-
     useEffect(() => {
-        if (!data) {
-            setData(passData());
-        }
+        setData(passData());
     }, [])
-
+    console.log(`this is data: ${data[0]}`);
     return (
         <Paper>
             <Scheduler
