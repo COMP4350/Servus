@@ -80,12 +80,7 @@ const Map = () => {
                 services.map(service => {
                     var div = document.createElement('div');
                     //build the content string
-                    const contentString = (
-                        <ServiceWindow
-                            service={service}
-                            username={'zimbakor'}
-                        />
-                    );
+                    const contentString = <ServiceWindow service={service} />;
                     ReactDOM.render(contentString, div);
 
                     const infowindow = new window.google.maps.InfoWindow({
