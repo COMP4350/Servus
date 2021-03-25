@@ -18,9 +18,8 @@ const ServiceList = () => {
         try {
             const response = await axios.get(`/services/`);
             setServices(response.data.result);
-        }
-        catch {
-            (err => alert(err));
+        } catch {
+            err => alert(err);
         }
     };
     useEffect(() => {
