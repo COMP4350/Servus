@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ServiceList renders correctly 1`] = `
+<DocumentFragment>
+  <div>
+    <div
+      class="makeStyles-root-1"
+    />
+  </div>
+</DocumentFragment>
+`;
