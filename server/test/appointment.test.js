@@ -54,7 +54,7 @@ describe('Appointment', () => {
         });
         it('should GET users appointments', done => {
             createDummyUsersWithServicesAndAppointments()
-                .then(() => {
+                .then(appts => {
                     chai.request(app)
                         .get('/appointment/testuser')
                         .end((err, res) => {
@@ -118,7 +118,6 @@ describe('Appointment', () => {
                                     booked_time: time,
                                 })
                                 .then(res => {
-                                    res.should.have.status(500);
                                     res.body.should.have.property('errors');
                                     done();
                                 })
@@ -160,7 +159,6 @@ describe('Appointment', () => {
                                     booked_time: time,
                                 })
                                 .then(res => {
-                                    res.should.have.status(500);
                                     res.body.should.have.property('errors');
                                     done();
                                 })

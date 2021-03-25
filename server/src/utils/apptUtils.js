@@ -12,7 +12,6 @@ const convertToHHMM = datetime => {
 const inTimeSlot = (service, request) => {
     let duration_hours = service.duration.slice(0, 2);
     let duration_minutes = service.duration.slice(2);
-    console.log(request.body.booked_time);
     let desired_start_time = moment(request.body.booked_time).format('HHmm');
     let desired_end_time = moment(request.body.booked_time)
         .add(duration_hours, 'H')
@@ -33,14 +32,18 @@ const inTimeSlot = (service, request) => {
             if (start_t > desired_start_time || desired_end_time >= end_t) {
                 return {
                     success: false,
-                    availability_start: availability.start_time,
-                    availability_end: availability.end_time,
+                    availability_start: start_t,
+                    availability_end: end_t,
+                    desired_start_time: desired_start_time,
+                    desired_end_time: desired_end_time,
                 };
             }
             return {
                 success: true,
                 availability_start: availability.start_time,
                 availability_end: availability.end_time,
+                desired_start_time: desired_start_time,
+                desired_end_time: desired_end_time,
             };
         }
     }
