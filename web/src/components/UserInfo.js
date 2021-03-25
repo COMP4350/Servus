@@ -62,7 +62,7 @@ const ServiceList = props => {
                                   {service.name}
                               </Typography>
                               <Typography
-                                  variant="p"
+                                  variant="caption"
                                   className={classes.details}>
                                   {`Info: ${service.description}`}
                               </Typography>
