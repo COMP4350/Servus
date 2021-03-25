@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, Typography, TextField, Button } from '@material-ui/core';
-import useForm from '../../hooks/useForm';
+import { Card, Typography, Button } from '@material-ui/core';
+// import moment from 'moment';
+import MomentUtils from '@date-io/moment';
+import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -17,9 +19,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ServiceWindow = props => {
-    const [form, onFormChange] = useForm({
-        time: '',
-    });
+    const [form, setForm] = useState({});
     const [errors, setErrors] = useState({});
     const validate = () => {
         let errors = {};
@@ -50,9 +50,13 @@ const ServiceWindow = props => {
                     alert(
                         `Successfully booked Service with ${props.service.provider}`
                     );
+                })
+                .catch(err => {
+                    alert(`Error in booking service ${err}`);
                 });
         }
     };
+    const setSelectedTime = () => {};
     useEffect(() => {
         bookAppointment();
     }, [valid, form]);
@@ -66,19 +70,24 @@ const ServiceWindow = props => {
                 {props.service.description}
             </Typography>
             <form className={classes.container} noValidate>
-                <TextField
-                    id="time"
-                    label="Appointment Time"
-                    type="datetime-local"
-                    onChange={onFormChange}
-                    name="time"
-                    value={form.time}
-                    error={errors.time}
-                    className={classes.textField}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
+                <MuiPickersUtilsProvider utils={MomentUtils}>
+                    <div className="timepicker">
+                        <DateTimePicker
+                            label={'Appointment Time'}
+                            value={form.time}
+                            initialFocusedDate={Date.now()}
+                            ampm={false}
+                            onAccept={date => {
+                                setForm({ time: date });
+                            }}
+                            onChange={date => setSelectedTime(date)}
+                            name="time"
+                            autoOk={true}
+                            disablePast={true}
+                            error={errors.time}
+                        />
+                    </div>
+                </MuiPickersUtilsProvider>
             </form>
             <Button onClick={validate}>BOOK</Button>
         </Card>
