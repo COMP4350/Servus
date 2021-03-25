@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { AccountCircle } from '@material-ui/icons/';
-import { Card, Typography } from '@material-ui/core';
+import { Button, Card, Typography } from '@material-ui/core';
 import axios from 'axios';
+import AddService from '../components/AddService';
 
 const useStyles = makeStyles(() => ({
     userInfo: {
@@ -35,18 +36,35 @@ const useStyles = makeStyles(() => ({
     userDesc: {
         width: '100%',
     },
+    serviceList: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    button: {
+        marginTop: 10,
+    },
 }));
 
 const ServiceList = props => {
     const classes = useStyles();
-    let [services, setServiceList] = useState([]);
+    const [services, setServiceList] = useState([]);
+    const [addingService, setAddingService] = useState(false);
+
     const getServices = async () => {
         const response = await axios.get(`/user/${props.username}/services`);
         setServiceList(response.data.result);
     };
+
     useEffect(() => {
         getServices();
     }, [props]);
+
+    const addedService = () => {
+        getServices();
+        setAddingService(false);
+    };
+
     return (
         <div className={classes.serviceList}>
             {services
@@ -70,6 +88,16 @@ const ServiceList = props => {
                       );
                   })
                 : null}
+            {addingService ? (
+                <AddService addedService={addedService} />
+            ) : (
+                <Button
+                    className={classes.button}
+                    variant="contained"
+                    onClick={() => setAddingService(true)}>
+                    Add Service
+                </Button>
+            )}
         </div>
     );
 };
