@@ -17,11 +17,11 @@ describe('AppointmentCard', () => {
         );
 
         const { asFragment } = render(
-            <AppointmentCard 
+            <AppointmentCard
                 service={mockResult}
                 setService={handleServiceUpdate}
             />
-        )
+        );
         expect(asFragment()).toMatchSnapshot();
         expect(mockAxios.get).toHaveBeenCalledWith('/services/undefined');
         expect(mockAxios.get).toHaveBeenCalledTimes(1);
