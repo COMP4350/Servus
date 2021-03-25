@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, IconButton } from '@material-ui/core';
 import useForm from '../hooks/useForm';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useHistory } from 'react-router';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -33,6 +34,16 @@ const useStyles = makeStyles(() => ({
         display: 'flex',
         marginBottom: '3%',
         alignItems: 'center',
+    },
+    accountBtn: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        '&:hover': {},
+    },
+    arrowIcon: {
+        height: '75px',
+        width: '75px',
     },
 }));
 
@@ -143,6 +154,9 @@ const Account = props => {
             return;
         }
     };
+    const toProfile = () => {
+        history.push('/profile');
+    };
     useEffect(() => {
         updateInfo();
     }, [formValid]);
@@ -238,6 +252,13 @@ const Account = props => {
                     Logout
                 </Button>
             </div>
+            <IconButton
+                className={classes.accountBtn}
+                onClick={() => {
+                    toProfile();
+                }}>
+                <ArrowBackIcon className={classes.arrowIcon} />
+            </IconButton>
         </div>
     );
 };
