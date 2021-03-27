@@ -7,4 +7,5 @@ describe('find service on map', () => {
         cy.get('#root').click();
         cy.get('#search-address').click();
     });
+    it('finds service', () => {});
 });
