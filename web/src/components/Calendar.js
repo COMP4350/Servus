@@ -286,16 +286,17 @@ const Calendar = ({ appointments }) => {
                         ownerId: 1,
                     }
                     temp.push(tempObj);
+                    if(temp.length == appointments.length)
+                        return temp;
                 }
                 );
         });
-        console.log(`this is temp: ${temp}`);
-        return temp;
+        console.log(`this is temp aftr: ${temp}`);
     }
     useEffect(() => {
         setData(passData());
     }, [])
-    console.log(`this is data: ${data[0]}`);
+    console.log(`this is data: ${data}`);
     return (
         <Paper>
             <Scheduler
