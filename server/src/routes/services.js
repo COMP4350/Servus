@@ -49,7 +49,7 @@ router.get('/:service_id', (req, res) => {
 router.post('/', (req, res) => {
     const filter = {};
     if (req.body.tags) {
-        filter.tags = {$in:req.body.tags};
+        filter.tags = { $in: req.body.tags };
         console.log(filter);
     }
     Service.find(filter).then(services => {

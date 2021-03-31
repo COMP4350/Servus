@@ -80,11 +80,11 @@ const tagNames = [
 const getStyles = (name, serviceTags, theme) => {
     return {
         fontWeight:
-            serviceTags.indexOf(theme) === - 1
+            serviceTags.indexOf(theme) === -1
                 ? theme.typography.fontWeightRegular
                 : theme.typography.fontWeightMedium,
     };
-}
+};
 
 const AddService = ({ addedService }) => {
     const classes = useStyles();
@@ -92,9 +92,9 @@ const AddService = ({ addedService }) => {
     const [cookies] = useCookies(['username']);
     const [location, setLocation] = useState({});
     const [serviceTags, setServiceTags] = useState([]);
-    const handleTagChange = (event) => {
+    const handleTagChange = event => {
         setServiceTags(event.target.value);
-    }
+    };
     const [serviceForm, onServiceFormChange] = useForm({
         name: '',
         description: '',
@@ -304,27 +304,33 @@ const AddService = ({ addedService }) => {
                     </TextField>
                 </div>
                 <InputLabel id="tag-select-label">Tags</InputLabel>
-                <Select 
+                <Select
                     className={classes.tagSelect}
                     labelId="tag-select-label"
                     id="tagSelect"
                     multiple
                     value={serviceTags}
                     onChange={handleTagChange}
-                    input={<Input id="select-multiple-tags"/>}
+                    input={<Input id="select-multiple-tags" />}
                     MenuProps={{
                         getContentAnchorEl: () => null,
                     }}
-                    renderValue={(selected) => (
+                    renderValue={selected => (
                         <div className={classes.chips}>
-                            {selected.map((value) => (
-                              <Chip key={value} label={value} className={classes.chip}/>  
+                            {selected.map(value => (
+                                <Chip
+                                    key={value}
+                                    label={value}
+                                    className={classes.chip}
+                                />
                             ))}
                         </div>
-                    )}
-                >
-                    {tagNames.map((name) => (
-                        <MenuItem key={name} value={name} style={getStyles(name, serviceTags, theme)}>
+                    )}>
+                    {tagNames.map(name => (
+                        <MenuItem
+                            key={name}
+                            value={name}
+                            style={getStyles(name, serviceTags, theme)}>
                             {name}
                         </MenuItem>
                     ))}
