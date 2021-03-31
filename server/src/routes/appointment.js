@@ -152,8 +152,7 @@ router.post('/:buyer', (req, res) => {
                     .json({ error: 'service does not exist for appointment' });
             }
         })
-        .catch(err => {
-            console.log(err);
+        .catch(() => {
             return res
                 .status(404)
                 .json({ error: 'service does not exist for appointment' });

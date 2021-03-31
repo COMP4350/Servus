@@ -33,105 +33,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ServiceWindow = props => {
+    // STATES
     const [date, setDate] = useState();
     const [timeState, setTime] = useState({
         time: '',
     });
     const [timepicker, setTimepicker] = useState();
-
+    const classes = useStyles();
+    const [valid, setValid] = useState(false);
     const [errors, setErrors] = useState({});
+
     const [cookies] = useCookies();
     const history = useHistory();
 
-    const shouldDisableDay = date => {
-        for (let avail in props.service.availability) {
-            if (props.service.availability[avail].weekday == date.day())
-                return false;
-        }
-        return true;
-    };
-    const validate = () => {
-        let errors = {};
-        if (!date || !timeState.time) {
-            errors.time = 'Date & Time are required';
-        }
-        setErrors(errors);
-        setValid(Object.getOwnPropertyNames(errors).length == 0);
-    };
-
-    const classes = useStyles();
-    const [valid, setValid] = useState(false);
-    const bookAppointment = () => {
-        if (valid) {
-            let extracted_date = date.format('YYYY-MM-DD');
-            let extracted_time = moment(timeState.time, 'HH:mm').format(
-                'HH:mm:ss'
-            );
-
-            let booking_date = moment(
-                `${extracted_date} ${extracted_time}`,
-                'YYYY-MM-DD HH:mm:ss'
-            ).toDate();
-            axios
-                .post(
-                    `/appointment/${cookies.username}`,
-                    {
-                        service_id: props.service._id,
-                        provider: props.service.provider,
-                        booked_time: booking_date,
-                    },
-                    {
-                        withCredentials: true,
-                    }
-                )
-                .then(res => {
-                    if (res.data.errors) {
-                        if (res.data.timeslot) {
-                            if (res.data.timeslot.availability_start) {
-                                alert(
-                                    `Please book within timeslot ${res.data.timeslot.availability_start} to ${res.data.timeslot.availability_end}`
-                                );
-                            } else {
-                                alert('Service not available on this day');
-                            }
-                        } else if (res.data.nocons) {
-                            alert(
-                                `Conflict with another appointment from time ${moment(
-                                    res.data.nocons.conflict_start
-                                )
-                                    .local()
-                                    .format('HH:mm')} to ${moment(
-                                    res.data.nocons.conflict_end
-                                )
-                                    .local()
-                                    .format('HH:mm')}`
-                            );
-                        } else {
-                            alert(`Error occured when trying to book`);
-                        }
-                    } else {
-                        alert(
-                            `Successfully booked Service with ${props.service.provider}`
-                        );
-                    }
-                })
-                .catch(err => {
-                    throw err;
-                });
-            setValid(false);
-        }
-    };
-
-    useEffect(() => {
-        if (cookies.username) bookAppointment();
-        else if (history) history.push('/login');
-        if (date) displayTimePicker();
-    }, [valid, date, timeState]);
-
-    const handleChangeTime = x => {
-        console.log(x);
-        setTime({ time: x.target.value });
-    };
     const displayTimePicker = async () => {
         const removeItemOnce = (arr, value) => {
             let index = arr.indexOf(value);
@@ -228,6 +142,69 @@ const ServiceWindow = props => {
                 </Select>
             </FormControl>
         );
+    };
+
+    const bookAppointment = () => {
+        if (valid) {
+            let extracted_date = date.format('YYYY-MM-DD');
+            let extracted_time = moment(timeState.time, 'HH:mm').format(
+                'HH:mm:ss'
+            );
+
+            let booking_date = moment(
+                `${extracted_date} ${extracted_time}`,
+                'YYYY-MM-DD HH:mm:ss'
+            ).toDate();
+            axios
+                .post(
+                    `/appointment/${cookies.username}`,
+                    {
+                        service_id: props.service._id,
+                        provider: props.service.provider,
+                        booked_time: booking_date,
+                    },
+                    {
+                        withCredentials: true,
+                    }
+                )
+                .then(res => {
+                    if (!res.data.errors) {
+                        alert(
+                            `Successfully booked Service with ${props.service.provider}`
+                        );
+                    }
+                })
+                .catch(err => {
+                    throw err;
+                });
+            setValid(false);
+        }
+    };
+
+    useEffect(() => {
+        if (cookies.username) bookAppointment();
+        else if (history) history.push('/login');
+        if (date) displayTimePicker();
+    }, [valid, date, timeState]);
+
+    const handleChangeTime = x => {
+        setTime({ time: x.target.value });
+    };
+
+    const shouldDisableDay = date => {
+        for (let avail in props.service.availability) {
+            if (props.service.availability[avail].weekday == date.day())
+                return false;
+        }
+        return true;
+    };
+    const validate = () => {
+        let errors = {};
+        if (!date || !timeState.time) {
+            errors.time = 'Date & Time are required';
+        }
+        setErrors(errors);
+        setValid(Object.getOwnPropertyNames(errors).length == 0);
     };
 
     return (
