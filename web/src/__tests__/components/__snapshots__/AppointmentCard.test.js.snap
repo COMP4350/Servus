@@ -18,7 +18,9 @@ exports[`AppointmentCard renders correctly 1`] = `
       />
       <p
         class="MuiTypography-root makeStyles-date-1 MuiTypography-body1"
-      />
+      >
+        Invalid Date
+      </p>
       <p
         class="MuiTypography-root MuiTypography-body2"
       />
