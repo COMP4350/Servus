@@ -54,8 +54,9 @@ const useStyles = makeStyles(() => ({
     },
     formControl: {
         margin: '10px',
-        minWidth: '120px',
-        maxWidth: '300px',
+    },
+    tagSelect: {
+        width: '100%',
     },
     chips: {
         display: 'flex',
@@ -303,13 +304,17 @@ const AddService = ({ addedService }) => {
                     </TextField>
                 </div>
                 <InputLabel id="tag-select-label">Tags</InputLabel>
-                <Select
+                <Select 
+                    className={classes.tagSelect}
                     labelId="tag-select-label"
                     id="tagSelect"
                     multiple
                     value={serviceTags}
                     onChange={handleTagChange}
                     input={<Input id="select-multiple-tags"/>}
+                    MenuProps={{
+                        getContentAnchorEl: () => null,
+                    }}
                     renderValue={(selected) => (
                         <div className={classes.chips}>
                             {selected.map((value) => (
