@@ -1,11 +1,15 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Button, TextField, MenuItem } from '@material-ui/core';
 import useForm from '../hooks/useForm';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { Autocomplete, useJsApiLoader } from '@react-google-maps/api';
 import { mapLibraries, autocompleteOptions } from './map/mapUtils';
+import Select from '@material-ui/core/Select';
+import Chip from '@material-ui/core/Chip';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
 
 const useStyles = makeStyles(() => ({
     textField: {
@@ -48,12 +52,48 @@ const useStyles = makeStyles(() => ({
         alignItems: 'center',
         marginTop: '50px',
     },
+    formControl: {
+        margin: '10px',
+        minWidth: '120px',
+        maxWidth: '300px',
+    },
+    chips: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    chip: {
+        margin: 2,
+    },
 }));
+
+const tagNames = [
+    'Art',
+    'Fashion',
+    'Commission',
+    'Food',
+    'Hair',
+    'Performance',
+    'Yard',
+];
+
+const getStyles = (name, serviceTags, theme) => {
+    return {
+        fontWeight:
+            serviceTags.indexOf(theme) === - 1
+                ? theme.typography.fontWeightRegular
+                : theme.typography.fontWeightMedium,
+    };
+}
 
 const AddService = ({ addedService }) => {
     const classes = useStyles();
+    const theme = useTheme();
     const [cookies] = useCookies(['username']);
     const [location, setLocation] = useState({});
+    const [serviceTags, setServiceTags] = useState([]);
+    const handleTagChange = (event) => {
+        setServiceTags(event.target.value);
+    }
     const [serviceForm, onServiceFormChange] = useForm({
         name: '',
         description: '',
@@ -123,6 +163,7 @@ const AddService = ({ addedService }) => {
                             lng: location.lng,
                             address: location.address,
                         },
+                        tags: serviceTags,
                     },
                     {
                         withCredentials: true,
@@ -261,7 +302,28 @@ const AddService = ({ addedService }) => {
                         <MenuItem value={6}>Sunday</MenuItem>
                     </TextField>
                 </div>
-
+                <InputLabel id="tag-select-label">Tags</InputLabel>
+                <Select
+                    labelId="tag-select-label"
+                    id="tagSelect"
+                    multiple
+                    value={serviceTags}
+                    onChange={handleTagChange}
+                    input={<Input id="select-multiple-tags"/>}
+                    renderValue={(selected) => (
+                        <div className={classes.chips}>
+                            {selected.map((value) => (
+                              <Chip key={value} label={value} className={classes.chip}/>  
+                            ))}
+                        </div>
+                    )}
+                >
+                    {tagNames.map((name) => (
+                        <MenuItem key={name} value={name} style={getStyles(name, serviceTags, theme)}>
+                            {name}
+                        </MenuItem>
+                    ))}
+                </Select>
                 <Button
                     className={classes.button}
                     variant="contained"

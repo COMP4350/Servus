@@ -20,6 +20,7 @@ const serviceSchema = new Schema({
         lng: { type: Number, required: true },
         address: { type: String, required: true },
     },
+    tags: { type: [String], required: false },
 });
 
 const Service = mongoose.model('Service', serviceSchema);
