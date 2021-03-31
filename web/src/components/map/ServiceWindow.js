@@ -85,7 +85,7 @@ const ServiceWindow = props => {
     };
     useEffect(() => {
         if (cookies.username) bookAppointment();
-        else history.push('/login');
+        else if(history) history.push('/login');
     }, [valid, form]);
 
     return (

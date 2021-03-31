@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Paper from '@material-ui/core/Paper';
-import TableCell from '@material-ui/core/TableCell';
 import axios from 'axios';
+import TableCell from '@material-ui/core/TableCell';
 import { darken, fade, lighten } from '@material-ui/core/styles/colorManipulator';
 import Typography from '@material-ui/core/Typography';
 import { EditingState, ViewState } from '@devexpress/dx-react-scheduler';
@@ -21,40 +20,35 @@ import {
 import { withStyles } from '@material-ui/core/styles';
 
 
-const owners = [
-    {
-        text: 'zimbakor',
-        id: 1,
-        color: '#7E57C2',
-    }, {
-        text: 'arvind',
-        id: 2,
-        color: '#FF7043',
-    }, {
-        text: 'Andus odonus',
-        id: 3,
-        color: '#E91E63',
-    }, {
-        text: 'Taylor Riley',
-        id: 4,
-        color: '#E91E63',
-    }, {
-        text: 'Brad Farkus',
-        id: 5,
-        color: '#AB47BC',
-    }, {
-        text: 'Arthur Miller',
-        id: 6,
-        color: '#FFA726',
-    },
-];
+// const owners = [
+//     {
+//         text: 'zimbakor',
+//         id: 1,
+//         color: '#7E57C2',
+//     }, {
+//         text: 'arvind',
+//         id: 2,
+//         color: '#FF7043',
+//     }, {
+//         text: 'Andus odonus',
+//         id: 3,
+//         color: '#E91E63',
+//     }, {
+//         text: 'Taylor Riley',
+//         id: 4,
+//         color: '#E91E63',
+//     }, {
+//         text: 'Brad Farkus',
+//         id: 5,
+//         color: '#AB47BC',
+//     }, {
+//         text: 'Arthur Miller',
+//         id: 6,
+//         color: '#FFA726',
+//     },
+// ];
 
 
-const resources = [{
-    fieldName: 'ownerId',
-    title: 'Owners',
-    instances: owners,
-}];
 
 const getBorder = theme => (`1px solid ${theme.palette.type === 'light'
     ? lighten(fade(theme.palette.divider, 1), 0.88)
@@ -235,70 +229,70 @@ const FlexibleSpace = withStyles(styles, { name: 'ToolbarRoot' })(({ classes, ..
     </Toolbar.FlexibleSpace>
 ));
 
-
-// const appointments = [
-//     {
-//       id: 0,
-//       title: 'Big Cuts from Big Risto',
-//       startDate: new Date(2021, 2, 25, 9, 30),
-//       endDate: new Date(2021, 2, 25, 11, 30),
-//       ownerId: 1,
-//     },
-//     {
-//         id: 1,
-//         title: 'Make up by the best maan!',
-//         startDate: new Date(2021, 2, 28, 9, 30),
-//         endDate: new Date(2021, 2, 28, 11, 30),
-//         ownerId: 2,
-//     },
-//     {
-//         id: 1,
-//         title: 'MUBY ARVY',
-//         startDate: new Date(2021, 2, 28, 9, 30),
-//         endDate: new Date(2021, 2, 28, 11, 30),
-//         ownerId: 2,
-//     },
-//     {
-//         id: 2,
-//         title: 'Make up by the best maan!',
-//         startDate: new Date(2021, 2, 3, 9, 30),
-//         endDate: new Date(2021, 2, 3, 11, 30),
-//         ownerId: 2,
+// const getRandomColor = () => {
+//     var letters = '0123456789ABCDEF';
+//     var color = '#';
+//     for (var i = 0; i < 6; i++) {
+//       color += letters[Math.floor(Math.random() * 16)];
 //     }
-// ] 
+//     return color;
+// }
+
 
 const Calendar = ({ appointments }) => {
     const [data, setData] = useState([]);
+    const [owners, setOwners] = useState([]);
+    // const colors = ['#7E57C2', '#FF7043', '#E91E63', '#E91E63', '#AB47BC', '#FFA726'];
     const newDate = new Date();
-    const passData = () => {
-        const temp = [];
-        appointments?.forEach(apt => {
+
+    const passInfo = () => {
+        appointments?.forEach( (apt, i) => {
             axios.get(`/services/${apt.service_id}`)
                 .then(response => {
                     const service = response.data.result;
-                    // const endtime = apt.booked_time;
-                    // endtime.setTime(endtime.getTime() + service.duration * 60 * 1000);
-                    const tempObj = {
-                        id: 0,
-                        title: service.name,
-                        startDate: new Date(2021, 2, 3, 9, 30),
-                        endDate: new Date(2021, 2, 3, 11, 30),
-                        ownerId: 1,
+                    // let color = '';
+                    // const check = owners.find( ({text}) => text === service.provider);
+                    // console.log(owners.find( ({text}) => text === service.provider));
+                    // if (check)
+                    //     color = check.color;
+                    // else
+                    //     color = getRandomColor();
+
+                    const newOwner = { 
+                            text: service.provider,
+                            id: i,
+                            color: '#7E57C2',
                     }
-                    temp.push(tempObj);
-                    if(temp.length == appointments.length)
-                        return temp;
+                    setOwners(owners => [... owners , newOwner]);
+
+                    const startDate = new Date(apt.booked_time);
+                    const endDate = new Date(startDate);
+                    endDate.setTime(endDate.getTime() + service.duration * 60 * 1000);
+                    const tempObj = {
+                        id: i,
+                        title: service.name,
+                        startDate: startDate,
+                        endDate: endDate,
+                        ownerId: i,
+                    }
+                    setData(data => [... data , tempObj]);
                 }
                 );
         });
-        console.log(`this is temp aftr: ${temp}`);
     }
-    useEffect(() => {
-        setData(passData());
+    console.log(`owners ${owners}`);
+
+    const resources = [{
+        fieldName: 'ownerId',
+        title: 'Owners',
+        instances: owners,
+    }];
+
+    useEffect( () => {
+        passInfo();
     }, [])
-    console.log(`this is data: ${data}`);
     return (
-        <Paper>
+        <div>
             <Scheduler
                 data={data}
             >
@@ -334,7 +328,7 @@ const Calendar = ({ appointments }) => {
                 <AppointmentForm />
                 <DragDropProvider />
             </Scheduler>
-        </Paper>
+        </div>
     );
 }
 

@@ -22,7 +22,8 @@ const Appointment = () => {
     }, []);
     return (
         <div>
-            <Calendar appointments={appointments}></Calendar>
+            {appointments ? (<Calendar appointments={appointments}></Calendar>)  
+            : null}
             <div>
             {appointments
                 ? appointments.map((apt, i) => {
