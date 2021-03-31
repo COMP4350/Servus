@@ -27,6 +27,7 @@ const defaultServiceOptions = {
         { weekday: 5, start_time: '0800', end_time: '1800' },
         { weekday: 6, start_time: '0800', end_time: '1800' },
     ],
+    tags: [],
     location: { lat: 42, lng: 43, address: '123' },
 };
 const defaultServiceOptions2 = {
@@ -35,6 +36,7 @@ const defaultServiceOptions2 = {
     description: '123',
     cost: '123',
     duration: '0100',
+    tags: [],
     availability: [
         { weekday: 0, start_time: '0800', end_time: '1800' },
         { weekday: 1, start_time: '0800', end_time: '1800' },

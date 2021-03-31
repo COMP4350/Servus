@@ -46,7 +46,7 @@ router.get('/:service_id', (req, res) => {
 
 /* Retrieve services with specified tags.
  */
-router.post('/', (req, res) => {
+router.post('/filter', (req, res) => {
     const filter = {};
     if (req.body.tags) {
         filter.tags = { $in: req.body.tags };
