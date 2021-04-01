@@ -1,33 +1,25 @@
 import React from 'react';
-import { Card, makeStyles } from '@material-ui/core';
+import { Card, makeStyles, Typography } from '@material-ui/core';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     cardView: {
-        padding: theme.spacing(2),
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'transparent',
     },
     title: {
-        fontSize: 14,
-    },
-    details: {
-        margin: '0 2px',
+        fontSize: 18,
+        'line-height': '50px',
     },
 }));
 
 const ServiceCard = props => {
     const classes = useStyles();
     return (
-        <Card
-            style={props.bg}
-            variant="outlined"
-            className={classes.cardView}
-            key={props.index}>
-            <h2 className={classes.title}>{props.service.name}</h2>
-            <div className={classes.details}>
-                <p>Provider: {props.service.provider}</p>
-                <p>Info: {props.service.description}</p>
-                <p>$: {props.service.cost}</p>
-                <p>Time: {props.service.duration}</p>
-            </div>
+        <Card variant="outlined" className={classes.cardView} key={props.index}>
+            <Typography variant="h2" className={classes.title} align="left">
+                {props.service.name}
+            </Typography>
         </Card>
     );
 };
