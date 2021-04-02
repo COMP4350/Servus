@@ -45,6 +45,11 @@ const useStyles = makeStyles(() => ({
         height: '75px',
         width: '75px',
     },
+    bio: {
+        height: '100px',
+        width: '50%',
+        marginBottom: '20px',
+    },
 }));
 
 const Account = props => {
@@ -62,6 +67,7 @@ const Account = props => {
         confirmPassword: '',
         firstName: '',
         lastName: '',
+        bio: '',
     });
     const getUserInfo = () => {
         axios
@@ -71,6 +77,7 @@ const Account = props => {
                     username: res.data.result.username,
                     firstName: res.data.result.firstName,
                     lastName: res.data.result.lastName,
+                    bio: res.data.result.bio,
                 });
             })
             .catch(err => {
@@ -87,6 +94,9 @@ const Account = props => {
         }
         if (!form.username) {
             errors.username = 'username is required';
+        }
+        if (form.bio.length > 250) {
+            errors.bio = 'bio must be under 250 characters';
         }
         setErrors(errors);
         setFormValid(Object.getOwnPropertyNames(errors).length == 0);
@@ -136,6 +146,7 @@ const Account = props => {
                         password: form.password,
                         firstName: form.firstName,
                         lastName: form.lastName,
+                        bio: form.bio,
                     },
                     {
                         withCredentials: true,
@@ -180,6 +191,7 @@ const Account = props => {
                 value={form.firstName}
                 onChange={onFormChange}
                 error={errors.firstName}
+                helperText={errors.firstName}
             />
             <TextField
                 className={classes.textField}
@@ -189,6 +201,7 @@ const Account = props => {
                 value={form.lastName}
                 onChange={onFormChange}
                 error={errors.lastName}
+                helperText={errors.lastName}
             />
             <TextField
                 className={classes.textField}
@@ -198,6 +211,19 @@ const Account = props => {
                 value={form.username}
                 onChange={onFormChange}
                 error={errors.username}
+                helperText={errors.username}
+            />
+            <TextField
+                className={classes.bio}
+                id="outlined-basic"
+                label="Bio"
+                name="bio"
+                value={form.bio}
+                onChange={onFormChange}
+                multiline
+                rowsMax={4}
+                error={errors.bio}
+                helperText={errors.bio}
             />
             {updatingPassword ? (
                 <div className={classes.passwordContainer}>
@@ -211,6 +237,7 @@ const Account = props => {
                         value={form.password}
                         onChange={onFormChange}
                         error={passwordErrors.password}
+                        helperText={passwordErrors.password}
                     />
                     <TextField
                         className={classes.passwordTextField}
@@ -221,6 +248,7 @@ const Account = props => {
                         value={form.confirmPassword}
                         onChange={onFormChange}
                         error={passwordErrors.confirmPassword}
+                        helperText={passwordErrors.confirmPassword}
                     />
                     <Button
                         className={classes.button}

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { AccountCircle } from '@material-ui/icons/';
 import { Button, Card, Typography } from '@material-ui/core';
+import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import AddService from '../components/AddService';
 
@@ -35,6 +36,10 @@ const useStyles = makeStyles(() => ({
     },
     userDesc: {
         width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        textAlign: 'left',
+        flexDirection: 'column',
     },
     serviceList: {
         display: 'flex',
@@ -44,12 +49,24 @@ const useStyles = makeStyles(() => ({
     button: {
         marginTop: 10,
     },
+    bio: {
+        width: '100%',
+        'text-align': 'center',
+        padding: '0',
+        margin: '0',
+    },
+    bioContainer: {
+        backgroundColor: 'white',
+        borderRadius: '4px',
+        width: '95%',
+    },
 }));
 
 const ServiceList = props => {
     const classes = useStyles();
     const [services, setServiceList] = useState([]);
     const [addingService, setAddingService] = useState(false);
+    const [cookies] = useCookies(['username']);
 
     const getServices = async () => {
         const response = await axios.get(`/user/${props.username}/services`);
@@ -88,16 +105,18 @@ const ServiceList = props => {
                       );
                   })
                 : null}
-            {addingService ? (
-                <AddService addedService={addedService} />
-            ) : (
-                <Button
-                    className={classes.button}
-                    variant="contained"
-                    onClick={() => setAddingService(true)}>
-                    Add Service
-                </Button>
-            )}
+            {cookies.username && cookies.username === props.username ? (
+                addingService ? (
+                    <AddService addedService={addedService} />
+                ) : (
+                    <Button
+                        className={classes.button}
+                        variant="contained"
+                        onClick={() => setAddingService(true)}>
+                        Add Service
+                    </Button>
+                )
+            ) : null}
         </div>
     );
 };
@@ -113,6 +132,12 @@ const UserInfo = ({ user }) => {
                 <Typography
                     className={classes.username}
                     color="textPrimary">{`@${user.username}`}</Typography>
+                <div className={classes.bioContainer}>
+                    <Typography className={classes.bio} color="textPrimary">
+                        {user.bio}
+                    </Typography>
+                </div>
+
                 <Typography color="textSecondary">{`Service List:`}</Typography>
                 <ServiceList username={user.username} />
             </div>
