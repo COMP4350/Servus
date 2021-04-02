@@ -95,6 +95,10 @@ const AddService = ({ addedService }) => {
     const handleTagChange = event => {
         setServiceTags(event.target.value);
     };
+    const handleTagDelete = (chipToDelete) => () => {
+        console.log(chipToDelete);
+        setServiceTags((chips) => chips.filter((chip) => chip !== chipToDelete));
+    }
     const [serviceForm, onServiceFormChange] = useForm({
         name: '',
         description: '',
@@ -322,6 +326,8 @@ const AddService = ({ addedService }) => {
                                     key={value}
                                     label={value}
                                     className={classes.chip}
+                                    onDelete={handleTagDelete(value)}
+                                    onMouseDown={(event) => { event.stopPropagation(); }}
                                 />
                             ))}
                         </div>
