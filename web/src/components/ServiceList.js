@@ -15,16 +15,24 @@ import { Menu, Search } from '@material-ui/icons/';
 import ServiceCard from './ServiceCard';
 
 const useStyles = makeStyles(() => ({
-    root: {
-        width: '30%',
+    rootPanel: {
+        minWidth: '384px',
+        width: '384px',
         height: '100%',
         'background-color': '#151515',
+        'overflow-y': 'hidden',
+    },
+    rootList: {
+        padding: '8px',
+        width: 'auto',
+        height: 'auto',
         overflow: 'scroll',
+        'overflow-x': 'hidden',
     },
     searchBar: {
-        margin: 'auto auto',
+        margin: '4%',
         padding: '0',
-        width: '85%',
+        width: '92%',
         height: '40px',
         'background-color': '#272727',
         'border-radius': '12px',
@@ -34,6 +42,7 @@ const useStyles = makeStyles(() => ({
         color: 'white',
     },
     input: {
+        width: '75%',
         flex: 1,
         color: 'white',
     },
@@ -94,7 +103,7 @@ const ServiceList = () => {
     };
 
     return (
-        <div className={classes.root}>
+        <div className={classes.rootPanel}>
             <div className={classes.searchBar}>
                 <IconButton className={classes.iconButton} aria-label="menu">
                     <Menu />
@@ -108,27 +117,30 @@ const ServiceList = () => {
                 </IconButton>
                 <Divider className={classes.divider} orientation="vertical" />
             </div>
-            <List>
-                {services
-                    ? services.map((service, index) => {
-                          return (
-                              <ListItem
-                                  key={index}
-                                  classes={style}
-                                  onClick={e => handleListItemClick(e, index)}
-                                  selected={selectedIndex == index}
-                                  divider={true}>
-                                  <p className={classes.bullet}>&bull;</p>
-                                  <ServiceCard
-                                      service={service}
-                                      index={index}
-                                      className={classes.serviceCard}
-                                  />
-                              </ListItem>
-                          );
-                      })
-                    : null}
-            </List>
+            <div className={classes.rootList}>
+                <List>
+                    {services
+                        ? services.map((service, index) => {
+                            return (
+                                <ListItem
+                                    key={index}
+                                    classes={style}
+                                    onClick={e => handleListItemClick(e, index)}
+                                    selected={selectedIndex == index}
+                                    divider={true}>
+                                    <p className={classes.bullet}>&bull;</p>
+                                    <ServiceCard
+                                        service={service}
+                                        index={index}
+                                        className={classes.serviceCard}
+                                        serviceTags={service.serviceTags}
+                                    />
+                                </ListItem>
+                            );
+                        })
+                        : null}
+                </List>
+            </div>
         </div>
     );
 };
