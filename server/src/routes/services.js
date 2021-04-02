@@ -48,9 +48,8 @@ router.get('/:service_id', (req, res) => {
  */
 router.post('/filter', (req, res) => {
     const filter = {};
-    if (req.body.tags) {
+    if (req.body.tags && req.body.tags.length > 0) {
         filter.tags = { $in: req.body.tags };
-        console.log(filter);
     }
     Service.find(filter).then(services => {
         if (services) {

@@ -16,8 +16,9 @@ const useStyles = makeStyles(() => ({
 
 const ServiceCard = props => {
     const classes = useStyles();
-    const serviceTags = props.service.serviceTags ? props.service.serviceTags : []
-    console.log(props.service.tags)
+    const serviceTags = props.service.serviceTags
+        ? props.service.serviceTags
+        : [];
     return (
         <Card variant="outlined" className={classes.cardView} key={props.index}>
             <Typography variant="h2" className={classes.title} align="left">
@@ -25,11 +26,7 @@ const ServiceCard = props => {
             </Typography>
             <div className={classes.chips}>
                 {serviceTags.map(tag => (
-                    <Chip
-                        key={tag}
-                        label={tag}
-                        className={classes.chip}
-                    />
+                    <Chip key={tag} label={tag} className={classes.chip} />
                 ))}
             </div>
         </Card>

@@ -10,6 +10,7 @@ import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
+import { tagNames } from './FilterList';
 
 const useStyles = makeStyles(() => ({
     textField: {
@@ -67,16 +68,6 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const tagNames = [
-    'Art',
-    'Fashion',
-    'Commission',
-    'Food',
-    'Hair',
-    'Performance',
-    'Yard',
-];
-
 const getStyles = (name, serviceTags, theme) => {
     return {
         fontWeight:
@@ -95,10 +86,10 @@ const AddService = ({ addedService }) => {
     const handleTagChange = event => {
         setServiceTags(event.target.value);
     };
-    const handleTagDelete = (chipToDelete) => () => {
+    const handleTagDelete = chipToDelete => () => {
         console.log(chipToDelete);
-        setServiceTags((chips) => chips.filter((chip) => chip !== chipToDelete));
-    }
+        setServiceTags(chips => chips.filter(chip => chip !== chipToDelete));
+    };
     const [serviceForm, onServiceFormChange] = useForm({
         name: '',
         description: '',
@@ -147,8 +138,6 @@ const AddService = ({ addedService }) => {
     };
     const addService = () => {
         if (serviceFormValid) {
-            console.log(serviceForm);
-            console.log(location);
             axios
                 .post(
                     '/services',
@@ -179,8 +168,7 @@ const AddService = ({ addedService }) => {
                     setServiceFormValid(false);
                     addedService();
                 })
-                .catch(err => {
-                    console.log(err);
+                .catch(() => {
                     setServiceFormValid(false);
                 });
 
@@ -194,7 +182,6 @@ const AddService = ({ addedService }) => {
         autocomplete.current = autocompleteLoaded;
     }, []);
     const onSearchAddressChanged = () => {
-        console.log(autocomplete.current?.getPlace().geometry?.location.lat());
         setLocation({
             lat: autocomplete.current?.getPlace().geometry?.location.lat(),
             lng: autocomplete.current?.getPlace().geometry?.location.lng(),
@@ -327,7 +314,9 @@ const AddService = ({ addedService }) => {
                                     label={value}
                                     className={classes.chip}
                                     onDelete={handleTagDelete(value)}
-                                    onMouseDown={(event) => { event.stopPropagation(); }}
+                                    onMouseDown={event => {
+                                        event.stopPropagation();
+                                    }}
                                 />
                             ))}
                         </div>

@@ -7,8 +7,11 @@ import {
     IconButton,
     List,
     ListItem,
+    Paper,
+    Chip,
 } from '@material-ui/core';
-import { Menu, Search } from '@material-ui/icons/';
+import { FilterList, Search } from '@material-ui/icons/';
+import { tagNames } from './FilterList';
 
 // import useForm from '../hooks/useForm';
 
@@ -20,7 +23,7 @@ const useStyles = makeStyles(() => ({
         width: '384px',
         height: '100%',
         'background-color': '#151515',
-        'overflow-y': 'hidden',
+        'overflow-y': 'scroll',
     },
     rootList: {
         padding: '8px',
@@ -28,6 +31,12 @@ const useStyles = makeStyles(() => ({
         height: 'auto',
         overflow: 'scroll',
         'overflow-x': 'hidden',
+    },
+    list: {},
+    filters: {
+        'background-color': '#151515',
+        margin: 'auto auto',
+        width: '100%',
     },
     searchBar: {
         margin: '4%',
@@ -40,6 +49,9 @@ const useStyles = makeStyles(() => ({
     searchIcon: {
         cursor: 'pointer',
         color: 'white',
+    },
+    tag: {
+        margin: '2px',
     },
     input: {
         width: '75%',
@@ -83,30 +95,81 @@ const listItemClass = makeStyles(() => ({
 const ServiceList = () => {
     const [services, setServices] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(1);
+    const [serviceTags, setServiceTags] = useState(false);
+    const [activeFilters] = useState([]);
+    const [change, setChange] = useState(false);
+
     // const [searchForm, onSearchFormChange] = useForm({ search: '' });
     const classes = useStyles();
     const style = listItemClass();
     const getServices = async () => {
         try {
-            const response = await axios.get(`/services/`);
+            const response = await axios.post(`/services/filter`, {
+                tags: activeFilters,
+            });
             setServices(response.data.result);
         } catch {
             err => alert(err);
         }
     };
-    useEffect(() => {
-        getServices();
-    }, []);
 
     const handleListItemClick = (e, i) => {
         setSelectedIndex(i);
     };
 
+    const openFilterList = () => {
+        setServiceTags(!serviceTags);
+    };
+
+    const loadChips = () => {
+        return (
+            <Paper className={classes.filters}>
+                {serviceTags
+                    ? tagNames.map((tag, i) => {
+                          return (
+                              <Chip
+                                  size="small"
+                                  key={i}
+                                  label={tag}
+                                  onClick={() => addFilter(tag)}
+                                  className={classes.tag}
+                                  color={
+                                      activeFilters.includes(tag)
+                                          ? 'secondary'
+                                          : 'primary'
+                                  }
+                              />
+                          );
+                      })
+                    : null}
+            </Paper>
+        );
+    };
+
+    const addFilter = tag => {
+        if (activeFilters.includes(tag)) {
+            const index = activeFilters.indexOf(tag);
+            if (index > -1) activeFilters.splice(index, 1);
+        } else {
+            activeFilters.push(tag);
+        }
+        console.log(activeFilters);
+        setChange(!change);
+    };
+
+    useEffect(() => {
+        getServices();
+        loadChips();
+    }, [serviceTags, change]);
+
     return (
-        <div className={classes.rootPanel}>
-            <div className={classes.searchBar}>
-                <IconButton className={classes.iconButton} aria-label="menu">
-                    <Menu />
+        <Paper className={classes.rootPanel}>
+            <Paper className={classes.searchBar}>
+                <IconButton
+                    className={classes.iconButton}
+                    onClick={openFilterList}
+                    aria-label="menu">
+                    <FilterList />
                 </IconButton>
                 <InputBase className={classes.input} placeholder="Search" />
                 <IconButton
@@ -116,32 +179,31 @@ const ServiceList = () => {
                     <Search />
                 </IconButton>
                 <Divider className={classes.divider} orientation="vertical" />
-            </div>
-            <div className={classes.rootList}>
-                <List>
-                    {services
-                        ? services.map((service, index) => {
-                            return (
-                                <ListItem
-                                    key={index}
-                                    classes={style}
-                                    onClick={e => handleListItemClick(e, index)}
-                                    selected={selectedIndex == index}
-                                    divider={true}>
-                                    <p className={classes.bullet}>&bull;</p>
-                                    <ServiceCard
-                                        service={service}
-                                        index={index}
-                                        className={classes.serviceCard}
-                                        serviceTags={service.serviceTags}
-                                    />
-                                </ListItem>
-                            );
-                        })
-                        : null}
-                </List>
-            </div>
-        </div>
+            </Paper>
+            {loadChips()}
+            <List className={classes.rootList}>
+                {services
+                    ? services.map((service, index) => {
+                          return (
+                              <ListItem
+                                  key={index}
+                                  classes={style}
+                                  onClick={e => handleListItemClick(e, index)}
+                                  selected={selectedIndex == index}
+                                  divider={true}>
+                                  <p className={classes.bullet}>&bull;</p>
+                                  <ServiceCard
+                                      service={service}
+                                      index={index}
+                                      className={classes.serviceCard}
+                                      serviceTags={service.serviceTags}
+                                  />
+                              </ListItem>
+                          );
+                      })
+                    : null}
+            </List>
+        </Paper>
     );
 };
 
