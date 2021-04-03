@@ -139,7 +139,11 @@ const ServiceList = () => {
                                   label={tag}
                                   onClick={() => addFilter(tag)}
                                   className={classes.tagChip}
-                                  color={activeFilters.includes(tag) ? 'primary' : 'default'}
+                                  color={
+                                      activeFilters.includes(tag)
+                                          ? 'primary'
+                                          : 'default'
+                                  }
                               />
                           );
                       })
