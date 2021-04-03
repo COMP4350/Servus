@@ -18,14 +18,12 @@ const useStyles = makeStyles(() => ({
     },
     chip: {
         margin: 2,
-    }
+    },
 }));
 
 const ServiceCard = props => {
     const classes = useStyles();
-    const serviceTags = props.service.tags
-        ? props.service.tags
-        : [];
+    const serviceTags = props.service.tags ? props.service.tags : [];
     return (
         <Card variant="outlined" className={classes.cardView} key={props.index}>
             <Typography variant="body1" className={classes.title} align="left">
@@ -39,10 +37,10 @@ const ServiceCard = props => {
                             size="small"
                             label={tagData}
                             className={classes.chip}
-                            color={props.selected ? "secondary" : "default"}
+                            color={props.selected ? 'secondary' : 'default'}
                             disabled={!props.selected}
                         />
-                    )
+                    );
                 })}
             </div>
         </Card>

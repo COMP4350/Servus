@@ -132,7 +132,6 @@ const ServiceList = () => {
             <Paper className={classes.filters}>
                 {serviceTags
                     ? tagNames.map((tag, i) => {
-                        const included = activeFilters.includes(tag);
                           return (
                               <Chip
                                   size="small"
@@ -140,7 +139,7 @@ const ServiceList = () => {
                                   label={tag}
                                   onClick={() => addFilter(tag)}
                                   className={classes.tagChip}
-                                  color={included ? 'primary' : 'default'}
+                                  color={activeFilters.includes(tag) ? 'primary' : 'default'}
                               />
                           );
                       })
@@ -175,7 +174,10 @@ const ServiceList = () => {
                     aria-label="menu">
                     <FilterList />
                 </IconButton>
-                <InputBase className={classes.searchInput} placeholder="Search" />
+                <InputBase
+                    className={classes.searchInput}
+                    placeholder="Search"
+                />
                 <IconButton
                     type="submit"
                     className={classes.searchIcon}
