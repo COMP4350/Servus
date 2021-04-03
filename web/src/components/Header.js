@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -83,7 +84,7 @@ const Header = props => {
                     <div
                         className={classes.title}
                         onClick={() => handleButtonClick('/')}>
-                        <h1>Servus</h1>
+                        <Typography variant="h4">Servus</Typography>
                     </div>
                     {isMobile ? (
                         <>
@@ -130,12 +131,9 @@ const Header = props => {
                                 onClick={() =>
                                     handleButtonClick('/appointment')
                                 }>
-                                Appointments
-                            </Button>
-                            <Button
-                                className={classes.menuButton}
-                                onClick={() => handleButtonClick('/services')}>
-                                Services
+                                <Typography variant="h4">
+                                    Appointments
+                                </Typography>
                             </Button>
                             <Button
                                 className={classes.menuButton}
@@ -147,7 +145,9 @@ const Header = props => {
                                               )
                                         : () => handleButtonClick('/login')
                                 }>
-                                {props.username ? props.username : 'Login'}
+                                <Typography variant="h4">
+                                    {props.username ? props.username : 'Login'}
+                                </Typography>
                             </Button>
                         </div>
                     )}

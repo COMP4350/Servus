@@ -17,12 +17,14 @@ import { tagNames } from './FilterList';
 
 import ServiceCard from './ServiceCard';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
     rootPanel: {
-        minWidth: '384px',
-        width: '384px',
-        height: '100%',
-        'background-color': '#151515',
+        [theme.breakpoints.up('lg')]: {
+            minWidth: '384px',
+            width: '384px',
+            height: '100%',
+        },
+        'background-color': theme.background.dark,
         'overflow-y': 'scroll',
     },
     rootList: {
@@ -34,7 +36,7 @@ const useStyles = makeStyles(() => ({
     },
     list: {},
     filters: {
-        'background-color': '#151515',
+        'background-color': theme.background.dark,
         margin: 'auto auto',
         width: '100%',
     },
@@ -43,7 +45,7 @@ const useStyles = makeStyles(() => ({
         padding: '0',
         width: '92%',
         height: '40px',
-        'background-color': '#272727',
+        'background-color': theme.background.main,
         'border-radius': '12px',
     },
     searchIcon: {
@@ -74,7 +76,7 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const listItemClass = makeStyles(() => ({
+const listItemClass = makeStyles(theme => ({
     root: {
         '& h2': {
             color: '#545454',
@@ -88,7 +90,7 @@ const listItemClass = makeStyles(() => ({
         },
     },
     divider: {
-        'border-color': '#272727',
+        'border-color': theme.background.main,
     },
 }));
 
