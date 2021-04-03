@@ -19,19 +19,22 @@ import ServiceCard from './ServiceCard';
 
 const useStyles = makeStyles(theme => ({
     rootPanel: {
-        [theme.breakpoints.up('lg')]: {
+        [theme.breakpoints.up('xs')]: {
             minWidth: '384px',
             width: '384px',
             height: '100%',
         },
         'background-color': theme.background.dark,
         'overflow-y': 'scroll',
+        [theme.breakpoints.down('xs')]: {
+            width: '100%',
+            height: '100%',
+        },
     },
     rootList: {
         padding: '8px',
         width: 'auto',
         height: 'auto',
-        overflow: 'scroll',
         'overflow-x': 'hidden',
     },
     list: {},
@@ -45,12 +48,16 @@ const useStyles = makeStyles(theme => ({
         padding: '0',
         width: '92%',
         height: '40px',
+        'flex-wrap': 'nowrap',
         'background-color': theme.background.main,
         'border-radius': '12px',
     },
     searchIcon: {
         cursor: 'pointer',
         color: 'white',
+    },
+    filterList: {
+        margin: '4%',
     },
     tag: {
         margin: '2px',
@@ -61,6 +68,7 @@ const useStyles = makeStyles(theme => ({
         color: 'white',
     },
     iconButton: {
+        width: '12.5%',
         padding: 10,
         color: 'white',
     },
@@ -78,14 +86,15 @@ const useStyles = makeStyles(theme => ({
 
 const listItemClass = makeStyles(theme => ({
     root: {
-        '& h2': {
+        '& p': {
             color: '#545454',
         },
         padding: '0',
-        height: '50px',
+        height: '62px',
+        width: 'auto',
     },
     selected: {
-        '& h2': {
+        '& p': {
             color: 'white',
         },
     },
@@ -182,7 +191,9 @@ const ServiceList = () => {
                 </IconButton>
                 <Divider className={classes.divider} orientation="vertical" />
             </Paper>
-            {loadChips()}
+            <div className={classes.filterList}>
+                {loadChips()}
+            </div>
             <List className={classes.rootList}>
                 {services
                     ? services.map((service, index) => {
@@ -193,12 +204,11 @@ const ServiceList = () => {
                                   onClick={e => handleListItemClick(e, index)}
                                   selected={selectedIndex == index}
                                   divider={true}>
-                                  <p className={classes.bullet}>&bull;</p>
+                                  <body2 className={classes.bullet}>&bull;</body2>
                                   <ServiceCard
                                       service={service}
                                       index={index}
                                       className={classes.serviceCard}
-                                      serviceTags={service.serviceTags}
                                   />
                               </ListItem>
                           );
