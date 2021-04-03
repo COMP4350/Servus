@@ -43,7 +43,9 @@ describe('ServiceList', () => {
             </ThemeProvider>
         );
         expect(asFragment()).toMatchSnapshot();
-        expect(mockAxios.post).toHaveBeenCalledWith('/services/filter', {"tags": []});
+        expect(mockAxios.post).toHaveBeenCalledWith('/services/filter', {
+            tags: [],
+        });
         expect(mockAxios.post).toHaveBeenCalledTimes(1);
 
         await act(() => promise);
