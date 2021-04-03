@@ -39,6 +39,8 @@ const ServiceCard = props => {
                             size="small"
                             label={tagData}
                             className={classes.chip}
+                            color={props.selected ? "secondary" : "default"}
+                            disabled={!props.selected}
                         />
                     )
                 })}

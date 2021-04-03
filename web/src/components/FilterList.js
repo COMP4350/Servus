@@ -1,11 +1,13 @@
 export const tagNames = [
     'Art',
-    'Fashion',
+    'Beauty',
     'Commission',
+    'Construction',
+    'Fashion',
     'Food',
     'Hair',
     'Performance',
     'Yard',
-    'Construction',
-    'Beauty',
 ];
+
+export default tagNames;

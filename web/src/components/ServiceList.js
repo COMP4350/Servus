@@ -11,12 +11,10 @@ import {
     Chip,
 } from '@material-ui/core';
 import { FilterList, Search } from '@material-ui/icons/';
-import { tagNames } from './FilterList';
-
-// import useForm from '../hooks/useForm';
-
+import tagNames from './FilterList';
 import ServiceCard from './ServiceCard';
 
+// Styles for the service list (left side) panel.
 const useStyles = makeStyles(theme => ({
     rootPanel: {
         [theme.breakpoints.up('xs')]: {
@@ -37,10 +35,9 @@ const useStyles = makeStyles(theme => ({
         height: 'auto',
         'overflow-x': 'hidden',
     },
-    list: {},
     filters: {
         'background-color': theme.background.dark,
-        margin: 'auto auto',
+        margin: '4%',
         width: '100%',
     },
     searchBar: {
@@ -55,22 +52,16 @@ const useStyles = makeStyles(theme => ({
     searchIcon: {
         cursor: 'pointer',
         color: 'white',
+        width: '12.5%',
+        padding: 10,
     },
-    filterList: {
-        margin: '4%',
-    },
-    tag: {
-        margin: '2px',
-    },
-    input: {
+    searchInput: {
         width: '75%',
         flex: 1,
         color: 'white',
     },
-    iconButton: {
-        width: '12.5%',
-        padding: 10,
-        color: 'white',
+    tagChip: {
+        margin: '2px',
     },
     divider: {
         height: 28,
@@ -84,13 +75,16 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+// Styles for the list item contents.
 const listItemClass = makeStyles(theme => ({
     root: {
         '& p': {
             color: '#545454',
         },
         padding: '0',
-        height: '62px',
+        'padding-top': '4px',
+        'padding-bottom': '4px',
+        height: 'auto',
         width: 'auto',
     },
     selected: {
@@ -103,6 +97,7 @@ const listItemClass = makeStyles(theme => ({
     },
 }));
 
+// Service List component.
 const ServiceList = () => {
     const [services, setServices] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(1);
@@ -110,7 +105,6 @@ const ServiceList = () => {
     const [activeFilters] = useState([]);
     const [change, setChange] = useState(false);
 
-    // const [searchForm, onSearchFormChange] = useForm({ search: '' });
     const classes = useStyles();
     const style = listItemClass();
     const getServices = async () => {
@@ -132,23 +126,21 @@ const ServiceList = () => {
         setServiceTags(!serviceTags);
     };
 
+    // Show the chips used to set tag filters.
     const loadChips = () => {
         return (
             <Paper className={classes.filters}>
                 {serviceTags
                     ? tagNames.map((tag, i) => {
+                        const included = activeFilters.includes(tag);
                           return (
                               <Chip
                                   size="small"
                                   key={i}
                                   label={tag}
                                   onClick={() => addFilter(tag)}
-                                  className={classes.tag}
-                                  color={
-                                      activeFilters.includes(tag)
-                                          ? 'secondary'
-                                          : 'primary'
-                                  }
+                                  className={classes.tagChip}
+                                  color={included ? 'primary' : 'default'}
                               />
                           );
                       })
@@ -157,6 +149,7 @@ const ServiceList = () => {
         );
     };
 
+    // Add a tag to the current list of tag filters.
     const addFilter = tag => {
         if (activeFilters.includes(tag)) {
             const index = activeFilters.indexOf(tag);
@@ -164,8 +157,8 @@ const ServiceList = () => {
         } else {
             activeFilters.push(tag);
         }
-        console.log(activeFilters);
         setChange(!change);
+        setSelectedIndex(-1);
     };
 
     useEffect(() => {
@@ -177,23 +170,21 @@ const ServiceList = () => {
         <Paper className={classes.rootPanel}>
             <Paper className={classes.searchBar}>
                 <IconButton
-                    className={classes.iconButton}
+                    className={classes.searchIcon}
                     onClick={openFilterList}
                     aria-label="menu">
                     <FilterList />
                 </IconButton>
-                <InputBase className={classes.input} placeholder="Search" />
+                <InputBase className={classes.searchInput} placeholder="Search" />
                 <IconButton
                     type="submit"
-                    className={classes.iconButton}
+                    className={classes.searchIcon}
                     aria-label="search">
                     <Search />
                 </IconButton>
                 <Divider className={classes.divider} orientation="vertical" />
             </Paper>
-            <div className={classes.filterList}>
-                {loadChips()}
-            </div>
+            {loadChips()}
             <List className={classes.rootList}>
                 {services
                     ? services.map((service, index) => {
@@ -204,11 +195,11 @@ const ServiceList = () => {
                                   onClick={e => handleListItemClick(e, index)}
                                   selected={selectedIndex == index}
                                   divider={true}>
-                                  <body2 className={classes.bullet}>&bull;</body2>
                                   <ServiceCard
                                       service={service}
                                       index={index}
                                       className={classes.serviceCard}
+                                      selected={selectedIndex == index}
                                   />
                               </ListItem>
                           );
