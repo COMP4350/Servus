@@ -1,48 +1,218 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { makeStyles } from '@material-ui/core';
+import {
+    makeStyles,
+    InputBase,
+    Divider,
+    IconButton,
+    List,
+    ListItem,
+    Paper,
+    Chip,
+} from '@material-ui/core';
+import { FilterList, Search } from '@material-ui/icons/';
+import tagNames from './FilterList';
 import ServiceCard from './ServiceCard';
 
-const useStyles = makeStyles(() => ({
-    root: {
-        maxWidth: 400,
-        marginLeft: 10,
-        marginTop: 10,
+// Styles for the service list (left side) panel.
+const useStyles = makeStyles(theme => ({
+    rootPanel: {
+        [theme.breakpoints.up('xs')]: {
+            minWidth: '384px',
+            width: '384px',
+            height: '100%',
+        },
+        'background-color': theme.background.dark,
+        'overflow-y': 'scroll',
+        [theme.breakpoints.down('xs')]: {
+            width: '100%',
+            height: '100%',
+        },
+    },
+    rootList: {
+        padding: '8px',
+        width: 'auto',
+        height: 'auto',
+        'overflow-x': 'hidden',
+    },
+    filters: {
+        'background-color': theme.background.dark,
+        margin: '4%',
+        width: '100%',
+    },
+    searchBar: {
+        margin: '4%',
+        padding: '0',
+        width: '92%',
+        height: '40px',
+        'flex-wrap': 'nowrap',
+        'background-color': theme.background.main,
+        'border-radius': '12px',
+    },
+    searchIcon: {
+        cursor: 'pointer',
+        color: 'white',
+        width: '12.5%',
+        padding: 10,
+    },
+    searchInput: {
+        width: '75%',
+        flex: 1,
+        color: 'white',
+    },
+    tagChip: {
+        margin: '2px',
+    },
+    divider: {
+        height: 28,
+        margin: 4,
+        color: 'white',
+    },
+    bullet: {
+        'padding-left': '5px',
+        'padding-right': '5px',
+        color: '#ec5732',
     },
 }));
 
+// Styles for the list item contents.
+const listItemClass = makeStyles(theme => ({
+    root: {
+        '& p': {
+            color: '#545454',
+        },
+        padding: '0',
+        'padding-top': '4px',
+        'padding-bottom': '4px',
+        height: 'auto',
+        width: 'auto',
+    },
+    selected: {
+        '& p': {
+            color: 'white',
+        },
+    },
+    divider: {
+        'border-color': theme.background.main,
+    },
+}));
+
+// Service List component.
 const ServiceList = () => {
     const [services, setServices] = useState(null);
+    const [selectedIndex, setSelectedIndex] = useState(1);
+    const [serviceTags, setServiceTags] = useState(false);
+    const [activeFilters] = useState([]);
+    const [change, setChange] = useState(false);
+
     const classes = useStyles();
+    const style = listItemClass();
     const getServices = async () => {
         try {
-            const response = await axios.get(`/services/`);
+            const response = await axios.post(`/services/filter`, {
+                tags: activeFilters,
+            });
             setServices(response.data.result);
         } catch {
             err => alert(err);
         }
     };
-    useEffect(() => {
-        getServices();
-    }, []);
 
-    return (
-        <div>
-            <div className={classes.root}>
-                {services
-                    ? services.map((service, index) => {
+    const handleListItemClick = (e, i) => {
+        setSelectedIndex(i);
+    };
+
+    const openFilterList = () => {
+        setServiceTags(!serviceTags);
+    };
+
+    // Show the chips used to set tag filters.
+    const loadChips = () => {
+        return (
+            <Paper className={classes.filters}>
+                {serviceTags
+                    ? tagNames.map((tag, i) => {
                           return (
-                              <ServiceCard
-                                  key={index}
-                                  service={service}
-                                  index={index}
-                                  bg={{ backgroundColor: '#647AA3' }}
+                              <Chip
+                                  size="small"
+                                  key={i}
+                                  label={tag}
+                                  onClick={() => addFilter(tag)}
+                                  className={classes.tagChip}
+                                  color={
+                                      activeFilters.includes(tag)
+                                          ? 'primary'
+                                          : 'default'
+                                  }
                               />
                           );
                       })
                     : null}
-            </div>
-        </div>
+            </Paper>
+        );
+    };
+
+    // Add a tag to the current list of tag filters.
+    const addFilter = tag => {
+        if (activeFilters.includes(tag)) {
+            const index = activeFilters.indexOf(tag);
+            if (index > -1) activeFilters.splice(index, 1);
+        } else {
+            activeFilters.push(tag);
+        }
+        setChange(!change);
+        setSelectedIndex(-1);
+    };
+
+    useEffect(() => {
+        getServices();
+        loadChips();
+    }, [serviceTags, change]);
+
+    return (
+        <Paper className={classes.rootPanel}>
+            <Paper className={classes.searchBar}>
+                <IconButton
+                    className={classes.searchIcon}
+                    onClick={openFilterList}
+                    aria-label="menu">
+                    <FilterList />
+                </IconButton>
+                <InputBase
+                    className={classes.searchInput}
+                    placeholder="Search"
+                />
+                <IconButton
+                    type="submit"
+                    className={classes.searchIcon}
+                    aria-label="search">
+                    <Search />
+                </IconButton>
+                <Divider className={classes.divider} orientation="vertical" />
+            </Paper>
+            {loadChips()}
+            <List className={classes.rootList}>
+                {services
+                    ? services.map((service, index) => {
+                          return (
+                              <ListItem
+                                  key={index}
+                                  classes={style}
+                                  onClick={e => handleListItemClick(e, index)}
+                                  selected={selectedIndex == index}
+                                  divider={true}>
+                                  <ServiceCard
+                                      service={service}
+                                      index={index}
+                                      className={classes.serviceCard}
+                                      selected={selectedIndex == index}
+                                  />
+                              </ListItem>
+                          );
+                      })
+                    : null}
+            </List>
+        </Paper>
     );
 };
 

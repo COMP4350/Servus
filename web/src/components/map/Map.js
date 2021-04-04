@@ -38,8 +38,7 @@ const useStyles = makeStyles(() => ({
     },
     mapContainer: {
         width: '100%',
-        height: '90%',
-        margin: 10,
+        height: '100%',
     },
     button: {
         backgroundColor: 'white',
