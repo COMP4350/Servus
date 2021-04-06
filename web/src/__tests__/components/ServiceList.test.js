@@ -45,6 +45,7 @@ describe('ServiceList', () => {
         expect(asFragment()).toMatchSnapshot();
         expect(mockAxios.post).toHaveBeenCalledWith('/services/filter', {
             tags: [],
+            search: '',
         });
         expect(mockAxios.post).toHaveBeenCalledTimes(1);
 

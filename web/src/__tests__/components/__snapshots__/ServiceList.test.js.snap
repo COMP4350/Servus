@@ -37,6 +37,7 @@ exports[`ServiceList renders correctly 1`] = `
       >
         <input
           class="MuiInputBase-input"
+          name="search"
           placeholder="Search"
           type="text"
           value=""
