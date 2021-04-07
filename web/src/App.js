@@ -19,7 +19,7 @@ import { useCookies } from 'react-cookie';
 
 dotenv.config();
 
-const theme = createMuiTheme({
+export const theme = createMuiTheme({
     palette: {
         primary: {
             main: '#647AA3',
@@ -35,7 +35,7 @@ const theme = createMuiTheme({
         dark: '#151515',
         main: '#272727',
     },
-    typographs: {
+    typography: {
         fontFamily: ['Roboto'],
     },
 });

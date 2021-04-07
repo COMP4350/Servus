@@ -93,7 +93,9 @@ const Map = props => {
                             lat: service.location.lat,
                             lng: service.location.lng,
                         },
-                        icon: ServiceIcon,
+                        icon: {
+                            url: ServiceIcon,
+                        },
                         visible: true,
                     });
                     serviceMarker.addListener('click', () => {
