@@ -198,10 +198,15 @@ const Calendar = ({ appointments }) => {
     const [owners, setOwners] = useState([]);
     const newDate = new Date();
 
-    const commitDeletes = async ({ deleted }) => {
-        const response = await axios.delete(`/appointment/${deleted}`);
-        console.log(`im the response: ${response}`);
-        setData(data.filter(apt => apt._id !== deleted));
+    const commitDeletes = ({ deleted }) => {
+        axios.delete(`/appointment/${deleted}`)
+            .then(response => {
+                if (response.status === 200) {
+                    setData(data => data.filter(({ id }) => id !== deleted));
+                    alert(`Appointment Successfully Deleted`);
+                }
+                console.log(response.status);
+            })
     }
 
     const passInfo = () => {
