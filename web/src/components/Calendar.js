@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TableCell from '@material-ui/core/TableCell';
-import { darken, fade, lighten } from '@material-ui/core/styles/colorManipulator';
+import {
+    darken,
+    fade,
+    lighten,
+} from '@material-ui/core/styles/colorManipulator';
 import Typography from '@material-ui/core/Typography';
 import { EditingState, ViewState } from '@devexpress/dx-react-scheduler';
 import classNames from 'clsx';
@@ -19,13 +23,18 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { withStyles } from '@material-ui/core/styles';
 
-const getBorder = theme => (`1px solid ${theme.palette.type === 'light'
-    ? lighten(fade(theme.palette.divider, 1), 0.88)
-    : darken(fade(theme.palette.divider, 1), 0.68)
-    }`);
+const getBorder = theme =>
+    `1px solid ${
+        theme.palette.type === 'light'
+            ? lighten(fade(theme.palette.divider, 1), 0.88)
+            : darken(fade(theme.palette.divider, 1), 0.68)
+    }`;
 
 const DayScaleCell = props => (
-    <MonthView.DayScaleCell {...props} style={{ textAlign: 'center', fontWeight: 'bold' }} />
+    <MonthView.DayScaleCell
+        {...props}
+        style={{ textAlign: 'center', fontWeight: 'bold' }}
+    />
 );
 
 const styles = theme => ({
@@ -133,54 +142,62 @@ const styles = theme => ({
 });
 
 // #FOLD_BLOCK
-const CellBase = React.memo(({
-    classes,
-    startDate,
-    formatDate,
-    otherMonth,
-    // #FOLD_BLOCK
-}) => {
-    const isFirstMonthDay = startDate.getDate() === 1;
-    const formatOptions = isFirstMonthDay
-        ? { day: 'numeric', month: 'long' }
-        : { day: 'numeric' };
-    return (
-        <TableCell
-            tabIndex={0}
-            className={classNames({
-                [classes.cell]: true,
-                [classes.opacity]: otherMonth,
-            })}
-        >
-            <div className={classes.content}>
-            </div>
-            <div className={classes.text}>
-                {formatDate(startDate, formatOptions)}
-            </div>
-        </TableCell>
-    );
-});
+const CellBase = React.memo(
+    ({
+        classes,
+        startDate,
+        formatDate,
+        otherMonth,
+        // #FOLD_BLOCK
+    }) => {
+        const isFirstMonthDay = startDate.getDate() === 1;
+        const formatOptions = isFirstMonthDay
+            ? { day: 'numeric', month: 'long' }
+            : { day: 'numeric' };
+        return (
+            <TableCell
+                tabIndex={0}
+                className={classNames({
+                    [classes.cell]: true,
+                    [classes.opacity]: otherMonth,
+                })}>
+                <div className={classes.content}></div>
+                <div className={classes.text}>
+                    {formatDate(startDate, formatOptions)}
+                </div>
+            </TableCell>
+        );
+    }
+);
 
 const TimeTableCell = withStyles(styles, { name: 'Cell' })(CellBase);
 
-const Appointment = withStyles(styles, { name: 'Appointment' })(({ classes, ...restProps }) => (
-    <Appointments.Appointment
+const Appointment = withStyles(styles, {
+    name: 'Appointment',
+})(({ classes, ...restProps }) => (
+    <Appointments.Appointment {...restProps} className={classes.appointment} />
+));
+
+const AppointmentContent = withStyles(styles, {
+    name: 'AppointmentContent',
+})(({ classes, ...restProps }) => (
+    <Appointments.AppointmentContent
         {...restProps}
-        className={classes.appointment}
+        className={classes.apptContent}
     />
 ));
 
-const AppointmentContent = withStyles(styles, { name: 'AppointmentContent' })(({ classes, ...restProps }) => (
-    <Appointments.AppointmentContent {...restProps} className={classes.apptContent} />
-));
-
-const FlexibleSpace = withStyles(styles, { name: 'ToolbarRoot' })(({ classes, ...restProps }) => (
-    <Toolbar.FlexibleSpace {...restProps} className={classes.flexibleSpace}>
-        <div className={classes.flexContainer}>
-            <Typography variant="h5" style={{ marginLeft: '10px' }}>My Calendar</Typography>
-        </div>
-    </Toolbar.FlexibleSpace>
-));
+const FlexibleSpace = withStyles(styles, { name: 'ToolbarRoot' })(
+    ({ classes, ...restProps }) => (
+        <Toolbar.FlexibleSpace {...restProps} className={classes.flexibleSpace}>
+            <div className={classes.flexContainer}>
+                <Typography variant="h5" style={{ marginLeft: '10px' }}>
+                    My Calendar
+                </Typography>
+            </div>
+        </Toolbar.FlexibleSpace>
+    )
+);
 
 const getRandomColor = () => {
     var letters = '0123456789ABCDEF';
@@ -189,24 +206,22 @@ const getRandomColor = () => {
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-}
+};
 let setColor = false;
 
 const Calendar = ({ appointments }) => {
-
     const [data, setData] = useState([]);
     const [owners, setOwners] = useState([]);
     const newDate = new Date();
 
     const commitDeletes = ({ deleted }) => {
-        axios.delete(`/appointment/${deleted}`)
-            .then(response => {
-                if (response.status === 200) {
-                    setData(data => data.filter(({ id }) => id !== deleted));
-                    alert(`Appointment Successfully Deleted`);
-                }
-            })
-    }
+        axios.delete(`/appointment/${deleted}`).then(response => {
+            if (response.status === 200) {
+                setData(data => data.filter(({ id }) => id !== deleted));
+                alert(`Appointment Successfully Deleted`);
+            }
+        });
+    };
 
     const passInfo = () => {
         setOwners([]);
@@ -216,57 +231,56 @@ const Calendar = ({ appointments }) => {
                 text: apt.provider,
                 id: i,
                 color: getRandomColor(),
-            }
+            };
             setOwners(owners => [...owners, newOwner]);
-            axios.get(`/services/${apt.service_id}`)
-                .then(response => {
-                    const service = response.data.result;
-                    const startDate = new Date(apt.booked_time);
-                    const endDate = new Date(startDate);
-                    endDate.setTime(endDate.getTime() + service.duration * 60 * 1000);
-                    const tempObj = {
-                        id: apt._id,
-                        title: service.name,
-                        startDate: startDate,
-                        endDate: endDate,
-                        ownerId: i,
-                    }
-                    setData(data => [...data, tempObj]);
-                }
+            axios.get(`/services/${apt.service_id}`).then(response => {
+                const service = response.data.result;
+                const startDate = new Date(apt.booked_time);
+                const endDate = new Date(startDate);
+                endDate.setTime(
+                    endDate.getTime() + service.duration * 60 * 1000
                 );
+                const tempObj = {
+                    id: apt._id,
+                    title: service.name,
+                    startDate: startDate,
+                    endDate: endDate,
+                    ownerId: i,
+                };
+                setData(data => [...data, tempObj]);
+            });
         });
         setColor = false;
-    }
+    };
     if (!setColor && appointments.length === owners.length) {
         owners?.forEach(name => {
             for (let i = 1; i < owners.length; i++) {
-                if (name.text === owners[i].text && owners[i].color !== name.color) {
+                if (
+                    name.text === owners[i].text &&
+                    owners[i].color !== name.color
+                ) {
                     owners[i].color = name.color;
                 }
             }
         });
         setColor = true;
     }
-    const resources = [{
-        fieldName: 'ownerId',
-        title: 'Owners',
-        instances: owners,
-    }];
+    const resources = [
+        {
+            fieldName: 'ownerId',
+            title: 'Owners',
+            instances: owners,
+        },
+    ];
 
     useEffect(() => {
         passInfo();
-    }, [])
+    }, []);
 
     return (
-        <Scheduler
-            data={data}
-        >
-            <EditingState
-                onCommitChanges={commitDeletes}
-            />
-            <ViewState
-                defaultCurrentDate={newDate}
-            />
+        <Scheduler data={data}>
+            <EditingState onCommitChanges={commitDeletes} />
+            <ViewState defaultCurrentDate={newDate} />
 
             <MonthView
                 timeTableCellComponent={TimeTableCell}
@@ -277,24 +291,17 @@ const Calendar = ({ appointments }) => {
                 appointmentComponent={Appointment}
                 appointmentContentComponent={AppointmentContent}
             />
-            <Resources
-                data={resources}
-            />
+            <Resources data={resources} />
 
-            <Toolbar
-                flexibleSpaceComponent={FlexibleSpace}
-            />
+            <Toolbar flexibleSpaceComponent={FlexibleSpace} />
             <DateNavigator />
 
             <EditRecurrenceMenu />
-            <AppointmentTooltip
-                showCloseButton
-                showDeleteButton
-            />
+            <AppointmentTooltip showCloseButton showDeleteButton />
             <AppointmentForm />
             <DragDropProvider />
         </Scheduler>
     );
-}
+};
 
 export default Calendar;

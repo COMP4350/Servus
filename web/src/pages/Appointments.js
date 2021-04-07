@@ -21,10 +21,10 @@ const Appointment = () => {
     }, []);
     return (
         <div>
-            {appointments ? (<Calendar appointments={appointments}></Calendar>)  
-            : null}
+            {appointments ? (
+                <Calendar appointments={appointments}></Calendar>
+            ) : null}
         </div>
-        
     );
 };
 
