@@ -21,6 +21,7 @@ const serviceSchema = new Schema({
         address: { type: String, required: true },
     },
     tags: { type: [String], required: false },
+    icon_name: { type: String, required: false },
 });
 
 const Service = mongoose.model('Service', serviceSchema);

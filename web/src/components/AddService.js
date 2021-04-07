@@ -11,6 +11,8 @@ import Chip from '@material-ui/core/Chip';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import { tagNames } from './FilterList';
+import { serviceIconMap } from './ServiceIconMap';
+import { Grid, IconButton } from '@material-ui/core/';
 
 const useStyles = makeStyles(theme => ({
     textField: {
@@ -74,6 +76,12 @@ const useStyles = makeStyles(theme => ({
     chip: {
         margin: 2,
     },
+    iconGrid: {
+        margin: 0,
+        'margin-top': '16px',
+        'margin-left': '80px',
+        'margin-right': '80px',
+    }
 }));
 
 const getStyles = (name, serviceTags, theme) => {
@@ -91,12 +99,16 @@ const AddService = ({ addedService }) => {
     const [cookies] = useCookies(['username']);
     const [location, setLocation] = useState({});
     const [serviceTags, setServiceTags] = useState([]);
+    const [serviceIconName, setServiceIconName] = useState({});
     const handleTagChange = event => {
         setServiceTags(event.target.value);
     };
     const handleTagDelete = chipToDelete => () => {
         console.log(chipToDelete);
         setServiceTags(chips => chips.filter(chip => chip !== chipToDelete));
+    };
+    const handleIconClick = iconName => () => {
+        setServiceIconName(iconName);
     };
     const [serviceForm, onServiceFormChange] = useForm({
         name: '',
@@ -166,6 +178,7 @@ const AddService = ({ addedService }) => {
                             address: location.address,
                         },
                         tags: serviceTags,
+                        icon_name: serviceIconName,
                     },
                     {
                         withCredentials: true,
@@ -204,6 +217,30 @@ const AddService = ({ addedService }) => {
         console.log(location);
     };
 
+    // Create an IconButton for each supported service icon.
+    const getGridItem = name => {
+        return (
+            <Grid
+                item
+                className={classes.selectableIcon}
+                onClick={handleIconClick(name)}>
+                <IconButton>{serviceIconMap[name]}</IconButton>
+            </Grid>
+        );
+    };
+
+    // Return a list of icon components.
+    const getGridItems = () => {
+        let names = Object.keys(serviceIconMap);
+        let gridItems = [];
+
+        names.forEach(name => {
+            gridItems.push(getGridItem(name));
+        });
+
+        return gridItems;
+    };
+
     return (
         <div className={classes.servicesContainer}>
             <div className={classes.serviceForm}>
@@ -216,6 +253,12 @@ const AddService = ({ addedService }) => {
                     error={servicesErrors.name}
                     helperText={servicesErrors.name}
                 />
+                {serviceIconMap[serviceIconName]}
+                <div className={classes.iconGrid}>
+                    <Grid container spacing={1}>
+                        {getGridItems()}
+                    </Grid>
+                </div>
                 <TextField
                     className={classes.textField}
                     label="Service Description"
