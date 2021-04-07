@@ -157,6 +157,7 @@ const AddService = ({ addedService }) => {
         setServiceFormValid(Object.getOwnPropertyNames(errors).length === 0);
     };
     const addService = () => {
+        console.log(serviceIconName);
         if (serviceFormValid) {
             axios
                 .post(
@@ -224,7 +225,7 @@ const AddService = ({ addedService }) => {
                 item
                 className={classes.selectableIcon}
                 onClick={handleIconClick(name)}>
-                <IconButton>{serviceIconMap[name]}</IconButton>
+                <IconButton>{serviceIconMap[name].component}</IconButton>
             </Grid>
         );
     };
@@ -253,7 +254,7 @@ const AddService = ({ addedService }) => {
                     error={servicesErrors.name}
                     helperText={servicesErrors.name}
                 />
-                {serviceIconMap[serviceIconName]}
+                {serviceIconMap[serviceIconName] ? serviceIconMap[serviceIconName].component : null}
                 <div className={classes.iconGrid}>
                     <Grid container spacing={1}>
                         {getGridItems()}

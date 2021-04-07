@@ -16,6 +16,7 @@ import {
     GoogleMap,
     useJsApiLoader,
 } from '@react-google-maps/api';
+import serviceIconMap from '../ServiceIconMap';
 import ServiceIcon from '../../images/flag_icon.png';
 import ServiceWindow from './ServiceWindow';
 
@@ -92,13 +93,21 @@ const Map = () => {
                         content: div,
                     });
 
+                    let markerIcon = service.icon_name ? {
+                        path: serviceIconMap[service.icon_name].path,
+                        fillColor: '#EC5732',
+                        fillOpacity: 1,
+                        strokeWeight: 0,
+                        scale: 1
+                    } : ServiceIcon;
+
                     let serviceMarker = new window.google.maps.Marker({
                         map,
                         position: {
                             lat: service.location.lat,
                             lng: service.location.lng,
                         },
-                        icon: ServiceIcon,
+                        icon: markerIcon,
                         visible: true,
                     });
                     serviceMarker.addListener('click', () => {
