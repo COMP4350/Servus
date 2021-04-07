@@ -2,7 +2,14 @@ import React, { useEffect, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { AccountCircle } from '@material-ui/icons/';
-import { Button, Typography, List, ListItem, Modal } from '@material-ui/core';
+import {
+    Button,
+    Typography,
+    List,
+    ListItem,
+    Modal,
+    Paper,
+} from '@material-ui/core';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import AddService from '../components/AddService';
@@ -53,12 +60,18 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
     },
     userDesc: {
-        width: '100%',
+        width: '90%',
         display: 'flex',
         alignItems: 'center',
         textAlign: 'left',
         flexDirection: 'column',
-        color: 'white',
+        color: 'black',
+        backgroundColor: 'white',
+        marginTop: '20px',
+        marginBottom: '20px',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        borderRadius: 8,
     },
     rootList: {
         padding: '8px',
@@ -88,6 +101,10 @@ const useStyles = makeStyles(theme => ({
         position: 'absolute',
         left: '25%',
         top: '25%',
+    },
+    servicesTitle: {
+        marginLeft: '10px',
+        color: 'white',
     },
 }));
 
@@ -194,9 +211,12 @@ const UserInfo = ({ user }) => {
         <div className={classes.root}>
             {user ? (
                 <div className={classes.userContainer}>
-                    <div className={classes.userDesc}>
+                    <Paper elevation={8} className={classes.userDesc}>
                         <AccountCircle className={classes.userIcon} />
-                        <Typography className={classes.username}>{`@${user.username}`}</Typography>
+                        <Typography
+                            className={
+                                classes.username
+                            }>{`@${user.username}`}</Typography>
                         <div className={classes.bioContainer}>
                             <Typography
                                 className={classes.bio}
@@ -204,7 +224,9 @@ const UserInfo = ({ user }) => {
                                 {user.bio}
                             </Typography>
                         </div>
-                        <Typography>{`Service List:`}</Typography>
+                    </Paper>
+                    <div className={classes.servicesTitle}>
+                        <Typography>{`Services:`}</Typography>
                     </div>
                     <ServiceList username={user.username} />
                 </div>
