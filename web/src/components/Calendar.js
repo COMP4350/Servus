@@ -202,23 +202,11 @@ const Calendar = ({ appointments }) => {
         const response = await axios.delete(`/appointment/${deleted}`);
         console.log(`im the response: ${response}`);
         setData(data.filter(apt => apt._id !== deleted));
-        // this.setState((state) => {
-        //   let { data } = state;
-        //   if (added) {
-        //     const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
-        //     data = [...data, { id: startingAddedId, ...added }];
-        //   }
-        //   if (changed) {
-        //     data = data.map(appointment => (
-        //       changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
-        //   }
-        //   if (deleted !== undefined) {
-        //     data = data.filter(appointment => appointment.id !== deleted);
-        //   }
-        //   return { data };
-        // });
     }
+
     const passInfo = () => {
+        setOwners([]);
+        setData([]);
         appointments?.forEach((apt, i) => {
             const newOwner = {
                 text: apt.provider,
@@ -268,14 +256,6 @@ const Calendar = ({ appointments }) => {
     return (
         <Scheduler
             data={data}
-            theme={{
-                'stylesheet.day.basic':{
-                  'base':{
-                    width:100,
-                    height:100
-                  }
-                }}
-            }
         >
             <EditingState
                 onCommitChanges={commitDeletes}
