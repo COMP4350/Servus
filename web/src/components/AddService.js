@@ -44,6 +44,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         marginTop: '10px',
         justifyContent: 'center',
+        backgroundColor: theme.background.dark,
         width: '100%',
     },
     servicesContainer: {
@@ -58,6 +59,7 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         alignItems: 'center',
         padding: 10,
+        backgroundColor: theme.background.dark,
     },
     formControl: {
         margin: '10px',
@@ -78,10 +80,9 @@ const useStyles = makeStyles(theme => ({
     },
     iconGrid: {
         margin: 0,
-        'margin-top': '16px',
-        'margin-left': '80px',
-        'margin-right': '80px',
-    }
+        width: '80%',
+        marginTop: '16px',
+    },
 }));
 
 const getStyles = (name, serviceTags, theme) => {
@@ -254,7 +255,9 @@ const AddService = ({ addedService }) => {
                     error={servicesErrors.name}
                     helperText={servicesErrors.name}
                 />
-                {serviceIconMap[serviceIconName] ? serviceIconMap[serviceIconName].component : null}
+                {serviceIconMap[serviceIconName]
+                    ? serviceIconMap[serviceIconName].component
+                    : null}
                 <div className={classes.iconGrid}>
                     <Grid container spacing={1}>
                         {getGridItems()}
