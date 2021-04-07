@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
 import {
+    ThemeProvider,
     Button,
     Select,
     InputLabel,
@@ -14,7 +15,27 @@ import MomentUtils from '@date-io/moment';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import { useCookies } from 'react-cookie';
 
-import { theme } from '../../App';
+const theme = createMuiTheme({
+    palette: {
+        type: 'dark',
+        primary: {
+            main: '#647AA3',
+        },
+        secondary: {
+            main: '#EC5732',
+        },
+        default: {
+            main: '#FFF2EB',
+        },
+    },
+    background: {
+        dark: '#151515',
+        main: '#272727',
+    },
+    typography: {
+        fontFamily: ['Roboto'],
+    },
+});
 
 const useStyles = makeStyles(() => ({
     window: {
@@ -24,44 +45,38 @@ const useStyles = makeStyles(() => ({
         'flex-direction': 'column',
         width: '100%',
         height: '100%',
-        background: 'white',
+        background: theme.background.main,
     },
     innerwindow: {
-        padding: '10',
-        margin: 2,
         display: 'flex',
         height: '100%',
         'flex-direction': 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-evenly',
     },
     container: {
         display: 'flex',
         alignItems: 'center',
         'flex-direction': 'column',
     },
-    inputLabel: {
-        color: theme.background.main,
-    },
     textField: {
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
         width: '100%',
-        color: 'white',
     },
     formControl: {
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
         width: '100%',
         height: 40,
-        color: 'white',
     },
     userIcon: {
         height: '96px',
         width: '96px',
     },
     title: {
-        fontSize: '3em',
+        marginTop: '15px',
+        fontSize: '2.5em',
+        color: 'white',
     },
     divider: {
         height: '100%',
@@ -71,13 +86,11 @@ const useStyles = makeStyles(() => ({
     close: {
         position: 'absolute',
         top: 0,
-        right: 5,
+        right: 10,
+        color: 'white',
         fontSize: '2em',
     },
-    submit: {
-        padding: 10,
-        'margin-top': '10px',
-    },
+    submit: {},
 }));
 
 const BookWindow = props => {
@@ -261,37 +274,49 @@ const BookWindow = props => {
     };
 
     return (
-        <div className={classes.window}>
-            <Typography variant="h4" className={classes.title}>
-                Booking
-            </Typography>
-            <div className={classes.innerwindow}>
-                <form className={classes.container} noValidate>
-                    <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <DatePicker
-                            label={'Appointment Date'}
-                            value={date}
-                            initialFocusedDate={Date.now()}
-                            onAccept={setDate}
-                            onChange={setDate}
-                            name="date"
-                            autoOk={true}
-                            disablePast={true}
-                            errors={errors.time}
-                            shouldDisableDate={shouldDisableDay}
-                            className={classes.textField}
-                        />
-                        {timepicker}
-                    </MuiPickersUtilsProvider>
-                </form>
-                <Button className={classes.submit} onClick={validate}>
-                    CONFIRM
-                </Button>
+        <ThemeProvider theme={theme}>
+            <div className={classes.window}>
+                <Typography variant="h1" className={classes.title}>
+                    {props.service.name}
+                </Typography>
+                <Typography color="textSecondary">
+                    {`Appointment Duration: ${moment(
+                        props.service.duration,
+                        'HHmm'
+                    ).format('h:mm')} hrs`}
+                </Typography>
+                <div className={classes.innerwindow}>
+                    <form className={classes.container} noValidate>
+                        <MuiPickersUtilsProvider utils={MomentUtils}>
+                            <DatePicker
+                                label={'Appointment Date'}
+                                value={date}
+                                initialFocusedDate={Date.now()}
+                                onAccept={setDate}
+                                onChange={setDate}
+                                name="date"
+                                autoOk={true}
+                                disablePast={true}
+                                errors={errors.time}
+                                shouldDisableDate={shouldDisableDay}
+                                className={classes.textField}
+                            />
+                            {timepicker}
+                        </MuiPickersUtilsProvider>
+                    </form>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                        onClick={validate}>
+                        CONFIRM
+                    </Button>
+                </div>
+                <span className={classes.close} onClick={handleClick}>
+                    &times;{' '}
+                </span>
             </div>
-            <span className={classes.close} onClick={handleClick}>
-                &times;{' '}
-            </span>
-        </div>
+        </ThemeProvider>
     );
 };
 

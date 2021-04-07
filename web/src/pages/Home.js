@@ -3,7 +3,7 @@ import Map from '../components/map/Map';
 import { makeStyles } from '@material-ui/core/styles';
 import ServiceList from '../components/ServiceList';
 import { useCookies } from 'react-cookie';
-import { useHistory } from 'react-router-dom';
+import { useHistory, withRouter } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -30,9 +30,9 @@ const Home = () => {
     return (
         <div className={classes.container}>
             <ServiceList setSelectedService={service => setService(service)} />
-            <Map selected_service={selected_service} />
+            <Map selected_service={selected_service} history={history} />
         </div>
     );
 };
 
-export default Home;
+export default withRouter(Home);

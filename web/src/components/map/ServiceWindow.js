@@ -12,11 +12,14 @@ const useStyles = makeStyles(() => ({
         overflow: 'visible',
     },
     userIcon: {
-        height: '96px',
+        height: '100%',
         width: '96px',
     },
     info: {
-        padding: '10px',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-evenly',
     },
     title: {
         fontSize: '2em',
@@ -25,6 +28,18 @@ const useStyles = makeStyles(() => ({
         height: '35%',
         width: '35%',
         margin: 'auto auto',
+    },
+    provider: {
+        marginTop: 5,
+    },
+    desc: {
+        marginTop: 5,
+    },
+    buttons: {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'space-evenly',
+        marginTop: 5,
     },
 }));
 
@@ -36,6 +51,10 @@ const ServiceWindow = props => {
         setSeen(!seen);
     };
 
+    const changePage = () => {
+        props.history.push(`/profile/${props.service.provider}`);
+    };
+
     return (
         <div className={classes.window}>
             <AccountCircle className={classes.userIcon} />
@@ -43,15 +62,31 @@ const ServiceWindow = props => {
                 <Typography variant="h1" className={classes.title}>
                     {props.service.name}
                 </Typography>
-                <Typography color="textSecondary">
+                <Typography color="textSecondary" className={classes.provider}>
                     {`@${props.service.provider}`}
                 </Typography>
-                <Typography variant="body2" component="p">
+                <Typography
+                    variant="body2"
+                    component="p"
+                    className={classes.desc}>
                     {props.service.description}
                 </Typography>
-                <Button color="primary" variant="contained" onClick={togglePop}>
-                    Book
-                </Button>
+                <div className={classes.buttons}>
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        onClick={togglePop}
+                        className={classes.book}>
+                        Book
+                    </Button>
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        onClick={changePage}
+                        className={classes.book}>
+                        Profile
+                    </Button>
+                </div>
             </div>
 
             <Modal
