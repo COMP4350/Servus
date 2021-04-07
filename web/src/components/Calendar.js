@@ -205,7 +205,6 @@ const Calendar = ({ appointments }) => {
                     setData(data => data.filter(({ id }) => id !== deleted));
                     alert(`Appointment Successfully Deleted`);
                 }
-                console.log(response.status);
             })
     }
 
@@ -291,7 +290,6 @@ const Calendar = ({ appointments }) => {
             <AppointmentTooltip
                 showCloseButton
                 showDeleteButton
-                showOpenButton
             />
             <AppointmentForm />
             <DragDropProvider />
