@@ -123,6 +123,20 @@ router.post('/', (req, res) => {
         });
 });
 
+/* Add a rating to a service. */
+router.put('/:service_id/rate', (req, res) => {
+    if (!req.body.rating || req.body.rating <= 0 || req.body.rating > 5) {
+        return res
+            .status(400)
+            .json({ errors: 'Rating outside of valid range' });
+    }
+
+    // Push the rating to the service's ratings array.
+    Service.findByIdAndUpdate(req.params.service_id, {
+        $push: { ratings: req.body.rating },
+    });
+});
+
 /* UPDATE a service. Returns the OLD object */
 router.put('/:service_id', (req, res) => {
     //can't change the username attached to service
