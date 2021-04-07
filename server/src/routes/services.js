@@ -51,6 +51,12 @@ router.post('/filter', (req, res) => {
     if (req.body.tags && req.body.tags.length > 0) {
         filter.tags = { $all: req.body.tags };
     }
+    if (req.body.search && req.body.search.length > 0) {
+        filter.$or = [
+            { name: new RegExp(req.body.search, 'i') },
+            { provider: new RegExp(req.body.search, 'i') },
+        ];
+    }
     Service.find(filter).then(services => {
         if (services) {
             return res.status(200).json({

@@ -13,6 +13,7 @@ import {
 import { FilterList, Search } from '@material-ui/icons/';
 import tagNames from './FilterList';
 import ServiceCard from './ServiceCard';
+import useForm from '../hooks/useForm';
 
 // Styles for the service list (left side) panel.
 const useStyles = makeStyles(theme => ({
@@ -104,6 +105,7 @@ const ServiceList = () => {
     const [serviceTags, setServiceTags] = useState(false);
     const [activeFilters] = useState([]);
     const [change, setChange] = useState(false);
+    const [searchForm, setSearchForm] = useForm({ search: '' });
 
     const classes = useStyles();
     const style = listItemClass();
@@ -111,6 +113,7 @@ const ServiceList = () => {
         try {
             const response = await axios.post(`/services/filter`, {
                 tags: activeFilters,
+                search: searchForm.search,
             });
             setServices(response.data.result);
         } catch {
@@ -164,10 +167,18 @@ const ServiceList = () => {
         setSelectedIndex(-1);
     };
 
+    const search = () => {
+        console.log(`searching: ${searchForm.search}`);
+    };
+
+    const onServiceFormChange = e => {
+        setSearchForm(e);
+    };
+
     useEffect(() => {
         getServices();
         loadChips();
-    }, [serviceTags, change]);
+    }, [serviceTags, change, searchForm.search]);
 
     return (
         <Paper className={classes.rootPanel}>
@@ -181,10 +192,17 @@ const ServiceList = () => {
                 <InputBase
                     className={classes.searchInput}
                     placeholder="Search"
+                    name="search"
+                    onChange={onServiceFormChange}
+                    value={searchForm.search}
+                    onKeyDown={e =>
+                        e.key === 'Enter' ? search() : console.log(e.key)
+                    }
                 />
                 <IconButton
                     type="submit"
                     className={classes.searchIcon}
+                    onClick={search}
                     aria-label="search">
                     <Search />
                 </IconButton>
