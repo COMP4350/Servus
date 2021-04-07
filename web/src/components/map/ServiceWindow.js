@@ -123,7 +123,6 @@ const ServiceWindow = props => {
                 rating: val,
                 username: cookies.username,
             });
-            console.log(res.data.result.ratings);
             setRating(getAvgRating(res.data.result.ratings));
         }
     };
