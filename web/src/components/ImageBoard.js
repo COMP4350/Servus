@@ -80,10 +80,7 @@ const ImageBoard = () => {
     let { targetUsername } = useParams();
 
     const getImages = async () => {
-        console.log('looking for');
-        console.log(targetUsername);
         const response = await axios.get(`/images/${targetUsername}`);
-        console.log(response);
         let images = response.data.result;
         images.sort((a, b) => {
             a.uploadDate <= b.uploadDate ? 1 : -1;
