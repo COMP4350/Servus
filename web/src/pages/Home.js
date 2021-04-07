@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Map from '../components/map/Map';
 import { makeStyles } from '@material-ui/core/styles';
 import ServiceList from '../components/ServiceList';
@@ -19,10 +19,14 @@ const useStyles = makeStyles(theme => ({
 
 const Home = () => {
     const classes = useStyles();
+    const [selected_service, setService] = useState();
+
     return (
         <div className={classes.container}>
-            <ServiceList />
-            <Map />
+            <ServiceList
+                setSelectedService={service => setService(service.location)}
+            />
+            <Map selected_service={selected_service} />
         </div>
     );
 };

@@ -54,7 +54,7 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const Map = () => {
+const Map = props => {
     const classes = useStyles();
     const [center, setCenter] = useState(winnipeg);
 
@@ -69,6 +69,7 @@ const Map = () => {
 
     const onMapLoad = useCallback(map => {
         getUserLocation();
+
         marker.current = new window.google.maps.Marker({
             map,
             anchorPoint: new window.google.maps.Point(0, -29),
@@ -120,9 +121,13 @@ const Map = () => {
     };
 
     useEffect(() => {
+        if (props.selected_service) {
+            setCenter(props.selected_service);
+        }
         marker.current?.setPosition(center);
-        marker.current?.setVisible(true);
-    }, [center]);
+        marker.current?.setVisible(false);
+    }, [center, props.selected_service]);
+
     return (
         <div className={classes.root}>
             {isLoaded && (
