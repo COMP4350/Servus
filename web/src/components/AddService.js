@@ -207,27 +207,28 @@ const AddService = ({ addedService }) => {
     };
 
     // Create an IconButton for each supported service icon.
-    const getGridItem = (name) => {
+    const getGridItem = name => {
         return (
-            <Grid item className={classes.selectableIcon} onClick={handleIconClick(name)}>
-                <IconButton>
-                    {iconMap[name]}
-                </IconButton>
+            <Grid
+                item
+                className={classes.selectableIcon}
+                onClick={handleIconClick(name)}>
+                <IconButton>{iconMap[name]}</IconButton>
             </Grid>
         );
-    }
+    };
 
     // Return a list of icon components.
     const getGridItems = () => {
         let names = Object.keys(iconMap);
-        let gridItems = []
+        let gridItems = [];
 
         names.forEach(name => {
             gridItems.push(getGridItem(name));
-        })
+        });
 
         return gridItems;
-    }
+    };
 
     return (
         <div className={classes.servicesContainer}>
