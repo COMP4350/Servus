@@ -71,6 +71,7 @@ const useStyles = makeStyles(() => ({
     provider: {
         fontSize: '1.25em',
         marginTop: 0,
+        color: '#647AA3',
     },
     desc: {
         marginTop: 5,
@@ -138,6 +139,7 @@ const ServiceWindow = props => {
                     </Typography>
                     <Typography
                         color="textSecondary"
+                        onClick={changePage}
                         className={classes.provider}>
                         {`@${props.service.provider}`}
                     </Typography>
@@ -163,6 +165,8 @@ const ServiceWindow = props => {
                         variant="body2"
                         component="p"
                         className={classes.desc}>
+                        {'Cost: ' + props.service.cost}
+                        <br />
                         {props.service.description}
                     </Typography>
                     <Button
