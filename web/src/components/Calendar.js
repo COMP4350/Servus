@@ -30,7 +30,7 @@ const DayScaleCell = props => (
 
 const styles = theme => ({
     cell: {
-        color: '#78909C!important',
+        color: '#78909C',
         position: 'relative',
         userSelect: 'none',
         verticalAlign: 'top',
@@ -66,24 +66,6 @@ const styles = theme => ({
         padding: '0.5em',
         textAlign: 'center',
     },
-    sun: {
-        color: '#FFEE58',
-    },
-    cloud: {
-        color: '#90A4AE',
-    },
-    rain: {
-        color: '#4FC3F7',
-    },
-    sunBack: {
-        backgroundColor: '#FFFDE7',
-    },
-    cloudBack: {
-        backgroundColor: '#ECEFF1',
-    },
-    rainBack: {
-        backgroundColor: '#E1F5FE',
-    },
     opacity: {
         opacity: '0.5',
     },
@@ -100,6 +82,7 @@ const styles = theme => ({
         },
     },
     flexibleSpace: {
+        color: '#78909C',
         flex: 'none',
     },
     flexContainer: {
@@ -138,6 +121,7 @@ const styles = theme => ({
         textAlign: 'center',
     },
     dateAndTitle: {
+        color: '#78909C',
         lineHeight: 1.1,
     },
     titleContainer: {
@@ -193,7 +177,7 @@ const AppointmentContent = withStyles(styles, { name: 'AppointmentContent' })(({
 const FlexibleSpace = withStyles(styles, { name: 'ToolbarRoot' })(({ classes, ...restProps }) => (
     <Toolbar.FlexibleSpace {...restProps} className={classes.flexibleSpace}>
         <div className={classes.flexContainer}>
-            <Typography variant="h5" sytyle={{ marginLeft: '10px' }}>My Calendar</Typography>
+            <Typography variant="h5" style={{ marginLeft: '10px' }}>My Calendar</Typography>
         </div>
     </Toolbar.FlexibleSpace>
 ));
@@ -202,25 +186,46 @@ const getRandomColor = () => {
     var letters = '0123456789ABCDEF';
     var color = '#';
     for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
+        color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
 }
 let setColor = false;
 
 const Calendar = ({ appointments }) => {
+
     const [data, setData] = useState([]);
     const [owners, setOwners] = useState([]);
     const newDate = new Date();
 
+    const commitDeletes = async ({ deleted }) => {
+        const response = await axios.delete(`/appointment/${deleted}`);
+        console.log(`im the response: ${response}`);
+        setData(data.filter(apt => apt._id !== deleted));
+        // this.setState((state) => {
+        //   let { data } = state;
+        //   if (added) {
+        //     const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
+        //     data = [...data, { id: startingAddedId, ...added }];
+        //   }
+        //   if (changed) {
+        //     data = data.map(appointment => (
+        //       changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
+        //   }
+        //   if (deleted !== undefined) {
+        //     data = data.filter(appointment => appointment.id !== deleted);
+        //   }
+        //   return { data };
+        // });
+    }
     const passInfo = () => {
-        appointments?.forEach( (apt, i) => {
-            const newOwner = { 
+        appointments?.forEach((apt, i) => {
+            const newOwner = {
                 text: apt.provider,
                 id: i,
                 color: getRandomColor(),
             }
-            setOwners(owners => [... owners , newOwner]);
+            setOwners(owners => [...owners, newOwner]);
             axios.get(`/services/${apt.service_id}`)
                 .then(response => {
                     const service = response.data.result;
@@ -228,22 +233,22 @@ const Calendar = ({ appointments }) => {
                     const endDate = new Date(startDate);
                     endDate.setTime(endDate.getTime() + service.duration * 60 * 1000);
                     const tempObj = {
-                        id: i,
+                        id: apt._id,
                         title: service.name,
                         startDate: startDate,
                         endDate: endDate,
                         ownerId: i,
                     }
-                    setData(data => [... data , tempObj]);
+                    setData(data => [...data, tempObj]);
                 }
-            );
+                );
         });
         setColor = false;
     }
-    if(!setColor && appointments.length === owners.length) {
-        owners?.forEach( name => {
-            for(let i=1; i<owners.length; i++) {
-                if(name.text === owners[i].text && owners[i].color !== name.color) { 
+    if (!setColor && appointments.length === owners.length) {
+        owners?.forEach(name => {
+            for (let i = 1; i < owners.length; i++) {
+                if (name.text === owners[i].text && owners[i].color !== name.color) {
                     owners[i].color = name.color;
                 }
             }
@@ -256,48 +261,56 @@ const Calendar = ({ appointments }) => {
         instances: owners,
     }];
 
-    useEffect( () => {
+    useEffect(() => {
         passInfo();
     }, [])
 
     return (
-        <div>
-            <Scheduler
-                data={data}
-            >
-                <EditingState></EditingState>
-                <ViewState
-                    defaultCurrentDate={newDate}
-                />
+        <Scheduler
+            data={data}
+            theme={{
+                'stylesheet.day.basic':{
+                  'base':{
+                    width:100,
+                    height:100
+                  }
+                }}
+            }
+        >
+            <EditingState
+                onCommitChanges={commitDeletes}
+            />
+            <ViewState
+                defaultCurrentDate={newDate}
+            />
 
-                <MonthView
-                    timeTableCellComponent={TimeTableCell}
-                    dayScaleCellComponent={DayScaleCell}
-                />
+            <MonthView
+                timeTableCellComponent={TimeTableCell}
+                dayScaleCellComponent={DayScaleCell}
+            />
 
-                <Appointments
-                    appointmentComponent={Appointment}
-                    appointmentContentComponent={AppointmentContent}
-                />
-                <Resources
-                    data={resources}
-                />
+            <Appointments
+                appointmentComponent={Appointment}
+                appointmentContentComponent={AppointmentContent}
+            />
+            <Resources
+                data={resources}
+            />
 
-                <Toolbar
-                    flexibleSpaceComponent={FlexibleSpace}
-                />
-                <DateNavigator />
+            <Toolbar
+                flexibleSpaceComponent={FlexibleSpace}
+            />
+            <DateNavigator />
 
-                <EditRecurrenceMenu />
-                <AppointmentTooltip
-                    showCloseButton
-                    showDeleteButton
-                    showOpenButton
-                />
-                <AppointmentForm />
-                <DragDropProvider />
-            </Scheduler>
-        </div>
+            <EditRecurrenceMenu />
+            <AppointmentTooltip
+                showCloseButton
+                showDeleteButton
+                showOpenButton
+            />
+            <AppointmentForm />
+            <DragDropProvider />
+        </Scheduler>
     );
 }
 
