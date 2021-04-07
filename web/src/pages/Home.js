@@ -29,9 +29,7 @@ const Home = () => {
     }, []);
     return (
         <div className={classes.container}>
-            <ServiceList
-                setSelectedService={service => setService(service.location)}
-            />
+            <ServiceList setSelectedService={service => setService(service)} />
             <Map selected_service={selected_service} />
         </div>
     );

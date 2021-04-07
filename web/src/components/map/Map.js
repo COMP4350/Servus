@@ -57,7 +57,8 @@ const useStyles = makeStyles(() => ({
 const Map = props => {
     const classes = useStyles();
     const [center, setCenter] = useState(winnipeg);
-
+    const [allServices] = useState({});
+    let prevWindow = false;
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         libraries: mapLibraries,
@@ -69,7 +70,6 @@ const Map = props => {
 
     const onMapLoad = useCallback(map => {
         getUserLocation();
-
         marker.current = new window.google.maps.Marker({
             map,
             anchorPoint: new window.google.maps.Point(0, -29),
@@ -78,7 +78,7 @@ const Map = props => {
             let services = response.data.result;
             services &&
                 services.map(service => {
-                    var div = document.createElement('div');
+                    let div = document.createElement('div');
                     //build the content string
                     const contentString = <ServiceWindow service={service} />;
                     ReactDOM.render(contentString, div);
@@ -99,8 +99,14 @@ const Map = props => {
                         visible: true,
                     });
                     serviceMarker.addListener('click', () => {
+                        if (prevWindow) {
+                            prevWindow.close();
+                        }
+                        prevWindow = infowindow;
+
                         infowindow.open(map, serviceMarker);
                     });
+                    allServices[service._id] = serviceMarker;
                 });
         });
     }, []);
@@ -124,7 +130,11 @@ const Map = props => {
 
     useEffect(() => {
         if (props.selected_service) {
-            setCenter(props.selected_service);
+            setCenter(props.selected_service.location);
+            new window.google.maps.event.trigger(
+                allServices[props.selected_service._id],
+                'click'
+            );
         }
         marker.current?.setPosition(center);
         marker.current?.setVisible(false);
