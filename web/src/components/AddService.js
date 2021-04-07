@@ -1,11 +1,16 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Button, TextField, MenuItem } from '@material-ui/core';
 import useForm from '../hooks/useForm';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { Autocomplete, useJsApiLoader } from '@react-google-maps/api';
 import { mapLibraries, autocompleteOptions } from './map/mapUtils';
+import Select from '@material-ui/core/Select';
+import Chip from '@material-ui/core/Chip';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import { tagNames } from './FilterList';
 
 const useStyles = makeStyles(() => ({
     textField: {
@@ -48,12 +53,43 @@ const useStyles = makeStyles(() => ({
         alignItems: 'center',
         marginTop: '50px',
     },
+    formControl: {
+        margin: '10px',
+    },
+    tagSelect: {
+        width: '100%',
+    },
+    chips: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    chip: {
+        margin: 2,
+    },
 }));
+
+const getStyles = (name, serviceTags, theme) => {
+    return {
+        fontWeight:
+            serviceTags.indexOf(theme) === -1
+                ? theme.typography.fontWeightRegular
+                : theme.typography.fontWeightMedium,
+    };
+};
 
 const AddService = ({ addedService }) => {
     const classes = useStyles();
+    const theme = useTheme();
     const [cookies] = useCookies(['username']);
     const [location, setLocation] = useState({});
+    const [serviceTags, setServiceTags] = useState([]);
+    const handleTagChange = event => {
+        setServiceTags(event.target.value);
+    };
+    const handleTagDelete = chipToDelete => () => {
+        console.log(chipToDelete);
+        setServiceTags(chips => chips.filter(chip => chip !== chipToDelete));
+    };
     const [serviceForm, onServiceFormChange] = useForm({
         name: '',
         description: '',
@@ -102,8 +138,6 @@ const AddService = ({ addedService }) => {
     };
     const addService = () => {
         if (serviceFormValid) {
-            console.log(serviceForm);
-            console.log(location);
             axios
                 .post(
                     '/services',
@@ -123,6 +157,7 @@ const AddService = ({ addedService }) => {
                             lng: location.lng,
                             address: location.address,
                         },
+                        tags: serviceTags,
                     },
                     {
                         withCredentials: true,
@@ -133,8 +168,7 @@ const AddService = ({ addedService }) => {
                     setServiceFormValid(false);
                     addedService();
                 })
-                .catch(err => {
-                    console.log(err);
+                .catch(() => {
                     setServiceFormValid(false);
                 });
 
@@ -148,7 +182,6 @@ const AddService = ({ addedService }) => {
         autocomplete.current = autocompleteLoaded;
     }, []);
     const onSearchAddressChanged = () => {
-        console.log(autocomplete.current?.getPlace().geometry?.location.lat());
         setLocation({
             lat: autocomplete.current?.getPlace().geometry?.location.lat(),
             lng: autocomplete.current?.getPlace().geometry?.location.lng(),
@@ -261,7 +294,42 @@ const AddService = ({ addedService }) => {
                         <MenuItem value={6}>Sunday</MenuItem>
                     </TextField>
                 </div>
-
+                <InputLabel id="tag-select-label">Tags</InputLabel>
+                <Select
+                    className={classes.tagSelect}
+                    labelId="tag-select-label"
+                    id="tagSelect"
+                    multiple
+                    value={serviceTags}
+                    onChange={handleTagChange}
+                    input={<Input id="select-multiple-tags" />}
+                    MenuProps={{
+                        getContentAnchorEl: () => null,
+                    }}
+                    renderValue={selected => (
+                        <div className={classes.chips}>
+                            {selected.map(value => (
+                                <Chip
+                                    key={value}
+                                    label={value}
+                                    className={classes.chip}
+                                    onDelete={handleTagDelete(value)}
+                                    onMouseDown={event => {
+                                        event.stopPropagation();
+                                    }}
+                                />
+                            ))}
+                        </div>
+                    )}>
+                    {tagNames.map(name => (
+                        <MenuItem
+                            key={name}
+                            value={name}
+                            style={getStyles(name, serviceTags, theme)}>
+                            {name}
+                        </MenuItem>
+                    ))}
+                </Select>
                 <Button
                     className={classes.button}
                     variant="contained"

@@ -44,6 +44,33 @@ router.get('/:service_id', (req, res) => {
         });
 });
 
+/* Retrieve services with specified tags.
+ */
+router.post('/filter', (req, res) => {
+    const filter = {};
+    if (req.body.tags && req.body.tags.length > 0) {
+        filter.tags = { $all: req.body.tags };
+    }
+    if (req.body.search && req.body.search.length > 0) {
+        filter.$or = [
+            { name: new RegExp(req.body.search, 'i') },
+            { provider: new RegExp(req.body.search, 'i') },
+        ];
+    }
+    Service.find(filter).then(services => {
+        if (services) {
+            return res.status(200).json({
+                success: true,
+                result: services,
+            });
+        } else {
+            return res
+                .status(404)
+                .json({ errors: [{ service: 'services are empty' }] });
+        }
+    });
+});
+
 /* ADD a service. */
 router.post('/', (req, res) => {
     User.findOne({ username: req.body.username })
@@ -66,6 +93,7 @@ router.post('/', (req, res) => {
                             duration: req.body.duration,
                             availability: req.body.availability,
                             location: req.body.location,
+                            tags: req.body.tags,
                         });
                         newService
                             .save()
