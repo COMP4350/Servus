@@ -1,11 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Button, TextField, IconButton } from '@material-ui/core';
+import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
+import {
+    Button,
+    TextField,
+    IconButton,
+    ThemeProvider,
+    Typography,
+} from '@material-ui/core';
 import useForm from '../hooks/useForm';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useHistory } from 'react-router';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
+const theme = createMuiTheme({
+    palette: {
+        type: 'dark',
+        primary: {
+            main: '#647AA3',
+        },
+        secondary: {
+            main: '#EC5732',
+        },
+        default: {
+            main: '#FFF2EB',
+        },
+    },
+    background: {
+        dark: '#151515',
+        main: '#272727',
+    },
+    typography: {
+        fontFamily: ['Roboto'],
+    },
+});
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -14,6 +42,9 @@ const useStyles = makeStyles(() => ({
         justifyContent: 'space-evenly',
         alignItems: 'center',
         margin: '2%',
+    },
+    title: {
+        color: 'white',
     },
     textField: {
         width: '50%',
@@ -170,96 +201,100 @@ const Account = props => {
     }, []);
 
     return (
-        <div className={classes.root}>
-            <h2>Account Details</h2>
-            <TextField
-                className={classes.textField}
-                id="outlined-basic"
-                label="First Name"
-                name="firstName"
-                value={form.firstName}
-                onChange={onFormChange}
-                error={errors.firstName}
-            />
-            <TextField
-                className={classes.textField}
-                id="outlined-basic"
-                label="Last Name"
-                name="lastName"
-                value={form.lastName}
-                onChange={onFormChange}
-                error={errors.lastName}
-            />
-            <TextField
-                className={classes.textField}
-                id="outlined-basic"
-                label="Username"
-                name="username"
-                value={form.username}
-                onChange={onFormChange}
-                error={errors.username}
-            />
-            {updatingPassword ? (
-                <div className={classes.passwordContainer}>
-                    <TextField
-                        className={classes.passwordTextField}
-                        id="outlined-password-input"
-                        label="password"
-                        type="Password"
-                        autoComplete="current-password"
-                        name="password"
-                        value={form.password}
-                        onChange={onFormChange}
-                        error={passwordErrors.password}
-                    />
-                    <TextField
-                        className={classes.passwordTextField}
-                        id="outlined-password-input"
-                        label="Confirm Password"
-                        type="password"
-                        name="confirmPassword"
-                        value={form.confirmPassword}
-                        onChange={onFormChange}
-                        error={passwordErrors.confirmPassword}
-                    />
+        <ThemeProvider theme={theme}>
+            <div className={classes.root}>
+                <Typography variant="h2" className={classes.title}>
+                    Account Details
+                </Typography>
+                <TextField
+                    className={classes.textField}
+                    id="outlined-basic"
+                    label="First Name"
+                    name="firstName"
+                    value={form.firstName}
+                    onChange={onFormChange}
+                    error={errors.firstName}
+                />
+                <TextField
+                    className={classes.textField}
+                    id="outlined-basic"
+                    label="Last Name"
+                    name="lastName"
+                    value={form.lastName}
+                    onChange={onFormChange}
+                    error={errors.lastName}
+                />
+                <TextField
+                    className={classes.textField}
+                    id="outlined-basic"
+                    label="Username"
+                    name="username"
+                    value={form.username}
+                    onChange={onFormChange}
+                    error={errors.username}
+                />
+                {updatingPassword ? (
+                    <div className={classes.passwordContainer}>
+                        <TextField
+                            className={classes.passwordTextField}
+                            id="outlined-password-input"
+                            label="password"
+                            type="Password"
+                            autoComplete="current-password"
+                            name="password"
+                            value={form.password}
+                            onChange={onFormChange}
+                            error={passwordErrors.password}
+                        />
+                        <TextField
+                            className={classes.passwordTextField}
+                            id="outlined-password-input"
+                            label="Confirm Password"
+                            type="password"
+                            name="confirmPassword"
+                            value={form.confirmPassword}
+                            onChange={onFormChange}
+                            error={passwordErrors.confirmPassword}
+                        />
+                        <Button
+                            className={classes.button}
+                            onClick={validatePassword}
+                            variant="contained">
+                            Update Password
+                        </Button>
+                    </div>
+                ) : (
                     <Button
                         className={classes.button}
-                        onClick={validatePassword}
+                        onClick={() => setUpdatingPassword(true)}
                         variant="contained">
                         Update Password
                     </Button>
-                </div>
-            ) : (
-                <Button
-                    className={classes.button}
-                    onClick={() => setUpdatingPassword(true)}
-                    variant="contained">
-                    Update Password
-                </Button>
-            )}
+                )}
 
-            <div className={classes.buttonContainer}>
-                <Button
-                    className={classes.button}
-                    variant="contained"
-                    onClick={validateInfo}>
-                    Update Info
-                </Button>
-                <Button
-                    className={classes.button}
-                    variant="contained"
-                    onClick={logout}>
-                    Logout
-                </Button>
+                <div className={classes.buttonContainer}>
+                    <Button
+                        className={classes.button}
+                        variant="contained"
+                        onClick={validateInfo}>
+                        Update Info
+                    </Button>
+                    <Button
+                        className={classes.button}
+                        variant="contained"
+                        onClick={logout}>
+                        Logout
+                    </Button>
+                </div>
+                <IconButton
+                    className={classes.accountBtn}
+                    onClick={() => {
+                        toProfile();
+                    }}>
+                    <ArrowBackIcon className={classes.arrowIcon} />
+                </IconButton>
             </div>
-            <IconButton
-                className={classes.accountBtn}
-                onClick={() => {
-                    toProfile();
-                }}>
-                <ArrowBackIcon className={classes.arrowIcon} />
-            </IconButton>
-        </div>
+        </ThemeProvider>
     );
 };
 

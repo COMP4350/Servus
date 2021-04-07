@@ -38,7 +38,7 @@ router.get('/:username', (req, res) => {
     User.findOne({ username: req.params.username })
         .then(user => {
             if (user) {
-                Image.find()
+                Image.find({ ownerUsername: user.username })
                     .then(images => {
                         return res.status(200).json({
                             success: true,

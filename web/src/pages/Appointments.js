@@ -12,7 +12,6 @@ const Appointment = () => {
         //this gets appointments where the user is both the buyer and provider
         const res = await axios.get(`/appointment/${username}`);
         setAppointments(res.data.result);
-        console.log(appointments);
     };
     //fetch appointments
     useEffect(() => {

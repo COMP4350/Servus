@@ -99,9 +99,9 @@ const listItemClass = makeStyles(theme => ({
 }));
 
 // Service List component.
-const ServiceList = () => {
+const ServiceList = props => {
     const [services, setServices] = useState(null);
-    const [selectedIndex, setSelectedIndex] = useState(1);
+    const [selectedIndex, setSelectedIndex] = useState(-1);
     const [serviceTags, setServiceTags] = useState(false);
     const [activeFilters] = useState([]);
     const [change, setChange] = useState(false);
@@ -212,6 +212,9 @@ const ServiceList = () => {
             <List className={classes.rootList}>
                 {services
                     ? services.map((service, index) => {
+                          if (selectedIndex == index) {
+                              props.setSelectedService(service);
+                          }
                           return (
                               <ListItem
                                   key={index}

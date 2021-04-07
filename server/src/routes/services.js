@@ -132,9 +132,44 @@ router.put('/:service_id/rate', (req, res) => {
     }
 
     // Push the rating to the service's ratings array.
-    Service.findByIdAndUpdate(req.params.service_id, {
-        $push: { ratings: req.body.rating },
-    });
+    Service.findById(req.params.service_id)
+        .then(service => {
+            if (service) {
+                let found = false;
+                if (!service.ratings) {
+                    service.ratings = [];
+                }
+                service.ratings.map(rating => {
+                    if (rating.username == req.body.username) {
+                        rating.rating = req.body.rating;
+                        found = true;
+                    }
+                });
+
+                if (!found)
+                    service.ratings.push({
+                        rating: req.body.rating,
+                        username: req.body.username,
+                    });
+
+                service
+                    .save()
+                    .then(service => {
+                        return res
+                            .status(200)
+                            .json({ success: true, result: service });
+                    })
+                    .catch(err => {
+                        return res.status(500).json({
+                            success: false,
+                            errors: [{ error: err }],
+                        });
+                    });
+            }
+        })
+        .catch(err => {
+            return res.status(500).json({ errors: [{ error: err }] });
+        });
 });
 
 /* UPDATE a service. Returns the OLD object */
