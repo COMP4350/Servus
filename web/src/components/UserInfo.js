@@ -196,9 +196,7 @@ const UserInfo = ({ user }) => {
                 <div className={classes.userContainer}>
                     <div className={classes.userDesc}>
                         <AccountCircle className={classes.userIcon} />
-                        <Typography
-                            className={classes.username}
-                            color="textPrimary">{`@${user.username}`}</Typography>
+                        <Typography className={classes.username}>{`@${user.username}`}</Typography>
                         <div className={classes.bioContainer}>
                             <Typography
                                 className={classes.bio}
@@ -206,7 +204,7 @@ const UserInfo = ({ user }) => {
                                 {user.bio}
                             </Typography>
                         </div>
-                        <Typography color="textSecondary">{`Service List:`}</Typography>
+                        <Typography>{`Service List:`}</Typography>
                     </div>
                     <ServiceList username={user.username} />
                 </div>
