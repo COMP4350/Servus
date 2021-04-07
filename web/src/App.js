@@ -46,6 +46,20 @@ const useStyles = makeStyles(() => ({
         height: '100%',
         background: theme.background.dark,
     },
+    '@global': {
+        '*::-webkit-scrollbar': {
+            display: 'none',
+        },
+        '.MuiInputBase-input': {
+            color: 'white',
+        },
+        '.MuiInputBase-root': {
+            color: 'white',
+        },
+        '.MuiInputLabel-root': {
+            color: 'white',
+        },
+    },
 }));
 
 const App = () => {

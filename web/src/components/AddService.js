@@ -12,7 +12,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import { tagNames } from './FilterList';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
     textField: {
         width: '80%',
         marginBottom: '3%',
@@ -28,6 +28,7 @@ const useStyles = makeStyles(() => ({
     addressSearch: {
         width: '80%',
         marginBottom: '3%',
+        color: 'white',
     },
     addressField: {
         width: '100%',
@@ -40,21 +41,28 @@ const useStyles = makeStyles(() => ({
     buttonContainer: {
         display: 'flex',
         marginTop: '10px',
+        justifyContent: 'center',
+        width: '100%',
     },
     servicesContainer: {
         width: '100%',
-        backgroundColor: 'white',
-        padding: 10,
+        backgroundColor: theme.background.dark,
+        height: '100%',
+        color: 'white',
     },
     serviceForm: {
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
         alignItems: 'center',
-        marginTop: '50px',
+        padding: 10,
     },
     formControl: {
         margin: '10px',
+    },
+    tagSelectLabel: {
+        marginTop: '10px',
+        marginBottom: '10px',
     },
     tagSelect: {
         width: '100%',
@@ -100,7 +108,7 @@ const AddService = ({ addedService }) => {
         weekday: 0,
     });
     const [servicesErrors, setServiceErrors] = useState({});
-    const [serviceFormValid, setServiceFormValid] = useState({});
+    const [serviceFormValid, setServiceFormValid] = useState(false);
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         libraries: mapLibraries,
@@ -298,7 +306,11 @@ const AddService = ({ addedService }) => {
                         <MenuItem value={6}>Sunday</MenuItem>
                     </TextField>
                 </div>
-                <InputLabel id="tag-select-label">Tags</InputLabel>
+                <InputLabel
+                    className={classes.tagSelectLabel}
+                    id="tag-select-label">
+                    Tags
+                </InputLabel>
                 <Select
                     className={classes.tagSelect}
                     labelId="tag-select-label"
@@ -334,12 +346,14 @@ const AddService = ({ addedService }) => {
                         </MenuItem>
                     ))}
                 </Select>
-                <Button
-                    className={classes.button}
-                    variant="contained"
-                    onClick={validateService}>
-                    Add Service
-                </Button>
+                <div className={classes.buttonContainer}>
+                    <Button
+                        className={classes.button}
+                        variant="contained"
+                        onClick={validateService}>
+                        Add Service
+                    </Button>
+                </div>
             </div>
         </div>
     );

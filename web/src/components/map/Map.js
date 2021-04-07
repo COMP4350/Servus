@@ -28,13 +28,19 @@ const useStyles = makeStyles(() => ({
         width: '100%',
     },
     textField: {
-        backgroundColor: 'white',
+        backgroundColor: 'black',
+        width: '100%',
+        paddingLeft: '10px',
+    },
+    autocomplete: {
+        width: '80%',
     },
     addressContainer: {
         display: 'flex',
         justifyContent: 'center',
         marginTop: '2%',
         width: '100%',
+        color: 'black',
     },
     mapContainer: {
         width: '100%',
@@ -140,7 +146,8 @@ const Map = () => {
                                 origin: center,
                             }}
                             onPlaceChanged={onSearchAddressChanged}
-                            onLoad={onAutoCompleteLoad}>
+                            onLoad={onAutoCompleteLoad}
+                            className={classes.autocomplete}>
                             <TextField
                                 className={classes.textField}
                                 id="search-address"
