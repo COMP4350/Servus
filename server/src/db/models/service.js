@@ -20,6 +20,7 @@ const serviceSchema = new Schema({
         lng: { type: Number, required: true },
         address: { type: String, required: true },
     },
+    ratings: { type: [Number], required: false },
     tags: { type: [String], required: false },
 });
 
