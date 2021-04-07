@@ -206,6 +206,7 @@ const AddService = ({ addedService }) => {
                     value={serviceForm.name}
                     onChange={onServiceFormChange}
                     error={servicesErrors.name}
+                    helperText={servicesErrors.name}
                 />
                 <TextField
                     className={classes.textField}
@@ -214,6 +215,7 @@ const AddService = ({ addedService }) => {
                     value={serviceForm.description}
                     onChange={onServiceFormChange}
                     error={servicesErrors.description}
+                    helperText={servicesErrors.description}
                 />
                 <TextField
                     className={classes.textField}
@@ -222,6 +224,7 @@ const AddService = ({ addedService }) => {
                     value={serviceForm.cost}
                     onChange={onServiceFormChange}
                     error={servicesErrors.cost}
+                    helperText={servicesErrors.cost}
                 />
                 <TextField
                     className={classes.textField}
@@ -230,6 +233,7 @@ const AddService = ({ addedService }) => {
                     value={serviceForm.duration}
                     onChange={onServiceFormChange}
                     error={servicesErrors.duration}
+                    helperText={servicesErrors.duration}
                 />
                 {isLoaded && (
                     <Autocomplete
