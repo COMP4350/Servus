@@ -19,37 +19,6 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { withStyles } from '@material-ui/core/styles';
 
-
-// const owners = [
-//     {
-//         text: 'zimbakor',
-//         id: 1,
-//         color: '#7E57C2',
-//     }, {
-//         text: 'arvind',
-//         id: 2,
-//         color: '#FF7043',
-//     }, {
-//         text: 'Andus odonus',
-//         id: 3,
-//         color: '#E91E63',
-//     }, {
-//         text: 'Taylor Riley',
-//         id: 4,
-//         color: '#E91E63',
-//     }, {
-//         text: 'Brad Farkus',
-//         id: 5,
-//         color: '#AB47BC',
-//     }, {
-//         text: 'Arthur Miller',
-//         id: 6,
-//         color: '#FFA726',
-//     },
-// ];
-
-
-
 const getBorder = theme => (`1px solid ${theme.palette.type === 'light'
     ? lighten(fade(theme.palette.divider, 1), 0.88)
     : darken(fade(theme.palette.divider, 1), 0.68)
@@ -229,42 +198,32 @@ const FlexibleSpace = withStyles(styles, { name: 'ToolbarRoot' })(({ classes, ..
     </Toolbar.FlexibleSpace>
 ));
 
-// const getRandomColor = () => {
-//     var letters = '0123456789ABCDEF';
-//     var color = '#';
-//     for (var i = 0; i < 6; i++) {
-//       color += letters[Math.floor(Math.random() * 16)];
-//     }
-//     return color;
-// }
-
+const getRandomColor = () => {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+let setColor = false;
 
 const Calendar = ({ appointments }) => {
     const [data, setData] = useState([]);
     const [owners, setOwners] = useState([]);
-    // const colors = ['#7E57C2', '#FF7043', '#E91E63', '#E91E63', '#AB47BC', '#FFA726'];
     const newDate = new Date();
 
     const passInfo = () => {
         appointments?.forEach( (apt, i) => {
+            const newOwner = { 
+                text: apt.provider,
+                id: i,
+                color: getRandomColor(),
+            }
+            setOwners(owners => [... owners , newOwner]);
             axios.get(`/services/${apt.service_id}`)
                 .then(response => {
                     const service = response.data.result;
-                    // let color = '';
-                    // const check = owners.find( ({text}) => text === service.provider);
-                    // console.log(owners.find( ({text}) => text === service.provider));
-                    // if (check)
-                    //     color = check.color;
-                    // else
-                    //     color = getRandomColor();
-
-                    const newOwner = { 
-                            text: service.provider,
-                            id: i,
-                            color: '#7E57C2',
-                    }
-                    setOwners(owners => [... owners , newOwner]);
-
                     const startDate = new Date(apt.booked_time);
                     const endDate = new Date(startDate);
                     endDate.setTime(endDate.getTime() + service.duration * 60 * 1000);
@@ -277,11 +236,20 @@ const Calendar = ({ appointments }) => {
                     }
                     setData(data => [... data , tempObj]);
                 }
-                );
+            );
         });
+        setColor = false;
     }
-    console.log(`owners ${owners}`);
-
+    if(!setColor && appointments.length === owners.length) {
+        owners?.forEach( name => {
+            for(let i=1; i<owners.length; i++) {
+                if(name.text === owners[i].text && owners[i].color !== name.color) { 
+                    owners[i].color = name.color;
+                }
+            }
+        });
+        setColor = true;
+    }
     const resources = [{
         fieldName: 'ownerId',
         title: 'Owners',
@@ -291,6 +259,7 @@ const Calendar = ({ appointments }) => {
     useEffect( () => {
         passInfo();
     }, [])
+
     return (
         <div>
             <Scheduler
