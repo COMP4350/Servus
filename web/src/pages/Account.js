@@ -140,7 +140,7 @@ const Account = props => {
         setFormValid(Object.getOwnPropertyNames(errors).length == 0);
     };
     const logout = () => {
-        removeCookie('username', '');
+        removeCookie('username');
         props.setUsername('');
         history.push('/login');
     };
