@@ -4,29 +4,15 @@ exports[`ServiceCard renders correctly 1`] = `
 <DocumentFragment>
   <div
     class="MuiPaper-root MuiCard-root makeStyles-cardView-1 MuiPaper-outlined MuiPaper-rounded"
-    style="background-color: rgb(100, 122, 163);"
   >
-    <h2
-      class="makeStyles-title-2"
-    >
-      Risto's Painting
-    </h2>
-    <div
-      class="makeStyles-details-3"
-    >
-      <p>
-        Provider: Risto
-      </p>
-      <p>
-        Info: Risto paints you
-      </p>
-      <p>
-        $: 100
-      </p>
-      <p>
-        Time: 60
+    <div>
+      <p
+        class="MuiTypography-root makeStyles-title-2 MuiTypography-body1 MuiTypography-alignLeft"
+      >
+        Risto's Painting
       </p>
     </div>
+    <div />
   </div>
 </DocumentFragment>
 `;

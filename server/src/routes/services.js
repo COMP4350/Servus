@@ -44,6 +44,33 @@ router.get('/:service_id', (req, res) => {
         });
 });
 
+/* Retrieve services with specified tags.
+ */
+router.post('/filter', (req, res) => {
+    const filter = {};
+    if (req.body.tags && req.body.tags.length > 0) {
+        filter.tags = { $all: req.body.tags };
+    }
+    if (req.body.search && req.body.search.length > 0) {
+        filter.$or = [
+            { name: new RegExp(req.body.search, 'i') },
+            { provider: new RegExp(req.body.search, 'i') },
+        ];
+    }
+    Service.find(filter).then(services => {
+        if (services) {
+            return res.status(200).json({
+                success: true,
+                result: services,
+            });
+        } else {
+            return res
+                .status(404)
+                .json({ errors: [{ service: 'services are empty' }] });
+        }
+    });
+});
+
 /* ADD a service. */
 router.post('/', (req, res) => {
     User.findOne({ username: req.body.username })
@@ -66,6 +93,8 @@ router.post('/', (req, res) => {
                             duration: req.body.duration,
                             availability: req.body.availability,
                             location: req.body.location,
+                            tags: req.body.tags,
+                            icon_name: req.body.icon_name,
                         });
                         newService
                             .save()
@@ -92,6 +121,55 @@ router.post('/', (req, res) => {
             return res.status(500).json({
                 errors: [{ error: err }],
             });
+        });
+});
+
+/* Add a rating to a service. */
+router.put('/:service_id/rate', (req, res) => {
+    if (!req.body.rating || req.body.rating <= 0 || req.body.rating > 5) {
+        return res
+            .status(400)
+            .json({ errors: 'Rating outside of valid range' });
+    }
+
+    // Push the rating to the service's ratings array.
+    Service.findById(req.params.service_id)
+        .then(service => {
+            if (service) {
+                let found = false;
+                if (!service.ratings) {
+                    service.ratings = [];
+                }
+                service.ratings.map(rating => {
+                    if (rating.username == req.body.username) {
+                        rating.rating = req.body.rating;
+                        found = true;
+                    }
+                });
+
+                if (!found)
+                    service.ratings.push({
+                        rating: req.body.rating,
+                        username: req.body.username,
+                    });
+
+                service
+                    .save()
+                    .then(service => {
+                        return res
+                            .status(200)
+                            .json({ success: true, result: service });
+                    })
+                    .catch(err => {
+                        return res.status(500).json({
+                            success: false,
+                            errors: [{ error: err }],
+                        });
+                    });
+            }
+        })
+        .catch(err => {
+            return res.status(500).json({ errors: [{ error: err }] });
         });
 });
 

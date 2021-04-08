@@ -1,9 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import { Button, TextField } from '@material-ui/core';
+import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
+import {
+    Button,
+    TextField,
+    ThemeProvider,
+    Typography,
+} from '@material-ui/core';
 import axios from 'axios';
 import useForm from '../hooks/useForm';
+
+const theme = createMuiTheme({
+    palette: {
+        type: 'dark',
+        primary: {
+            main: '#647AA3',
+        },
+        secondary: {
+            main: '#EC5732',
+        },
+        default: {
+            main: '#FFF2EB',
+        },
+    },
+    background: {
+        dark: '#151515',
+        main: '#272727',
+    },
+    typography: {
+        fontFamily: ['Roboto'],
+    },
+});
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -20,6 +47,9 @@ const useStyles = makeStyles(() => ({
     button: {
         marginBottom: '3%',
         textTransform: 'capitalize',
+    },
+    title: {
+        color: 'white',
     },
 }));
 
@@ -72,41 +102,45 @@ const Login = props => {
     }, [formValid]);
 
     return (
-        <div className={classes.root}>
-            <h2>Login</h2>
-            <TextField
-                className={classes.textField}
-                id="outlined-basic"
-                label="username"
-                name="username"
-                value={loginForm.username}
-                onChange={onFormChange}
-                error={errors.username}
-            />
-            <TextField
-                className={classes.textField}
-                id="outlined-password-input"
-                label="password"
-                type="password"
-                name="password"
-                autoComplete="current-password"
-                value={loginForm.password}
-                onChange={onFormChange}
-                error={errors.password}
-            />
-            <Button
-                className={classes.button}
-                variant="contained"
-                onClick={validate}>
-                Login
-            </Button>
-            <Button
-                className={classes.button}
-                variant="contained"
-                onClick={() => history.push('/signup')}>
-                Sign up
-            </Button>
-        </div>
+        <ThemeProvider theme={theme}>
+            <div className={classes.root}>
+                <Typography variant="h2" className={classes.title}>
+                    Login
+                </Typography>
+                <TextField
+                    className={classes.textField}
+                    id="outlined-basic"
+                    label="username"
+                    name="username"
+                    value={loginForm.username}
+                    onChange={onFormChange}
+                    error={errors.username}
+                />
+                <TextField
+                    className={classes.textField}
+                    id="outlined-password-input"
+                    label="password"
+                    type="password"
+                    name="password"
+                    autoComplete="current-password"
+                    value={loginForm.password}
+                    onChange={onFormChange}
+                    error={errors.password}
+                />
+                <Button
+                    className={classes.button}
+                    variant="contained"
+                    onClick={validate}>
+                    Login
+                </Button>
+                <Button
+                    className={classes.button}
+                    variant="contained"
+                    onClick={() => history.push('/signup')}>
+                    Sign up
+                </Button>
+            </div>
+        </ThemeProvider>
     );
 };
 

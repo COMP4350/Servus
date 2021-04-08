@@ -24,6 +24,7 @@ const useStyles = makeStyles(() => ({
     settingsIcon: {
         height: '75px',
         width: '75px',
+        color: 'white',
     },
 }));
 
@@ -65,7 +66,7 @@ const Profile = () => {
     return (
         <div className={classes.root}>
             <UserInfo user={user} />
-            <ImageBoard username={cookies.username}></ImageBoard>
+            <ImageBoard username={targetUsername}></ImageBoard>
 
             {cookies.username && cookies.username === targetUsername
                 ? displaySettings()

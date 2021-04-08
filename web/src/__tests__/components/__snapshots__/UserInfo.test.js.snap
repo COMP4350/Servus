@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserInfo renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="makeStyles-root-1"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body1"
+    >
+      User Does Not Exist
+    </p>
+  </div>
+</DocumentFragment>
+`;

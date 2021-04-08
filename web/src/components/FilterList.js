@@ -1,0 +1,27 @@
+export const tagNames = [
+    'Advertising',
+    'Art',
+    'Beauty',
+    'Caretaking',
+    'Cleaning',
+    'Commission',
+    'Construction',
+    'Farming',
+    'Fashion',
+    'Finance',
+    'Food',
+    'Gaming',
+    'Hair',
+    'Interpreting',
+    'Lessons',
+    'Meditation',
+    'Music',
+    'Performance',
+    'Seasonal',
+    'Sports',
+    'Transportation',
+    'Writing',
+    'Yard',
+];
+
+export default tagNames;

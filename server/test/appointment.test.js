@@ -54,7 +54,7 @@ describe('Appointment', () => {
         });
         it('should GET users appointments', done => {
             createDummyUsersWithServicesAndAppointments()
-                .then(appts => {
+                .then(() => {
                     chai.request(app)
                         .get('/appointment/testuser')
                         .end((err, res) => {

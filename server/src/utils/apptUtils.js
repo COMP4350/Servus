@@ -29,7 +29,7 @@ const inTimeSlot = (service, request) => {
                 'HHmm'
             );
             let end_t = moment(availability.end_time, 'HHmm').format('HHmm');
-            if (start_t > desired_start_time || desired_end_time >= end_t) {
+            if (start_t > desired_start_time || desired_end_time > end_t) {
                 return {
                     success: false,
                     availability_start: start_t,

@@ -4,6 +4,6 @@ import App from '../App';
 
 test('Check title', () => {
     render(<App />);
-    const linkElement = screen.getByText('Servus');
+    const linkElement = screen.getByText('Appointments');
     expect(linkElement).toBeInTheDocument();
 });

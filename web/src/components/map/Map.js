@@ -16,6 +16,7 @@ import {
     GoogleMap,
     useJsApiLoader,
 } from '@react-google-maps/api';
+import serviceIconMap from '../ServiceIconMap';
 import ServiceIcon from '../../images/flag_icon.png';
 import ServiceWindow from './ServiceWindow';
 
@@ -28,18 +29,23 @@ const useStyles = makeStyles(() => ({
         width: '100%',
     },
     textField: {
-        backgroundColor: 'white',
+        backgroundColor: 'black',
+        width: '100%',
+        paddingLeft: '10px',
+    },
+    autocomplete: {
+        width: '80%',
     },
     addressContainer: {
         display: 'flex',
         justifyContent: 'center',
         marginTop: '2%',
         width: '100%',
+        color: 'black',
     },
     mapContainer: {
         width: '100%',
-        height: '90%',
-        margin: 10,
+        height: '100%',
     },
     button: {
         backgroundColor: 'white',
@@ -55,10 +61,11 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const Map = () => {
+const Map = props => {
     const classes = useStyles();
     const [center, setCenter] = useState(winnipeg);
-
+    const [allServices] = useState({});
+    let prevWindow = false;
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         libraries: mapLibraries,
@@ -78,12 +85,12 @@ const Map = () => {
             let services = response.data.result;
             services &&
                 services.map(service => {
-                    var div = document.createElement('div');
+                    let div = document.createElement('div');
                     //build the content string
                     const contentString = (
                         <ServiceWindow
+                            history={props.history}
                             service={service}
-                            username={'zimbakor'}
                         />
                     );
                     ReactDOM.render(contentString, div);
@@ -92,18 +99,34 @@ const Map = () => {
                         content: div,
                     });
 
+                    let markerIcon = service.icon_name
+                        ? {
+                              path: serviceIconMap[service.icon_name].path,
+                              fillColor: '#EC5732',
+                              fillOpacity: 1,
+                              strokeWeight: 0,
+                              scale: 1,
+                          }
+                        : ServiceIcon;
+
                     let serviceMarker = new window.google.maps.Marker({
                         map,
                         position: {
                             lat: service.location.lat,
                             lng: service.location.lng,
                         },
-                        icon: ServiceIcon,
+                        icon: markerIcon,
                         visible: true,
                     });
                     serviceMarker.addListener('click', () => {
+                        if (prevWindow) {
+                            prevWindow.close();
+                        }
+                        prevWindow = infowindow;
+
                         infowindow.open(map, serviceMarker);
                     });
+                    allServices[service._id] = serviceMarker;
                 });
         });
     }, []);
@@ -126,9 +149,17 @@ const Map = () => {
     };
 
     useEffect(() => {
+        if (props.selected_service) {
+            setCenter(props.selected_service.location);
+            new window.google.maps.event.trigger(
+                allServices[props.selected_service._id],
+                'click'
+            );
+        }
         marker.current?.setPosition(center);
-        marker.current?.setVisible(true);
-    }, [center]);
+        marker.current?.setVisible(false);
+    }, [center, props.selected_service]);
+
     return (
         <div className={classes.root}>
             {isLoaded && (
@@ -146,7 +177,8 @@ const Map = () => {
                                 origin: center,
                             }}
                             onPlaceChanged={onSearchAddressChanged}
-                            onLoad={onAutoCompleteLoad}>
+                            onLoad={onAutoCompleteLoad}
+                            className={classes.autocomplete}>
                             <TextField
                                 className={classes.textField}
                                 id="search-address"
