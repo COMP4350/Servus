@@ -78,17 +78,15 @@ const Header = props => {
     ];
 
     return (
-        <div
-            className={classes.root}
-            position="static">
+        <div className={classes.root} position="static">
             <Toolbar>
-                <div
-                    className={classes.title}
-                >
+                <div className={classes.title}>
                     <img
                         className={classes.logo}
                         onClick={() => handleButtonClick('/')}
-                        src={CompanyTitle} height="50" />
+                        src={CompanyTitle}
+                        height="50"
+                    />
                 </div>
                 {isMobile ? (
                     <>
@@ -133,21 +131,17 @@ const Header = props => {
                     <div className={classes.headerOptions}>
                         <Button
                             className={classes.menuButton}
-                            onClick={() =>
-                                handleButtonClick('/appointment')
-                            }>
-                            <Typography variant="h4">
-                                Appointments
-                                </Typography>
+                            onClick={() => handleButtonClick('/appointment')}>
+                            <Typography variant="h4">Appointments</Typography>
                         </Button>
                         <Button
                             className={classes.menuButton}
                             onClick={
                                 props.username
                                     ? () =>
-                                        handleButtonClick(
-                                            `/profile/${props.username}`
-                                        )
+                                          handleButtonClick(
+                                              `/profile/${props.username}`
+                                          )
                                     : () => handleButtonClick('/login')
                             }>
                             <Typography variant="h4">
