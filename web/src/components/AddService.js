@@ -31,7 +31,6 @@ const useStyles = makeStyles(theme => ({
         width: '80%',
         marginBottom: '3%',
         color: 'white',
-        zIndex: 1000,
     },
     addressField: {
         width: '100%',
@@ -58,7 +57,9 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
+        height: '100%',
         alignItems: 'center',
+        overflow: 'scroll',
         padding: 10,
         backgroundColor: theme.background.dark,
     },
