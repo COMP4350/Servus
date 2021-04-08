@@ -106,6 +106,7 @@ const SignUp = () => {
                 value={signUpForm.firstName}
                 onChange={onFormChange}
                 error={errors.firstName}
+                helperText={errors.firstName}
             />
             <TextField
                 className={classes.textField}
@@ -115,6 +116,7 @@ const SignUp = () => {
                 value={signUpForm.lastName}
                 onChange={onFormChange}
                 error={errors.lastName}
+                helperText={errors.lastName}
             />
             <TextField
                 className={classes.textField}
@@ -124,6 +126,7 @@ const SignUp = () => {
                 value={signUpForm.username}
                 onChange={onFormChange}
                 error={errors.username}
+                helperText={errors.username}
             />
             <TextField
                 className={classes.textField}
@@ -135,6 +138,7 @@ const SignUp = () => {
                 value={signUpForm.password}
                 onChange={onFormChange}
                 error={errors.password}
+                helperText={errors.password}
             />
             <TextField
                 className={classes.textField}
@@ -145,6 +149,7 @@ const SignUp = () => {
                 value={signUpForm.confirmPassword}
                 onChange={onFormChange}
                 error={errors.confirmPassword}
+                helperText={errors.confirmPassword}
             />
             <Button
                 className={classes.button}

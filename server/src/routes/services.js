@@ -94,6 +94,7 @@ router.post('/', (req, res) => {
                             availability: req.body.availability,
                             location: req.body.location,
                             tags: req.body.tags,
+                            icon_name: req.body.icon_name,
                         });
                         newService
                             .save()

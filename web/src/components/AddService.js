@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Button, TextField, MenuItem } from '@material-ui/core';
+import { Button, ButtonGroup, TextField, MenuItem } from '@material-ui/core';
 import useForm from '../hooks/useForm';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
@@ -14,7 +14,7 @@ import { tagNames } from './FilterList';
 import { serviceIconMap } from './ServiceIconMap';
 import { Grid, IconButton, FormControl } from '@material-ui/core/';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
     textField: {
         width: '80%',
         marginBottom: '3%',
@@ -26,10 +26,12 @@ const useStyles = makeStyles(() => ({
         width: '80%',
         display: 'flex',
         justifyContent: 'space-between',
+        alignItems: 'center',
     },
     addressSearch: {
         width: '80%',
         marginBottom: '3%',
+        color: 'white',
     },
     addressField: {
         width: '100%',
@@ -42,18 +44,27 @@ const useStyles = makeStyles(() => ({
     buttonContainer: {
         display: 'flex',
         marginTop: '10px',
+        justifyContent: 'center',
+        backgroundColor: theme.background.dark,
+        width: '100%',
     },
     servicesContainer: {
         width: '100%',
-        backgroundColor: 'white',
-        padding: 10,
+        backgroundColor: theme.background.dark,
+        height: '100%',
+        color: 'white',
     },
     serviceForm: {
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
+        height: '100%',
         alignItems: 'center',
-        marginTop: '50px',
+        justifyContent: 'flex-start',
+        paddingTop: '64px',
+        overflow: 'scroll',
+        padding: 10,
+        backgroundColor: theme.background.dark,
     },
     formControl: {
         margin: '10px',
@@ -67,7 +78,10 @@ const useStyles = makeStyles(() => ({
         marginBottom: '4px',
     },
     tagSelect: {
-        width: '100%',
+        width: '80%',
+    },
+    tagSelectText: {
+        'align-content': 'left',
     },
     chips: {
         display: 'flex',
@@ -75,6 +89,38 @@ const useStyles = makeStyles(() => ({
     },
     chip: {
         margin: 2,
+    },
+    iconGrid: {
+        margin: 0,
+        width: '80%',
+        marginTop: '16px',
+    },
+    daysContainer: {
+        width: '60%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginTop: '10px',
+        marginBottom: '20px',
+    },
+    dayButton: {
+        textTransform: 'capitalize',
+    },
+    selectedDayButton: {
+        backgroundColor: 'white',
+        color: 'black',
+        textTransform: 'capitalize',
+    },
+    timesContainer: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    addButton: {
+        marginTop: '24px',
+        textTransform: 'capitalize',
     },
 }));
 
@@ -87,18 +133,42 @@ const getStyles = (name, serviceTags, theme) => {
     };
 };
 
+const days = [
+    { index: 0, name: 'Sunday' },
+    { index: 1, name: 'Monday' },
+    { index: 2, name: 'Tuesday' },
+    { index: 3, name: 'Wednesday' },
+    { index: 4, name: 'Thursday' },
+    { index: 5, name: 'Friday' },
+    { index: 6, name: 'Saturday' },
+];
+
 const AddService = ({ addedService }) => {
     const classes = useStyles();
     const theme = useTheme();
     const [cookies] = useCookies(['username']);
     const [location, setLocation] = useState({});
     const [serviceTags, setServiceTags] = useState([]);
+    const [serviceIconName, setServiceIconName] = useState('place');
+    const [day, setDay] = useState(0);
+    const [availabilities, setAvailabilities] = useState([
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+    ]);
     const handleTagChange = event => {
         setServiceTags(event.target.value);
     };
     const handleTagDelete = chipToDelete => () => {
         console.log(chipToDelete);
         setServiceTags(chips => chips.filter(chip => chip !== chipToDelete));
+    };
+    const handleIconClick = iconName => () => {
+        setServiceIconName(iconName);
     };
     const [serviceForm, onServiceFormChange] = useForm({
         name: '',
@@ -108,7 +178,7 @@ const AddService = ({ addedService }) => {
     const [serviceDuration, setServiceDuration] = useState(0);
     const [serviceDisplayDuration, setServiceDisplayDuration] = useState('30 minutes');
     const [servicesErrors, setServiceErrors] = useState({});
-    const [serviceFormValid, setServiceFormValid] = useState({});
+    const [serviceFormValid, setServiceFormValid] = useState(false);
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         libraries: mapLibraries,
@@ -129,22 +199,31 @@ const AddService = ({ addedService }) => {
         if (serviceDuration.length != 4) {
             errors.duration = 'duration is required';
         }
-        if (!serviceForm.startTime) {
-            errors.availability = 'start time is required';
-        }
-        if (!serviceForm.endTime) {
-            errors.availability = 'end time is required';
-        }
-        if (serviceForm.weekday < 0 || serviceForm.weekday > 6) {
-            errors.availability = 'availability is required';
-        }
         if (Object.getOwnPropertyNames(location).length == 0) {
             errors.location = 'location is required';
         }
         setServiceErrors(errors);
         setServiceFormValid(Object.getOwnPropertyNames(errors).length === 0);
     };
+    const buildAvailabilities = () => {
+        let requestAvailabilities = [];
+        availabilities.forEach((day, index) => {
+            day = day.filter(
+                availability =>
+                    availability.startTime !== '' && availability.endTime !== ''
+            );
+            day.forEach(availability =>
+                requestAvailabilities.push({
+                    weekday: index,
+                    start_time: availability.startTime,
+                    end_time: availability.endTime,
+                })
+            );
+        });
+        return requestAvailabilities;
+    };
     const addService = () => {
+        console.log(serviceIconName);
         if (serviceFormValid) {
             axios
                 .post(
@@ -163,6 +242,7 @@ const AddService = ({ addedService }) => {
                         },
                         ratings: [],
                         tags: serviceTags,
+                        icon_name: serviceIconName,
                     },
                     {
                         withCredentials: true,
@@ -176,8 +256,6 @@ const AddService = ({ addedService }) => {
                 .catch(() => {
                     setServiceFormValid(false);
                 });
-
-            return;
         }
     };
     useEffect(() => {
@@ -331,7 +409,16 @@ const AddService = ({ addedService }) => {
                     value={serviceForm.name}
                     onChange={onServiceFormChange}
                     error={servicesErrors.name}
+                    helperText={servicesErrors.name}
                 />
+                {serviceIconMap[serviceIconName]
+                    ? serviceIconMap[serviceIconName].component
+                    : null}
+                <div className={classes.iconGrid}>
+                    <Grid container spacing={1}>
+                        {getGridItems()}
+                    </Grid>
+                </div>
                 <TextField
                     className={classes.textField}
                     label="Service Description"
@@ -339,6 +426,7 @@ const AddService = ({ addedService }) => {
                     value={serviceForm.description}
                     onChange={onServiceFormChange}
                     error={servicesErrors.description}
+                    helperText={servicesErrors.description}
                 />
                 <TextField
                     className={classes.textField}
@@ -347,6 +435,7 @@ const AddService = ({ addedService }) => {
                     value={serviceForm.cost}
                     onChange={onServiceFormChange}
                     error={servicesErrors.cost}
+                    helperText={servicesErrors.cost}
                 />
                 <FormControl className={classes.durationSelect}>
                     <InputLabel id="durationLabel">
@@ -378,57 +467,43 @@ const AddService = ({ addedService }) => {
                         />
                     </Autocomplete>
                 )}
-                <div className={classes.timeContainer}>
-                    <TextField
-                        id="time"
-                        label="Availability Start"
-                        type="time"
-                        name="startTime"
-                        value={serviceForm.startTime}
-                        defaultValue="07:30"
-                        className={classes.timeField}
-                        onChange={onServiceFormChange}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        inputProps={{
-                            step: 300, // 15 min
-                        }}
-                    />
-                    <TextField
-                        id="time"
-                        label="Availability End"
-                        type="time"
-                        name="endTime"
-                        value={serviceForm.endTime}
-                        defaultValue="07:30"
-                        className={classes.timeField}
-                        onChange={onServiceFormChange}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        inputProps={{
-                            step: 300, // 15 min
-                        }}
-                    />
-                    <TextField
-                        id="select"
-                        label="Availability Weekday"
-                        name="weekday"
-                        value={serviceForm.weekday}
-                        onChange={onServiceFormChange}
-                        select
-                        className={classes.timeField}>
-                        <MenuItem value={0}>Monday</MenuItem>
-                        <MenuItem value={1}>Tuesday</MenuItem>
-                        <MenuItem value={2}>Wednesday</MenuItem>
-                        <MenuItem value={3}>Thursday</MenuItem>
-                        <MenuItem value={4}>Friday</MenuItem>
-                        <MenuItem value={5}>Saturday</MenuItem>
-                        <MenuItem value={6}>Sunday</MenuItem>
-                    </TextField>
+                <div className={classes.daysContainer}>
+                    <ButtonGroup
+                        variant="contained"
+                        color="primary"
+                        aria-label="contained primary button group">
+                        {days.map(currDay => (
+                            <Button
+                                variant="contained"
+                                className={
+                                    day === currDay.index
+                                        ? classes.selectedDayButton
+                                        : classes.dayButton
+                                }
+                                key={currDay.index}
+                                onClick={() => changeDay(currDay.index)}>
+                                {currDay.name}
+                            </Button>
+                        ))}
+                    </ButtonGroup>
                 </div>
-                <InputLabel id="tag-select-label">Tags</InputLabel>
+                <div className={classes.timesContainer}>
+                    {availabilities[day]?.map((availability, index) => {
+                        return timePickers(availability, index);
+                    })}
+                    <Button
+                        variant="contained"
+                        onClick={() => addEmptyAvailability()}
+                        className={classes.addButton}>
+                        Add availability
+                    </Button>
+                </div>
+
+                <InputLabel
+                    className={classes.tagSelectLabel}
+                    id="tag-select-label">
+                    <div className={classes.tagSelectText}>Tags</div>
+                </InputLabel>
                 <Select
                     className={classes.tagSelect}
                     labelId="tag-select-label"
@@ -464,12 +539,14 @@ const AddService = ({ addedService }) => {
                         </MenuItem>
                     ))}
                 </Select>
-                <Button
-                    className={classes.button}
-                    variant="contained"
-                    onClick={validateService}>
-                    Add Service
-                </Button>
+                <div className={classes.buttonContainer}>
+                    <Button
+                        className={classes.button}
+                        variant="contained"
+                        onClick={validateService}>
+                        Add Service
+                    </Button>
+                </div>
             </div>
         </div>
     );
