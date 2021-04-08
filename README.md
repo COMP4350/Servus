@@ -1,10 +1,10 @@
 # Servus
 
-**At your Servus**
+> At your service
 
 ## Description
 
-Servus is an operation to connect customers with service providers. Customers are greeted with a list or map of services near them. Providers have public profiles with a menu of services offered and examples of work. They also have a schedule for clients to book appointments.
+Servus is an operation to connect customers with service providers. Customers are greeted with a list or map of services near them. Providers have public profiles with a menu of services offered and photo examples of past work. They also have a schedule for clients to book appointments.
 
 ## Core Features
 
@@ -15,10 +15,31 @@ Servus is an operation to connect customers with service providers. Customers ar
 
 ## Technology
 
--   Mobile ➤ React Native
 -   Web ➤ React
 -   Backend ➤ NodeJS + Express
 -   Database ➤ MongoDB
+
+# Run Instructions
+## Accessing the hosted web app
+- Go to www.servus.com.
+
+## Manually running the web application locally
+1. Clone the repository.
+2. Installation:
+    - This requires node to be installed. https://nodejs.org/en/download/
+    - Navigate to `Servus/server/` in a command prompt and install with `npm install`.
+    - Navigate to `Servus/web/` in a command prompt and install with `npm install`.
+3. Running the application:
+    - From `Servus/server/` in a command prompt, run `npm start`.
+    - From `Servus/web/` in a command prompt, run `npm start`.
+        - This should open the app in your default browser. If not, navigate to `localhost:3000` in your browser.
+
+## Running acceptance tests:
+1. Installation:
+    - Enter `npm install` in a command prompt from `Servus/web/`. Be sure to have node installed.
+    - Enter `npm run cypress:open` in a command prompt.
+
+# Documentation
 
 ## Meetings Notes
 
