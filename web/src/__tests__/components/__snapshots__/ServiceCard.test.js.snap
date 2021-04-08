@@ -5,11 +5,13 @@ exports[`ServiceCard renders correctly 1`] = `
   <div
     class="MuiPaper-root MuiCard-root makeStyles-cardView-1 MuiPaper-outlined MuiPaper-rounded"
   >
-    <p
-      class="MuiTypography-root makeStyles-title-2 MuiTypography-body1 MuiTypography-alignLeft"
-    >
-      Risto's Painting
-    </p>
+    <div>
+      <p
+        class="MuiTypography-root makeStyles-title-2 MuiTypography-body1 MuiTypography-alignLeft"
+      >
+        Risto's Painting
+      </p>
+    </div>
     <div />
   </div>
 </DocumentFragment>
