@@ -174,6 +174,10 @@ const ServiceList = props => {
                                   selected={selectedIndex == index}
                                   divider={true}>
                                   <ServiceCard
+                                      bookable={
+                                          cookies.username &&
+                                          cookies.username !== props.username
+                                      }
                                       service={service}
                                       index={index}
                                       className={classes.serviceCard}

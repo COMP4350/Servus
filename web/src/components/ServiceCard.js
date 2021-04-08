@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Card, makeStyles, Typography, Button } from '@material-ui/core';
+import { Card, makeStyles, Typography, Button, Modal } from '@material-ui/core';
 import { Chip } from '@material-ui/core';
+import BookWindow from './map/BookWindow';
 
 const useStyles = makeStyles(() => ({
     cardView: {
@@ -19,6 +20,14 @@ const useStyles = makeStyles(() => ({
     chip: {
         margin: 2,
     },
+    modal: {
+        height: '35%',
+        width: '35%',
+        margin: 'auto auto',
+    },
+    button: {
+        textTransform: 'capitalize',
+    },
 }));
 
 const formatDuration = duration => {
@@ -35,15 +44,21 @@ const ServiceCard = props => {
     const classes = useStyles();
     const serviceTags = props.service.tags ? props.service.tags : [];
     const [expanded, setExpanded] = useState(false);
+    const [booking, setBooking] = useState(false);
+    const toggleBooking = () => {
+        setBooking(!booking);
+    };
     return (
-        <Card
-            onClick={() => setExpanded(!expanded)}
-            variant="outlined"
-            className={classes.cardView}
-            key={props.index}>
-            <Typography variant="body1" className={classes.title} align="left">
-                {props.service.name}
-            </Typography>
+        <Card variant="outlined" className={classes.cardView} key={props.index}>
+            <div onClick={() => setExpanded(!expanded)}>
+                <Typography
+                    variant="body1"
+                    className={classes.title}
+                    align="left">
+                    {props.service.name}
+                </Typography>
+            </div>
+
             <div>
                 {serviceTags?.map((tagData, i) => {
                     return (
@@ -65,7 +80,24 @@ const ServiceCard = props => {
                     <Typography>
                         Duration: {formatDuration(props.service.duration)}
                     </Typography>
-                    <Button>Book</Button>
+                    {props.bookable ? (
+                        <Button
+                            variant="contained"
+                            className={classes.button}
+                            onClick={toggleBooking}>
+                            Book
+                        </Button>
+                    ) : null}
+                    <Modal
+                        className={classes.modal}
+                        open={booking}
+                        aria-labelledby="spring-modal-title"
+                        aria-describedby="spring-modal-description">
+                        <BookWindow
+                            service={props.service}
+                            toggle={toggleBooking}
+                        />
+                    </Modal>
                 </div>
             ) : null}
         </Card>
