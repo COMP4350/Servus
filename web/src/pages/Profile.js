@@ -24,6 +24,7 @@ const useStyles = makeStyles(() => ({
     settingsIcon: {
         height: '75px',
         width: '75px',
+        color: 'white',
     },
 }));
 

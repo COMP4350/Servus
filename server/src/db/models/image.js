@@ -19,6 +19,7 @@ const imageSchema = new Schema({
         type: String,
         required: true,
     },
+    profilePicture: { type: Boolean, default: false },
 });
 
 const Image = mongoose.model('Image', imageSchema);

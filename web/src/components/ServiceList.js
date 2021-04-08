@@ -227,6 +227,7 @@ const ServiceList = props => {
                                       index={index}
                                       className={classes.serviceCard}
                                       selected={selectedIndex == index}
+                                      expand={false}
                                   />
                               </ListItem>
                           );

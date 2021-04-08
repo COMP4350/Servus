@@ -261,3 +261,5 @@ package-lock.json
 
 # Images in the uploads folder
 /server/uploads/*.png
+/server/uploads/*.jpg
+/server/uploads/*.jpeg
