@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
     icon: {
         width: '50px',
         height: '50px',
-        color: theme.palette.primary,
+        color: 'white',
     },
 }));
 
@@ -57,7 +57,6 @@ const inputStyles = makeStyles(() => ({
         position: 'absolute',
         height: '75px',
         width: '75px',
-        backgroundColor: 'lightgrey',
         bottom: 0,
         right: 0,
         'z-index': '4',
@@ -79,6 +78,7 @@ const ImageBoard = () => {
     const classes = useStyles();
     const inputclasses = inputStyles();
     const [cookies] = useCookies(['username']);
+    const [change, setChange] = useState(false);
     let { targetUsername } = useParams();
 
     const getImages = async () => {
@@ -91,7 +91,7 @@ const ImageBoard = () => {
     };
     useEffect(() => {
         getImages();
-    }, [targetUsername]);
+    }, [targetUsername, change]);
 
     const getImageBoard = () => {
         console.log(images);
@@ -115,6 +115,7 @@ const ImageBoard = () => {
         imageFormObj.append('imageName', 'multer-image-' + Date.now());
         imageFormObj.append('imageData', e.target.files[0]);
         imageFormObj.append('ownerUsername', targetUsername);
+        imageFormObj.append('profilePicture', false);
 
         // stores a readable instance of the image being uploaded using multer
         axios
@@ -123,6 +124,7 @@ const ImageBoard = () => {
             .catch(err => {
                 alert('Error while uploading image' + err);
             });
+        setChange(!change);
     };
     return (
         <div className={classes.root}>

@@ -6,12 +6,14 @@ import {
     IconButton,
     ThemeProvider,
     Typography,
+    Input,
 } from '@material-ui/core';
 import useForm from '../hooks/useForm';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+import ProfilePicture from '../components/ProfilePicture';
 import { useHistory } from 'react-router';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { ArrowBack } from '@material-ui/icons/';
 
 const theme = createMuiTheme({
     palette: {
@@ -80,6 +82,11 @@ const useStyles = makeStyles(() => ({
         height: '100px',
         width: '50%',
         marginBottom: '20px',
+    },
+    pic: {
+        color: 'white',
+        width: 96,
+        height: 96,
     },
 }));
 
@@ -197,7 +204,7 @@ const Account = props => {
         }
     };
     const toProfile = () => {
-        history.push('/profile');
+        history.push(`/profile/${cookies.username}`);
     };
     useEffect(() => {
         updateInfo();
@@ -210,6 +217,21 @@ const Account = props => {
     useEffect(() => {
         getUserInfo();
     }, []);
+    const uploadImage = e => {
+        let imageFormObj = new FormData();
+        imageFormObj.append('imageName', 'multer-image-' + Date.now());
+        imageFormObj.append('imageData', e.target.files[0]);
+        imageFormObj.append('ownerUsername', cookies.username);
+        imageFormObj.append('profilePicture', true);
+
+        // stores a readable instance of the image being uploaded using multer
+        axios
+            .post(`/images/upload`, imageFormObj)
+            .then(() => {})
+            .catch(err => {
+                alert('Error while uploading image' + err);
+            });
+    };
 
     return (
         <ThemeProvider theme={theme}>
@@ -217,6 +239,8 @@ const Account = props => {
                 <Typography variant="h2" className={classes.title}>
                     Account Details
                 </Typography>
+                <ProfilePicture username={cookies.username} />
+                <Input type="file" onChange={e => uploadImage(e, 'multer')} />
                 <TextField
                     className={classes.textField}
                     id="outlined-basic"
@@ -299,7 +323,6 @@ const Account = props => {
                         Update Password
                     </Button>
                 )}
-
                 <div className={classes.buttonContainer}>
                     <Button
                         className={classes.button}
@@ -319,7 +342,7 @@ const Account = props => {
                     onClick={() => {
                         toProfile();
                     }}>
-                    <ArrowBackIcon className={classes.arrowIcon} />
+                    <ArrowBack className={classes.arrowIcon} />
                 </IconButton>
             </div>
         </ThemeProvider>

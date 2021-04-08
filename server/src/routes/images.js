@@ -38,7 +38,44 @@ router.get('/:username', (req, res) => {
     User.findOne({ username: req.params.username })
         .then(user => {
             if (user) {
-                Image.find({ ownerUsername: user.username })
+                Image.find({
+                    ownerUsername: user.username,
+                    profilePicture: false,
+                })
+                    .then(images => {
+                        return res.status(200).json({
+                            success: true,
+                            result: images,
+                        });
+                    })
+                    .catch(err => {
+                        return res.status(500).json({
+                            errors: [{ error: err }],
+                        });
+                    });
+            } else {
+                return res.status(404).json({
+                    errors: [{ error: 'User not found!' }],
+                });
+            }
+        })
+        .catch(err => {
+            return res.status(500).json({
+                errors: [{ error: err }],
+            });
+        });
+});
+
+/* GET all of a user's images (i.e., loading an entire portfolio)
+ */
+router.get('/:username/profile', (req, res) => {
+    User.findOne({ username: req.params.username })
+        .then(user => {
+            if (user) {
+                Image.findOne({
+                    ownerUsername: req.params.username,
+                    profilePicture: true,
+                })
                     .then(images => {
                         return res.status(200).json({
                             success: true,
@@ -71,6 +108,7 @@ router.route('/upload').post(upload.single('imageData'), (req, res) => {
         uploadDate: Date.now(),
         imageName: req.body.imageName,
         imageData: req.file.path,
+        profilePicture: req.body.profilePicture,
     });
 
     newImage

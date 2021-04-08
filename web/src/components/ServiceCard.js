@@ -58,7 +58,7 @@ const ServiceCard = props => {
                     );
                 })}
             </div>
-            {expanded ? (
+            {props.expand && expanded ? (
                 <div className={classes.expandedInfo}>
                     <Typography>{props.service.description}</Typography>
                     <Typography>Price: {props.service.cost}</Typography>

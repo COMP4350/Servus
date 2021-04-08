@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { AccountCircle } from '@material-ui/icons/';
 import {
     Button,
     Typography,
@@ -14,6 +13,7 @@ import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import AddService from '../components/AddService';
 import ServiceCard from '../components/ServiceCard';
+import ProfilePicture from './ProfilePicture';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -24,6 +24,7 @@ const useStyles = makeStyles(theme => ({
         },
         'background-color': theme.background.dark,
         'overflow-y': 'scroll',
+        'overflow-x': 'hidden',
         [theme.breakpoints.down('xs')]: {
             width: '100%',
             height: '100%',
@@ -66,12 +67,13 @@ const useStyles = makeStyles(theme => ({
         textAlign: 'left',
         flexDirection: 'column',
         color: 'black',
-        backgroundColor: 'white',
+        backgroundColor: '#FFF2EB',
         marginTop: '20px',
         marginBottom: '20px',
         marginLeft: 'auto',
         marginRight: 'auto',
         borderRadius: 8,
+        'word-wrap': 'break-word',
     },
     rootList: {
         padding: '8px',
@@ -176,6 +178,7 @@ const ServiceList = props => {
                                       index={index}
                                       className={classes.serviceCard}
                                       selected={selectedIndex == index}
+                                      expand={true}
                                   />
                               </ListItem>
                           );
@@ -207,26 +210,24 @@ const ServiceList = props => {
 const UserInfo = ({ user }) => {
     const classes = useStyles();
 
+    useEffect(() => {}, [user]);
     return (
         <div className={classes.root}>
             {user ? (
                 <div className={classes.userContainer}>
                     <Paper elevation={8} className={classes.userDesc}>
-                        <AccountCircle className={classes.userIcon} />
+                        <ProfilePicture username={user.username} />
                         <Typography
                             className={
                                 classes.username
                             }>{`@${user.username}`}</Typography>
-                        <div className={classes.bioContainer}>
-                            <Typography
-                                className={classes.bio}
-                                color="textPrimary">
-                                {user.bio}
-                            </Typography>
-                        </div>
+
+                        <Typography className={classes.bio} color="textPrimary">
+                            {user.bio}
+                        </Typography>
                     </Paper>
                     <div className={classes.servicesTitle}>
-                        <Typography>{`Services:`}</Typography>
+                        <Typography>{`My Services:`}</Typography>
                     </div>
                     <ServiceList username={user.username} />
                 </div>
