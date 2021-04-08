@@ -3,9 +3,42 @@ import axios from 'axios';
 import Calendar from '../components/Calendar';
 import { useCookies } from 'react-cookie';
 import { useHistory } from 'react-router-dom';
+import { ThemeProvider } from '@material-ui/core';
+import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+    palette: {
+        type: 'dark',
+        primary: {
+            main: '#647AA3',
+        },
+        secondary: {
+            main: '#EC5732',
+        },
+        default: {
+            main: '#FFF2EB',
+        },
+    },
+    background: {
+        dark: '#151515',
+        main: '#272727',
+    },
+    typography: {
+        fontFamily: ['Roboto'],
+    },
+});
+
+const useStyles = makeStyles(() => ({
+    container: {
+        width: '100%',
+        height: '91%',
+    },
+}));
+
 
 const Appointment = () => {
     const [appointments, setAppointments] = useState();
+    const classes = useStyles();
     const [cookies] = useCookies();
     const history = useHistory();
     const fetchAppointments = async username => {
@@ -19,11 +52,17 @@ const Appointment = () => {
         else history.push('/login');
     }, []);
     return (
-        <div>
-            {appointments ? (
+        <ThemeProvider
+            theme={theme}>
+                <div
+                className={classes.container}>
+                {appointments ? (
                 <Calendar appointments={appointments}></Calendar>
             ) : null}
-        </div>
+                </div>
+            
+        </ThemeProvider>
+
     );
 };
 

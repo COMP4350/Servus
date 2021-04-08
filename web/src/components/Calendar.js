@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import TableCell from '@material-ui/core/TableCell';
+import { TableCell } from '@material-ui/core';
 import {
     fade,
 } from '@material-ui/core/styles/colorManipulator';
 import Typography from '@material-ui/core/Typography';
 import { EditingState, ViewState } from '@devexpress/dx-react-scheduler';
+import seedrandom from 'seedrandom';
 import classNames from 'clsx';
 import {
     Scheduler,
@@ -19,10 +20,10 @@ import {
     Resources,
     DragDropProvider,
 } from '@devexpress/dx-react-scheduler-material-ui';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 
 const getBorder = () =>
-    `1px solid #272727`;
+    `2.5px solid #272727`;
 
 const DayScaleCell = props => (
     <MonthView.DayScaleCell
@@ -39,15 +40,13 @@ const styles = theme => ({
         verticalAlign: 'top',
         padding: 0,
         height: 100,
-        borderLeft: getBorder(theme),
+        borderBottom: getBorder(),
+        borderLeft: getBorder(),
         '&:first-child': {
             borderLeft: 'none',
         },
         '&:last-child': {
             paddingRight: 0,
-        },
-        'tr:last-child &': {
-            borderBottom: 'none',
         },
         '&:hover': {
             backgroundColor: 'black',
@@ -131,7 +130,8 @@ const styles = theme => ({
         paddingBottom: theme.spacing(2),
     },
     container: {
-        paddingBottom: theme.spacing(1.5),
+        width: '100%',
+        height: '100%',
     },
 });
 
@@ -181,6 +181,13 @@ const AppointmentContent = withStyles(styles, {
     />
 ));
 
+const useStyles = makeStyles(() => ({
+    scheduler: {
+        width: '100%',
+        height: '100%',
+    },
+}));
+
 const FlexibleSpace = withStyles(styles, { name: 'ToolbarRoot' })(
     ({ classes, ...restProps }) => (
         <Toolbar.FlexibleSpace {...restProps} className={classes.flexibleSpace}>
@@ -204,21 +211,23 @@ const getRandomColor = () => {
 let setColor = false;
 
 const Calendar = ({ appointments }) => {
+    const classes = useStyles();
     const [apptData, setApptData] = useState([]);
     const [providers, setProviders] = useState([]);
     const newDate = new Date();
 
     const commitDeletes = async ({ deleted }) => {
         const response = await axios.delete(`/appointment/${deleted}`);
-            if (response.status === 200) {
-                setApptData(data => data.filter(({ id }) => id !== deleted));
-            }
+        if (response.status === 200) {
+            setApptData(data => data.filter(({ id }) => id !== deleted));
+        }
     };
 
     const passInfo = () => {
         setProviders([]);
         setApptData([]);
         appointments?.forEach(async (apt, i) => {
+            seedrandom(i, { global: true });
             const newProvider = {
                 text: apt.provider,
                 id: i,
@@ -270,7 +279,9 @@ const Calendar = ({ appointments }) => {
     }, []);
 
     return (
-        <Scheduler data={apptData}>
+        <Scheduler 
+        className={classes.scheduler}
+        data={apptData}>
 
             <EditingState onCommitChanges={
                 commitDeletes} />
@@ -295,6 +306,7 @@ const Calendar = ({ appointments }) => {
             <AppointmentForm />
             <DragDropProvider />
         </Scheduler>
+
     );
 };
 
