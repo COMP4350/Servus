@@ -65,11 +65,15 @@ const useStyles = makeStyles(theme => ({
         margin: '10px',
     },
     tagSelectLabel: {
-        marginTop: '10px',
-        marginBottom: '10px',
+        width: '80%',
+        marginTop: '20px',
+        marginBottom: '4px',
     },
     tagSelect: {
-        width: '100%',
+        width: '80%',
+    },
+    tagSelectText: {
+        'align-content': 'left',
     },
     chips: {
         display: 'flex',
@@ -356,7 +360,9 @@ const AddService = ({ addedService }) => {
                 <InputLabel
                     className={classes.tagSelectLabel}
                     id="tag-select-label">
-                    Tags
+                        <div className={classes.tagSelectText}>
+                            Tags
+                        </div>
                 </InputLabel>
                 <Select
                     className={classes.tagSelect}
