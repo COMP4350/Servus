@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TableCell from '@material-ui/core/TableCell';
 import {
-    darken,
     fade,
-    lighten,
 } from '@material-ui/core/styles/colorManipulator';
 import Typography from '@material-ui/core/Typography';
 import { EditingState, ViewState } from '@devexpress/dx-react-scheduler';
@@ -23,12 +21,8 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { withStyles } from '@material-ui/core/styles';
 
-const getBorder = theme =>
-    `1px solid ${
-        theme.palette.type === 'light'
-            ? lighten(fade(theme.palette.divider, 1), 0.88)
-            : darken(fade(theme.palette.divider, 1), 0.68)
-    }`;
+const getBorder = () =>
+    `1px solid #272727`;
 
 const DayScaleCell = props => (
     <MonthView.DayScaleCell
@@ -56,7 +50,7 @@ const styles = theme => ({
             borderBottom: 'none',
         },
         '&:hover': {
-            backgroundColor: 'white',
+            backgroundColor: 'black',
         },
         '&:focus': {
             backgroundColor: fade(theme.palette.primary.main, 0.15),
@@ -210,56 +204,54 @@ const getRandomColor = () => {
 let setColor = false;
 
 const Calendar = ({ appointments }) => {
-    const [data, setData] = useState([]);
-    const [owners, setOwners] = useState([]);
+    const [apptData, setApptData] = useState([]);
+    const [providers, setProviders] = useState([]);
     const newDate = new Date();
 
-    const commitDeletes = ({ deleted }) => {
-        axios.delete(`/appointment/${deleted}`).then(response => {
+    const commitDeletes = async ({ deleted }) => {
+        const response = await axios.delete(`/appointment/${deleted}`);
             if (response.status === 200) {
-                setData(data => data.filter(({ id }) => id !== deleted));
-                alert(`Appointment Successfully Deleted`);
+                setApptData(data => data.filter(({ id }) => id !== deleted));
             }
-        });
     };
 
     const passInfo = () => {
-        setOwners([]);
-        setData([]);
-        appointments?.forEach((apt, i) => {
-            const newOwner = {
+        setProviders([]);
+        setApptData([]);
+        appointments?.forEach(async (apt, i) => {
+            const newProvider = {
                 text: apt.provider,
                 id: i,
                 color: getRandomColor(),
             };
-            setOwners(owners => [...owners, newOwner]);
-            axios.get(`/services/${apt.service_id}`).then(response => {
-                const service = response.data.result;
-                const startDate = new Date(apt.booked_time);
-                const endDate = new Date(startDate);
-                endDate.setTime(
-                    endDate.getTime() + service.duration * 60 * 1000
-                );
-                const tempObj = {
-                    id: apt._id,
-                    title: service.name,
-                    startDate: startDate,
-                    endDate: endDate,
-                    ownerId: i,
-                };
-                setData(data => [...data, tempObj]);
-            });
+            setProviders(providers => [...providers, newProvider]);
+            const response = await axios.get(`/services/${apt.service_id}`);
+            const service = response.data.result;
+            const startDate = new Date(apt.booked_time);
+            const endDate = new Date(startDate);
+            endDate.setTime(
+                endDate.getTime() + service.duration * 60 * 1000
+            );
+            const tempObj = {
+                id: apt._id,
+                title: service.name,
+                startDate: startDate,
+                endDate: endDate,
+                ownerId: i,
+            };
+            setApptData(data => [...data, tempObj]);
         });
         setColor = false;
     };
-    if (!setColor && appointments.length === owners.length) {
-        owners?.forEach(name => {
-            for (let i = 1; i < owners.length; i++) {
+
+    if (!setColor && appointments.length === providers.length) {
+        providers?.forEach(name => {
+            for (let i = 1; i < providers.length; i++) {
                 if (
-                    name.text === owners[i].text &&
-                    owners[i].color !== name.color
+                    name.text === providers[i].text &&
+                    providers[i].color !== name.color
                 ) {
-                    owners[i].color = name.color;
+                    providers[i].color = name.color;
                 }
             }
         });
@@ -269,7 +261,7 @@ const Calendar = ({ appointments }) => {
         {
             fieldName: 'ownerId',
             title: 'Owners',
-            instances: owners,
+            instances: providers,
         },
     ];
 
@@ -278,8 +270,10 @@ const Calendar = ({ appointments }) => {
     }, []);
 
     return (
-        <Scheduler data={data}>
-            <EditingState onCommitChanges={commitDeletes} />
+        <Scheduler data={apptData}>
+
+            <EditingState onCommitChanges={
+                commitDeletes} />
             <ViewState defaultCurrentDate={newDate} />
 
             <MonthView
