@@ -69,6 +69,10 @@ const useStyles = makeStyles(() => ({
         margin: 'auto auto',
     },
     provider: {
+        '&:hover': {
+            cursor: 'pointer',
+            'text-decoration': 'underline',
+        },
         fontSize: '1.25em',
         marginTop: 0,
         color: '#647AA3',
