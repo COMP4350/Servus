@@ -99,13 +99,15 @@ const Map = props => {
                         content: div,
                     });
 
-                    let markerIcon = service.icon_name ? {
-                        path: serviceIconMap[service.icon_name].path,
-                        fillColor: '#EC5732',
-                        fillOpacity: 1,
-                        strokeWeight: 0,
-                        scale: 1
-                    } : ServiceIcon;
+                    let markerIcon = service.icon_name
+                        ? {
+                              path: serviceIconMap[service.icon_name].path,
+                              fillColor: '#EC5732',
+                              fillOpacity: 1,
+                              strokeWeight: 0,
+                              scale: 1,
+                          }
+                        : ServiceIcon;
 
                     let serviceMarker = new window.google.maps.Marker({
                         map,

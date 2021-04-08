@@ -1,5 +1,5 @@
 import React from 'react';
-import { 
+import {
     mdiMapMarker,
     mdiMusicNoteEighth,
     mdiWrench,
@@ -22,7 +22,6 @@ import {
     mdiTag,
     mdiTerrain,
     mdiBike,
-
 } from '@mdi/js';
 import {
     Place,
