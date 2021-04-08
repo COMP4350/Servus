@@ -16,6 +16,7 @@ import {
     GoogleMap,
     useJsApiLoader,
 } from '@react-google-maps/api';
+import serviceIconMap from '../ServiceIconMap';
 import ServiceIcon from '../../images/flag_icon.png';
 import ServiceWindow from './ServiceWindow';
 
@@ -28,13 +29,19 @@ const useStyles = makeStyles(() => ({
         width: '100%',
     },
     textField: {
-        backgroundColor: 'white',
+        backgroundColor: 'black',
+        width: '100%',
+        paddingLeft: '10px',
+    },
+    autocomplete: {
+        width: '80%',
     },
     addressContainer: {
         display: 'flex',
         justifyContent: 'center',
         marginTop: '2%',
         width: '100%',
+        color: 'black',
     },
     mapContainer: {
         width: '100%',
@@ -92,15 +99,23 @@ const Map = props => {
                         content: div,
                     });
 
+                    let markerIcon = service.icon_name
+                        ? {
+                              path: serviceIconMap[service.icon_name].path,
+                              fillColor: '#EC5732',
+                              fillOpacity: 1,
+                              strokeWeight: 0,
+                              scale: 1,
+                          }
+                        : ServiceIcon;
+
                     let serviceMarker = new window.google.maps.Marker({
                         map,
                         position: {
                             lat: service.location.lat,
                             lng: service.location.lng,
                         },
-                        icon: {
-                            url: ServiceIcon,
-                        },
+                        icon: markerIcon,
                         visible: true,
                     });
                     serviceMarker.addListener('click', () => {
@@ -162,7 +177,8 @@ const Map = props => {
                                 origin: center,
                             }}
                             onPlaceChanged={onSearchAddressChanged}
-                            onLoad={onAutoCompleteLoad}>
+                            onLoad={onAutoCompleteLoad}
+                            className={classes.autocomplete}>
                             <TextField
                                 className={classes.textField}
                                 id="search-address"

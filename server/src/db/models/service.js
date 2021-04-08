@@ -30,6 +30,7 @@ const serviceSchema = new Schema({
     },
     ratings: { type: [ratingSchema], required: false },
     tags: { type: [String], required: false },
+    icon_name: { type: String, required: false },
 });
 
 const Service = mongoose.model('Service', serviceSchema);
