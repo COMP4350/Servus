@@ -176,7 +176,9 @@ const AddService = ({ addedService }) => {
         cost: '',
     });
     const [serviceDuration, setServiceDuration] = useState(0);
-    const [serviceDisplayDuration, setServiceDisplayDuration] = useState('30 minutes');
+    const [serviceDisplayDuration, setServiceDisplayDuration] = useState(
+        '30 minutes'
+    );
     const [servicesErrors, setServiceErrors] = useState({});
     const [serviceFormValid, setServiceFormValid] = useState(false);
     const { isLoaded } = useJsApiLoader({
@@ -378,26 +380,29 @@ const AddService = ({ addedService }) => {
         '0005': '5 minutes',
         '0010': '10 minutes',
         '0015': '15 minutes',
-        '0020': '20 minutes', 
-        '0025': '25 minutes', 
-        '0030': '30 minutes', 
-        '0035': '35 minutes', 
-        '0040': '40 minutes', 
-        '0045': '45 minutes', 
-        '0050': '50 minutes', 
-        '0100': '1 hour', 
-        '0115': '1 hour 15 minutes', 
-        '0130': '1 hour 30 minutes', 
-        '0145': '1 hour 45 minutes', 
-        '0200': '2 hours'};
-    const handleDurationChange = (duration) => {
+        '0020': '20 minutes',
+        '0025': '25 minutes',
+        '0030': '30 minutes',
+        '0035': '35 minutes',
+        '0040': '40 minutes',
+        '0045': '45 minutes',
+        '0050': '50 minutes',
+        '0100': '1 hour',
+        '0115': '1 hour 15 minutes',
+        '0130': '1 hour 30 minutes',
+        '0145': '1 hour 45 minutes',
+        '0200': '2 hours',
+    };
+    const handleDurationChange = duration => {
         setServiceDisplayDuration(duration);
 
-        // Get HHMM format from human readable input  
-        let formattedTime = Object.keys(durationOptions).find(key => durationOptions[key] === duration);
+        // Get HHMM format from human readable input
+        let formattedTime = Object.keys(durationOptions).find(
+            key => durationOptions[key] === duration
+        );
         console.log([duration, formattedTime]);
         setServiceDuration(formattedTime);
-    }
+    };
 
     return (
         <div className={classes.servicesContainer}>
@@ -438,9 +443,7 @@ const AddService = ({ addedService }) => {
                     helperText={servicesErrors.cost}
                 />
                 <FormControl className={classes.durationSelect}>
-                    <InputLabel id="durationLabel">
-                        Service Duration
-                    </InputLabel>
+                    <InputLabel id="durationLabel">Service Duration</InputLabel>
                     <Select
                         labelId="durationLabel"
                         value={serviceDisplayDuration}
