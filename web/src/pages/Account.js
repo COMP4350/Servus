@@ -108,19 +108,14 @@ const Account = props => {
         bio: '',
     });
     const getUserInfo = () => {
-        axios
-            .get(`/user/${cookies.username}`)
-            .then(res => {
-                setForm({
-                    username: res.data.result.username,
-                    firstName: res.data.result.firstName,
-                    lastName: res.data.result.lastName,
-                    bio: res.data.result.bio,
-                });
-            })
-            .catch(err => {
-                alert('could not update password' + err);
+        axios.get(`/user/${cookies.username}`).then(res => {
+            setForm({
+                username: res.data.result.username,
+                firstName: res.data.result.firstName,
+                lastName: res.data.result.lastName,
+                bio: res.data.result.bio,
             });
+        });
     };
     const validateInfo = () => {
         let errors = {};
@@ -191,11 +186,9 @@ const Account = props => {
                     }
                 )
                 .then(() => {
-                    alert('Info updated successfully');
                     props.setUsername(form.username);
                 })
-                .catch(err => {
-                    alert(err);
+                .catch(() => {
                     setFormValid(false);
                 });
             setFormValid(false);
