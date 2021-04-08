@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
 import { Button, ButtonGroup, TextField, MenuItem } from '@material-ui/core';
 import useForm from '../hooks/useForm';
 import axios from 'axios';
@@ -12,7 +12,29 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import { tagNames } from './FilterList';
 import { serviceIconMap } from './ServiceIconMap';
-import { Grid, IconButton, FormControl } from '@material-ui/core/';
+import { Grid, IconButton, FormControl, ThemeProvider } from '@material-ui/core/';
+
+const theme = createMuiTheme({
+    palette: {
+        type: 'dark',
+        primary: {
+            main: '#647AA3',
+        },
+        secondary: {
+            main: '#EC5732',
+        },
+        default: {
+            main: '#FFF2EB',
+        },
+    },
+    background: {
+        dark: '#151515',
+        main: '#272727',
+    },
+    typography: {
+        fontFamily: ['Roboto'],
+    },
+});
 
 const useStyles = makeStyles(theme => ({
     textField: {
@@ -145,7 +167,6 @@ const days = [
 
 const AddService = ({ addedService }) => {
     const classes = useStyles();
-    const theme = useTheme();
     const [cookies] = useCookies(['username']);
     const [location, setLocation] = useState({});
     const [serviceTags, setServiceTags] = useState([]);
@@ -405,153 +426,155 @@ const AddService = ({ addedService }) => {
     };
 
     return (
-        <div className={classes.servicesContainer}>
-            <div className={classes.serviceForm}>
-                <TextField
-                    className={classes.textField}
-                    label="Service Name"
-                    name="name"
-                    value={serviceForm.name}
-                    onChange={onServiceFormChange}
-                    error={servicesErrors.name}
-                    helperText={servicesErrors.name}
-                />
-                {serviceIconMap[serviceIconName]
-                    ? serviceIconMap[serviceIconName].component
-                    : null}
-                <div className={classes.iconGrid}>
-                    <Grid container spacing={1}>
-                        {getGridItems()}
-                    </Grid>
-                </div>
-                <TextField
-                    className={classes.textField}
-                    label="Service Description"
-                    name="description"
-                    value={serviceForm.description}
-                    onChange={onServiceFormChange}
-                    error={servicesErrors.description}
-                    helperText={servicesErrors.description}
-                />
-                <TextField
-                    className={classes.textField}
-                    label="Service Cost"
-                    name="cost"
-                    value={serviceForm.cost}
-                    onChange={onServiceFormChange}
-                    error={servicesErrors.cost}
-                    helperText={servicesErrors.cost}
-                />
-                <FormControl className={classes.durationSelect}>
-                    <InputLabel id="durationLabel">Service Duration</InputLabel>
-                    <Select
-                        labelId="durationLabel"
-                        value={serviceDisplayDuration}
-                        onChange={x => handleDurationChange(x.target?.value)}>
-                        {Object.values(durationOptions).map((x, i) => {
-                            return (
-                                <MenuItem key={i} value={x}>
-                                    {x}
-                                </MenuItem>
-                            );
-                        })}
-                    </Select>
-                </FormControl>
-                {isLoaded && (
-                    <Autocomplete
-                        options={{ ...autocompleteOptions }}
-                        onPlaceChanged={onSearchAddressChanged}
-                        onLoad={onAutoCompleteLoad}
-                        className={classes.addressSearch}>
-                        <TextField
-                            className={classes.addressField}
-                            id="search-address"
-                            placeholder="Service Location"
-                        />
-                    </Autocomplete>
-                )}
-                <div className={classes.daysContainer}>
-                    <ButtonGroup
-                        variant="contained"
-                        color="primary"
-                        aria-label="contained primary button group">
-                        {days.map(currDay => (
-                            <Button
-                                variant="contained"
-                                className={
-                                    day === currDay.index
-                                        ? classes.selectedDayButton
-                                        : classes.dayButton
-                                }
-                                key={currDay.index}
-                                onClick={() => changeDay(currDay.index)}>
-                                {currDay.name}
-                            </Button>
-                        ))}
-                    </ButtonGroup>
-                </div>
-                <div className={classes.timesContainer}>
-                    {availabilities[day]?.map((availability, index) => {
-                        return timePickers(availability, index);
-                    })}
-                    <Button
-                        variant="contained"
-                        onClick={() => addEmptyAvailability()}
-                        className={classes.addButton}>
-                        Add availability
-                    </Button>
-                </div>
-
-                <InputLabel
-                    className={classes.tagSelectLabel}
-                    id="tag-select-label">
-                    <div className={classes.tagSelectText}>Tags</div>
-                </InputLabel>
-                <Select
-                    className={classes.tagSelect}
-                    labelId="tag-select-label"
-                    id="tagSelect"
-                    multiple
-                    value={serviceTags}
-                    onChange={handleTagChange}
-                    input={<Input id="select-multiple-tags" />}
-                    MenuProps={{
-                        getContentAnchorEl: () => null,
-                    }}
-                    renderValue={selected => (
-                        <div className={classes.chips}>
-                            {selected.map(value => (
-                                <Chip
-                                    key={value}
-                                    label={value}
-                                    className={classes.chip}
-                                    onDelete={handleTagDelete(value)}
-                                    onMouseDown={event => {
-                                        event.stopPropagation();
-                                    }}
-                                />
+        <ThemeProvider theme={theme}>
+            <div className={classes.servicesContainer}>
+                <div className={classes.serviceForm}>
+                    <TextField
+                        className={classes.textField}
+                        label="Service Name"
+                        name="name"
+                        value={serviceForm.name}
+                        onChange={onServiceFormChange}
+                        error={servicesErrors.name}
+                        helperText={servicesErrors.name}
+                    />
+                    {serviceIconMap[serviceIconName]
+                        ? serviceIconMap[serviceIconName].component
+                        : null}
+                    <div className={classes.iconGrid}>
+                        <Grid container spacing={1}>
+                            {getGridItems()}
+                        </Grid>
+                    </div>
+                    <TextField
+                        className={classes.textField}
+                        label="Service Description"
+                        name="description"
+                        value={serviceForm.description}
+                        onChange={onServiceFormChange}
+                        error={servicesErrors.description}
+                        helperText={servicesErrors.description}
+                    />
+                    <TextField
+                        className={classes.textField}
+                        label="Service Cost"
+                        name="cost"
+                        value={serviceForm.cost}
+                        onChange={onServiceFormChange}
+                        error={servicesErrors.cost}
+                        helperText={servicesErrors.cost}
+                    />
+                    <FormControl className={classes.durationSelect}>
+                        <InputLabel id="durationLabel">Service Duration</InputLabel>
+                        <Select
+                            labelId="durationLabel"
+                            value={serviceDisplayDuration}
+                            onChange={x => handleDurationChange(x.target?.value)}>
+                            {Object.values(durationOptions).map((x, i) => {
+                                return (
+                                    <MenuItem key={i} value={x}>
+                                        {x}
+                                    </MenuItem>
+                                );
+                            })}
+                        </Select>
+                    </FormControl>
+                    {isLoaded && (
+                        <Autocomplete
+                            options={{ ...autocompleteOptions }}
+                            onPlaceChanged={onSearchAddressChanged}
+                            onLoad={onAutoCompleteLoad}
+                            className={classes.addressSearch}>
+                            <TextField
+                                className={classes.addressField}
+                                id="search-address"
+                                placeholder="Service Location"
+                            />
+                        </Autocomplete>
+                    )}
+                    <div className={classes.daysContainer}>
+                        <ButtonGroup
+                            variant="contained"
+                            color="primary"
+                            aria-label="contained primary button group">
+                            {days.map(currDay => (
+                                <Button
+                                    variant="contained"
+                                    className={
+                                        day === currDay.index
+                                            ? classes.selectedDayButton
+                                            : classes.dayButton
+                                    }
+                                    key={currDay.index}
+                                    onClick={() => changeDay(currDay.index)}>
+                                    {currDay.name}
+                                </Button>
                             ))}
-                        </div>
-                    )}>
-                    {tagNames.map(name => (
-                        <MenuItem
-                            key={name}
-                            value={name}
-                            style={getStyles(name, serviceTags, theme)}>
-                            {name}
-                        </MenuItem>
-                    ))}
-                </Select>
-                <div className={classes.buttonContainer}>
-                    <Button
-                        className={classes.button}
-                        variant="contained"
-                        onClick={validateService}>
-                        Add Service
-                    </Button>
+                        </ButtonGroup>
+                    </div>
+                    <div className={classes.timesContainer}>
+                        {availabilities[day]?.map((availability, index) => {
+                            return timePickers(availability, index);
+                        })}
+                        <Button
+                            variant="contained"
+                            onClick={() => addEmptyAvailability()}
+                            className={classes.addButton}>
+                            Add availability
+                        </Button>
+                    </div>
+
+                    <InputLabel
+                        className={classes.tagSelectLabel}
+                        id="tag-select-label">
+                        <div className={classes.tagSelectText}>Tags</div>
+                    </InputLabel>
+                    <Select
+                        className={classes.tagSelect}
+                        labelId="tag-select-label"
+                        id="tagSelect"
+                        multiple
+                        value={serviceTags}
+                        onChange={handleTagChange}
+                        input={<Input id="select-multiple-tags" />}
+                        MenuProps={{
+                            getContentAnchorEl: () => null,
+                        }}
+                        renderValue={selected => (
+                            <div className={classes.chips}>
+                                {selected.map(value => (
+                                    <Chip
+                                        key={value}
+                                        label={value}
+                                        className={classes.chip}
+                                        onDelete={handleTagDelete(value)}
+                                        onMouseDown={event => {
+                                            event.stopPropagation();
+                                        }}
+                                    />
+                                ))}
+                            </div>
+                        )}>
+                        {tagNames.map(name => (
+                            <MenuItem
+                                key={name}
+                                value={name}
+                                style={getStyles(name, serviceTags, theme)}>
+                                {name}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                    <div className={classes.buttonContainer}>
+                        <Button
+                            className={classes.button}
+                            variant="contained"
+                            onClick={validateService}>
+                            Add Service
+                        </Button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </ThemeProvider>
     );
 };
 
