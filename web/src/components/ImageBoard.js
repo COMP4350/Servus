@@ -114,6 +114,7 @@ const ImageBoard = () => {
         imageFormObj.append('imageName', 'multer-image-' + Date.now());
         imageFormObj.append('imageData', e.target.files[0]);
         imageFormObj.append('ownerUsername', targetUsername);
+        imageFormObj.append('profilePicture', false);
 
         // stores a readable instance of the image being uploaded using multer
         axios
