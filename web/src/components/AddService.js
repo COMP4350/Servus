@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Button, TextField, MenuItem } from '@material-ui/core';
+import { Button, ButtonGroup, TextField, MenuItem } from '@material-ui/core';
 import useForm from '../hooks/useForm';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
@@ -26,6 +26,7 @@ const useStyles = makeStyles(theme => ({
         width: '80%',
         display: 'flex',
         justifyContent: 'space-between',
+        alignItems: 'center',
     },
     addressSearch: {
         width: '80%',
@@ -59,6 +60,8 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         height: '100%',
         alignItems: 'center',
+        justifyContent: 'flex-start',
+        paddingTop: '64px',
         overflow: 'scroll',
         padding: 10,
         backgroundColor: theme.background.dark,
@@ -98,15 +101,12 @@ const useStyles = makeStyles(theme => ({
         marginBottom: '20px',
     },
     dayButton: {
-        color: 'black',
+        textTransform: 'capitalize',
+    },
+    selectedDayButton: {
         backgroundColor: 'white',
-        borderRadius: 100,
-        height: '24px',
-        width: '24px',
-        textAlign: 'center',
-        '&:hover': {
-            cursor: 'pointer',
-        },
+        color: 'black',
+        textTransform: 'capitalize',
     },
     timesContainer: {
         width: '100%',
@@ -114,6 +114,10 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    addButton: {
+        marginTop: '24px',
+        textTransform: 'capitalize',
     },
 }));
 
@@ -126,13 +130,23 @@ const getStyles = (name, serviceTags, theme) => {
     };
 };
 
+const days = [
+    { index: 0, name: 'Sunday' },
+    { index: 1, name: 'Monday' },
+    { index: 2, name: 'Tuesday' },
+    { index: 3, name: 'Wednesday' },
+    { index: 4, name: 'Thursday' },
+    { index: 5, name: 'Friday' },
+    { index: 6, name: 'Saturday' },
+];
+
 const AddService = ({ addedService }) => {
     const classes = useStyles();
     const theme = useTheme();
     const [cookies] = useCookies(['username']);
     const [location, setLocation] = useState({});
     const [serviceTags, setServiceTags] = useState([]);
-    const [serviceIconName, setServiceIconName] = useState({});
+    const [serviceIconName, setServiceIconName] = useState('');
     const [day, setDay] = useState(0);
     const [availabilities, setAvailabilities] = useState([
         [],
@@ -190,15 +204,15 @@ const AddService = ({ addedService }) => {
     const buildAvailabilities = () => {
         let requestAvailabilities = [];
         availabilities.forEach((day, index) => {
-            day.filter(
+            day = day.filter(
                 availability =>
                     availability.startTime !== '' && availability.endTime !== ''
             );
             day.forEach(availability =>
                 requestAvailabilities.push({
                     weekday: index,
-                    startTime: availability.startTime,
-                    endTime: availability.endTime,
+                    start_time: availability.startTime,
+                    end_time: availability.endTime,
                 })
             );
         });
@@ -336,6 +350,8 @@ const AddService = ({ addedService }) => {
                     }}
                 />
                 <Button
+                    variant="contained"
+                    className={classes.button}
                     onClick={() => {
                         let temp = [...availabilities];
                         temp[day].splice(index, 1);
@@ -414,48 +430,33 @@ const AddService = ({ addedService }) => {
                     </Autocomplete>
                 )}
                 <div className={classes.daysContainer}>
-                    <div>{day}</div>
-                    <div
-                        onClick={() => changeDay(0)}
-                        className={classes.dayButton}>
-                        M
-                    </div>
-                    <div
-                        onClick={() => changeDay(1)}
-                        className={classes.dayButton}>
-                        T
-                    </div>
-                    <div
-                        onClick={() => changeDay(2)}
-                        className={classes.dayButton}>
-                        W
-                    </div>
-                    <div
-                        onClick={() => changeDay(3)}
-                        className={classes.dayButton}>
-                        TR
-                    </div>
-                    <div
-                        onClick={() => changeDay(4)}
-                        className={classes.dayButton}>
-                        F
-                    </div>
-                    <div
-                        onClick={() => changeDay(5)}
-                        className={classes.dayButton}>
-                        S
-                    </div>
-                    <div
-                        onClick={() => changeDay(6)}
-                        className={classes.dayButton}>
-                        U
-                    </div>
+                    <ButtonGroup
+                        variant="contained"
+                        color="primary"
+                        aria-label="contained primary button group">
+                        {days.map(currDay => (
+                            <Button
+                                variant="contained"
+                                className={
+                                    day === currDay.index
+                                        ? classes.selectedDayButton
+                                        : classes.dayButton
+                                }
+                                key={currDay.index}
+                                onClick={() => changeDay(currDay.index)}>
+                                {currDay.name}
+                            </Button>
+                        ))}
+                    </ButtonGroup>
                 </div>
                 <div className={classes.timesContainer}>
                     {availabilities[day]?.map((availability, index) => {
                         return timePickers(availability, index);
                     })}
-                    <Button onClick={() => addEmptyAvailability()}>
+                    <Button
+                        variant="contained"
+                        onClick={() => addEmptyAvailability()}
+                        className={classes.addButton}>
                         Add availability
                     </Button>
                 </div>
@@ -463,9 +464,7 @@ const AddService = ({ addedService }) => {
                 <InputLabel
                     className={classes.tagSelectLabel}
                     id="tag-select-label">
-                        <div className={classes.tagSelectText}>
-                            Tags
-                        </div>
+                    <div className={classes.tagSelectText}>Tags</div>
                 </InputLabel>
                 <Select
                     className={classes.tagSelect}

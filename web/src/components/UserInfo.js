@@ -97,7 +97,7 @@ const useStyles = makeStyles(theme => ({
     },
     modal: {
         width: '50%',
-        height: '50%',
+        height: '80%',
         margin: 'auto auto',
         overflow: 'hidden',
     },
@@ -184,7 +184,10 @@ const ServiceList = props => {
             </List>
             {cookies.username && cookies.username === props.username ? (
                 <div>
-                    <Modal className={classes.modal} open={addingService} onClose={handleClose}>
+                    <Modal
+                        className={classes.modal}
+                        open={addingService}
+                        onClose={handleClose}>
                         <AddService addedService={addedService} />
                     </Modal>
                     <div className={classes.buttonContainer}>
