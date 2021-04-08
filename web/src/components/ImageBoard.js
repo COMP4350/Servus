@@ -41,6 +41,7 @@ const useStyles = makeStyles(theme => ({
         'object-fit': 'cover',
     },
     gridList: {
+        alignContent: 'flex-start',
         width: '100%',
         height: '100%',
     },
