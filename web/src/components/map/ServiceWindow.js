@@ -3,7 +3,9 @@ import axios from 'axios';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { Typography, Button, Modal, Box, IconButton } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
-import { AccountBox, Favorite } from '@material-ui/icons/';
+import { Favorite } from '@material-ui/icons/';
+import ProfilePicture from '../ProfilePicture';
+
 import BookWindow from './BookWindow';
 import { useCookies } from 'react-cookie';
 
@@ -37,12 +39,7 @@ const useStyles = makeStyles(() => ({
         height: '50%',
         textAlign: 'left',
     },
-    userIcon: {
-        height: '96px',
-        width: '96px',
-        padding: 0,
-        margin: 0,
-    },
+
     iconButton: {
         height: 96,
         width: 96,
@@ -135,7 +132,10 @@ const ServiceWindow = props => {
         <div className={classes.window}>
             <div className={classes.upperRow}>
                 <IconButton onClick={changePage} className={classes.iconButton}>
-                    <AccountBox className={classes.userIcon} />
+                    <ProfilePicture
+                        className={classes.userIcon}
+                        username={props.service.provider}
+                    />
                 </IconButton>
                 <div className={classes.infoBar}>
                     <Typography variant="h1" className={classes.title}>
