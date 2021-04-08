@@ -68,7 +68,7 @@ const Header = props => {
             pageURL: '/',
         },
         {
-            menuTitle: 'Appointment',
+            menuTitle: 'Appointments',
             pageURL: '/appointment',
         },
         {
