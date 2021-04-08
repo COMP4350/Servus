@@ -132,7 +132,7 @@ const AddService = ({ addedService }) => {
     const [cookies] = useCookies(['username']);
     const [location, setLocation] = useState({});
     const [serviceTags, setServiceTags] = useState([]);
-    const [serviceIconName, setServiceIconName] = useState({});
+    const [serviceIconName, setServiceIconName] = useState('place');
     const [day, setDay] = useState(0);
     const [availabilities, setAvailabilities] = useState([
         [],

@@ -1,5 +1,6 @@
 import React from 'react';
 import { 
+    mdiMapMarker,
     mdiMusicNoteEighth,
     mdiWrench,
     mdiCake,
@@ -18,11 +19,13 @@ import {
     mdiCart,
     mdiGamepadSquare,
     mdiHockeySticks,
+    mdiTag,
     mdiTerrain,
     mdiBike,
 
 } from '@mdi/js';
 import {
+    Place,
     Audiotrack,
     Build,
     Cake,
@@ -40,12 +43,14 @@ import {
     School,
     ShoppingCart,
     VideogameAsset,
+    LocalOffer,
     Terrain,
     DirectionsBike,
     SportsHockey,
 } from '@material-ui/icons';
 
 export const serviceIconMap = {
+    place: { component: <Place />, path: mdiMapMarker },
     audiotrack: { component: <Audiotrack />, path: mdiMusicNoteEighth },
     build: { component: <Build />, path: mdiWrench },
     cake: { component: <Cake />, path: mdiCake },
@@ -63,6 +68,7 @@ export const serviceIconMap = {
     school: { component: <School />, path: mdiSchool },
     shoppingcart: { component: <ShoppingCart />, path: mdiCart },
     videogameasset: { component: <VideogameAsset />, path: mdiGamepadSquare },
+    localoffer: { component: <LocalOffer />, path: mdiTag },
     sportshockey: { component: <SportsHockey />, path: mdiHockeySticks },
     terrain: { component: <Terrain />, path: mdiTerrain },
     directionsbike: { component: <DirectionsBike />, path: mdiBike },
