@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     filters: {
         'background-color': theme.background.dark,
         margin: '4%',
-        width: '100%',
+        width: '92%',
     },
     searchBar: {
         margin: '4%',
