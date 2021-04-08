@@ -83,7 +83,7 @@ const useStyles = makeStyles(theme => ({
         height: '100%',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        paddingTop: '64px',
+        paddingTop: '4%',
         overflow: 'scroll',
         padding: 10,
         backgroundColor: theme.background.dark,
@@ -93,6 +93,7 @@ const useStyles = makeStyles(theme => ({
     },
     durationSelect: {
         width: '80%',
+        marginBottom: '20px', 
     },
     tagSelectLabel: {
         width: '80%',
@@ -121,7 +122,7 @@ const useStyles = makeStyles(theme => ({
         width: '60%',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         marginTop: '10px',
         marginBottom: '20px',
     },
