@@ -11,6 +11,8 @@ import Chip from '@material-ui/core/Chip';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import { tagNames } from './FilterList';
+import { serviceIconMap } from './ServiceIconMap';
+import { Grid, IconButton, FormControl } from '@material-ui/core/';
 
 const useStyles = makeStyles(() => ({
     textField: {
@@ -56,6 +58,14 @@ const useStyles = makeStyles(() => ({
     formControl: {
         margin: '10px',
     },
+    durationSelect: {
+        width: '80%',
+    },
+    tagSelectLabel: {
+        width: '80%',
+        marginTop: '20px',
+        marginBottom: '4px',
+    },
     tagSelect: {
         width: '100%',
     },
@@ -94,11 +104,9 @@ const AddService = ({ addedService }) => {
         name: '',
         description: '',
         cost: '',
-        duration: '',
-        startTime: '',
-        endTime: '',
-        weekday: 0,
     });
+    const [serviceDuration, setServiceDuration] = useState(0);
+    const [serviceDisplayDuration, setServiceDisplayDuration] = useState('30 minutes');
     const [servicesErrors, setServiceErrors] = useState({});
     const [serviceFormValid, setServiceFormValid] = useState({});
     const { isLoaded } = useJsApiLoader({
@@ -118,7 +126,7 @@ const AddService = ({ addedService }) => {
         if (!serviceForm.cost) {
             errors.cost = 'cost is required';
         }
-        if (!serviceForm.duration) {
+        if (serviceDuration.length != 4) {
             errors.duration = 'duration is required';
         }
         if (!serviceForm.startTime) {
@@ -146,12 +154,8 @@ const AddService = ({ addedService }) => {
                         name: serviceForm.name,
                         description: serviceForm.description,
                         cost: serviceForm.cost,
-                        duration: serviceForm.duration,
-                        availability: {
-                            weekday: serviceForm.weekday,
-                            start_time: serviceForm.startTime,
-                            end_time: serviceForm.endTime,
-                        },
+                        duration: serviceDuration,
+                        availability: buildAvailabilities(),
                         location: {
                             lat: location.lat,
                             lng: location.lng,
@@ -197,6 +201,126 @@ const AddService = ({ addedService }) => {
         console.log(location);
     };
 
+    // Create an IconButton for each supported service icon.
+    const getGridItem = name => {
+        return (
+            <Grid
+                item
+                className={classes.selectableIcon}
+                onClick={handleIconClick(name)}>
+                <IconButton>{serviceIconMap[name].component}</IconButton>
+            </Grid>
+        );
+    };
+
+    // Return a list of icon components.
+    const getGridItems = () => {
+        let names = Object.keys(serviceIconMap);
+        let gridItems = [];
+
+        names.forEach(name => {
+            gridItems.push(getGridItem(name));
+        });
+
+        return gridItems;
+    };
+
+    const changeDay = dayIndex => {
+        setDay(dayIndex);
+    };
+
+    const timePickers = (availability, index) => {
+        return (
+            <div className={classes.timeContainer}>
+                <TextField
+                    id="time"
+                    label="Availability Start"
+                    type="time"
+                    name="startTime"
+                    value={availability.startTime}
+                    className={classes.timeField}
+                    onChange={event => {
+                        let temp = [...availabilities];
+                        temp[day][index] = {
+                            ...temp[day][index],
+                            startTime: event.target.value,
+                        };
+                        setAvailabilities(temp);
+                    }}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    inputProps={{
+                        step: 300, // 15 min
+                    }}
+                />
+                <TextField
+                    id="time"
+                    label="Availability End"
+                    type="time"
+                    name="endTime"
+                    value={availability.endTime}
+                    className={classes.timeField}
+                    onChange={event => {
+                        let temp = [...availabilities];
+                        temp[day][index] = {
+                            ...temp[day][index],
+                            endTime: event.target.value,
+                        };
+                        setAvailabilities(temp);
+                    }}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    inputProps={{
+                        step: 300, // 15 min
+                    }}
+                />
+                <Button
+                    variant="contained"
+                    className={classes.button}
+                    onClick={() => {
+                        let temp = [...availabilities];
+                        temp[day].splice(index, 1);
+                        setAvailabilities(temp);
+                    }}>
+                    Remove
+                </Button>
+            </div>
+        );
+    };
+
+    const addEmptyAvailability = () => {
+        let temp = [...availabilities];
+        temp[day].push({ startTime: '', endTime: '' });
+        setAvailabilities(temp);
+    };
+
+    let durationOptions = {
+        '0005': '5 minutes',
+        '0010': '10 minutes',
+        '0015': '15 minutes',
+        '0020': '20 minutes', 
+        '0025': '25 minutes', 
+        '0030': '30 minutes', 
+        '0035': '35 minutes', 
+        '0040': '40 minutes', 
+        '0045': '45 minutes', 
+        '0050': '50 minutes', 
+        '0100': '1 hour', 
+        '0115': '1 hour 15 minutes', 
+        '0130': '1 hour 30 minutes', 
+        '0145': '1 hour 45 minutes', 
+        '0200': '2 hours'};
+    const handleDurationChange = (duration) => {
+        setServiceDisplayDuration(duration);
+
+        // Get HHMM format from human readable input  
+        let formattedTime = Object.keys(durationOptions).find(key => durationOptions[key] === duration);
+        console.log([duration, formattedTime]);
+        setServiceDuration(formattedTime);
+    }
+
     return (
         <div className={classes.servicesContainer}>
             <div className={classes.serviceForm}>
@@ -224,14 +348,23 @@ const AddService = ({ addedService }) => {
                     onChange={onServiceFormChange}
                     error={servicesErrors.cost}
                 />
-                <TextField
-                    className={classes.textField}
-                    label="Service Duration"
-                    name="duration"
-                    value={serviceForm.duration}
-                    onChange={onServiceFormChange}
-                    error={servicesErrors.duration}
-                />
+                <FormControl className={classes.durationSelect}>
+                    <InputLabel id="durationLabel">
+                        Service Duration
+                    </InputLabel>
+                    <Select
+                        labelId="durationLabel"
+                        value={serviceDisplayDuration}
+                        onChange={x => handleDurationChange(x.target?.value)}>
+                        {Object.values(durationOptions).map((x, i) => {
+                            return (
+                                <MenuItem key={i} value={x}>
+                                    {x}
+                                </MenuItem>
+                            );
+                        })}
+                    </Select>
+                </FormControl>
                 {isLoaded && (
                     <Autocomplete
                         options={{ ...autocompleteOptions }}
