@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { TableCell } from '@material-ui/core';
-import {
-    fade,
-} from '@material-ui/core/styles/colorManipulator';
+import { fade } from '@material-ui/core/styles/colorManipulator';
 import Typography from '@material-ui/core/Typography';
 import { EditingState, ViewState } from '@devexpress/dx-react-scheduler';
 import seedrandom from 'seedrandom';
@@ -22,8 +20,7 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 
-const getBorder = () =>
-    `2.5px solid #272727`;
+const getBorder = () => `2.5px solid #272727`;
 
 const DayScaleCell = props => (
     <MonthView.DayScaleCell
@@ -238,9 +235,7 @@ const Calendar = ({ appointments }) => {
             const service = response.data.result;
             const startDate = new Date(apt.booked_time);
             const endDate = new Date(startDate);
-            endDate.setTime(
-                endDate.getTime() + service.duration * 60 * 1000
-            );
+            endDate.setTime(endDate.getTime() + service.duration * 60 * 1000);
             const tempObj = {
                 id: apt._id,
                 title: service.name,
@@ -279,12 +274,8 @@ const Calendar = ({ appointments }) => {
     }, []);
 
     return (
-        <Scheduler 
-        className={classes.scheduler}
-        data={apptData}>
-
-            <EditingState onCommitChanges={
-                commitDeletes} />
+        <Scheduler className={classes.scheduler} data={apptData}>
+            <EditingState onCommitChanges={commitDeletes} />
             <ViewState defaultCurrentDate={newDate} />
 
             <MonthView
@@ -306,7 +297,6 @@ const Calendar = ({ appointments }) => {
             <AppointmentForm />
             <DragDropProvider />
         </Scheduler>
-
     );
 };
 

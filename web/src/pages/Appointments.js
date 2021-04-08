@@ -35,7 +35,6 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-
 const Appointment = () => {
     const [appointments, setAppointments] = useState();
     const classes = useStyles();
@@ -52,17 +51,13 @@ const Appointment = () => {
         else history.push('/login');
     }, []);
     return (
-        <ThemeProvider
-            theme={theme}>
-                <div
-                className={classes.container}>
+        <ThemeProvider theme={theme}>
+            <div className={classes.container}>
                 {appointments ? (
-                <Calendar appointments={appointments}></Calendar>
-            ) : null}
-                </div>
-            
+                    <Calendar appointments={appointments}></Calendar>
+                ) : null}
+            </div>
         </ThemeProvider>
-
     );
 };
 
