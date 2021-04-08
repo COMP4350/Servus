@@ -1,5 +1,6 @@
 function getMockAppointmentCard() {
     return {
+        _id: '123',
         buyer: 'Risto',
         provider: 'Arveend',
         service_id: '1001',
@@ -9,3 +10,4 @@ function getMockAppointmentCard() {
 }
 
 export const mockAppointmentCard = getMockAppointmentCard();
+export const mockAppointments = [getMockAppointmentCard()];

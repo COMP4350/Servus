@@ -107,20 +107,18 @@ const Account = props => {
         lastName: '',
         bio: '',
     });
-    const getUserInfo = () => {
-        axios
-            .get(`/user/${cookies.username}`)
-            .then(res => {
-                setForm({
-                    username: res.data.result.username,
-                    firstName: res.data.result.firstName,
-                    lastName: res.data.result.lastName,
-                    bio: res.data.result.bio,
-                });
-            })
-            .catch(err => {
-                alert('could not update password' + err);
+    const getUserInfo = async () => {
+        try {
+            let res = await axios.get(`/user/${cookies.username}`);
+            setForm({
+                username: res.data.result.username,
+                firstName: res.data.result.firstName,
+                lastName: res.data.result.lastName,
+                bio: res.data.result.bio,
             });
+        } catch {
+            alert('could not update password');
+        }
     };
     const validateInfo = () => {
         let errors = {};
