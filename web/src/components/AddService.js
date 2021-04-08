@@ -202,7 +202,7 @@ const AddService = ({ addedService }) => {
         description: '',
         cost: '',
     });
-    const [serviceDuration, setServiceDuration] = useState(0);
+    const [serviceDuration, setServiceDuration] = useState('0030');
     const [serviceDisplayDuration, setServiceDisplayDuration] = useState(
         '30 minutes'
     );
