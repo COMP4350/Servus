@@ -73,7 +73,7 @@ const inputStyles = makeStyles(() => ({
     },
 }));
 
-const ImageBoard = props => {
+const ImageBoard = () => {
     const [images, setImages] = useState([]);
     const classes = useStyles();
     const inputclasses = inputStyles();
@@ -81,18 +81,16 @@ const ImageBoard = props => {
     let { targetUsername } = useParams();
 
     const getImages = async () => {
-        const response = await axios.get(`/images/${props.username}`);
-        console.log(response);
+        const response = await axios.get(`/images/${targetUsername}`);
         let images = response.data.result;
         images.sort((a, b) => {
             a.uploadDate <= b.uploadDate ? 1 : -1;
         });
-
         setImages(images);
     };
     useEffect(() => {
         getImages();
-    }, []);
+    }, [targetUsername]);
 
     const getImageBoard = () => {
         console.log(images);
@@ -115,7 +113,7 @@ const ImageBoard = props => {
         let imageFormObj = new FormData();
         imageFormObj.append('imageName', 'multer-image-' + Date.now());
         imageFormObj.append('imageData', e.target.files[0]);
-        imageFormObj.append('ownerUsername', props.username);
+        imageFormObj.append('ownerUsername', targetUsername);
 
         // stores a readable instance of the image being uploaded using multer
         axios

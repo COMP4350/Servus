@@ -236,6 +236,7 @@ const AddService = ({ addedService }) => {
                             lng: location.lng,
                             address: location.address,
                         },
+                        ratings: [],
                         tags: serviceTags,
                         icon_name: serviceIconName,
                     },

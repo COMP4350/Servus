@@ -8,6 +8,14 @@ const availabilitySchema = new Schema({
     end_time: { type: String, required: true },
 });
 
+const ratingSchema = new Schema(
+    {
+        rating: { type: Number, required: true },
+        username: { type: String, required: true },
+    },
+    { _id: false }
+);
+
 const serviceSchema = new Schema({
     provider: { type: String, required: true },
     name: { type: String, required: true },
@@ -20,6 +28,7 @@ const serviceSchema = new Schema({
         lng: { type: Number, required: true },
         address: { type: String, required: true },
     },
+    ratings: { type: [ratingSchema], required: false },
     tags: { type: [String], required: false },
     icon_name: { type: String, required: false },
 });

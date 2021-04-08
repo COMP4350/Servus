@@ -1,247 +1,192 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { makeStyles } from '@material-ui/core/styles';
-import {
-    Card,
-    Typography,
-    Button,
-    Select,
-    InputLabel,
-    MenuItem,
-    FormControl,
-} from '@material-ui/core';
-import moment from 'moment';
-import MomentUtils from '@date-io/moment';
-import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { Typography, Button, Modal, Box, IconButton } from '@material-ui/core';
+import { Rating } from '@material-ui/lab';
+import { AccountBox, Favorite } from '@material-ui/icons/';
+import BookWindow from './BookWindow';
 import { useCookies } from 'react-cookie';
-import { useHistory } from 'react-router-dom';
 
-const useStyles = makeStyles(theme => ({
-    container: {
+const StyledRating = withStyles({
+    iconFilled: {
+        color: '#ff6d75',
+    },
+    iconHover: {
+        color: '#EC5732',
+    },
+})(Rating);
+
+const useStyles = makeStyles(() => ({
+    window: {
         display: 'flex',
-        flexWrap: 'wrap',
+        'flex-direction': 'column',
+        'align-items': 'center',
+        overflow: 'visible',
+        padding: 10,
+        maxWidth: '200',
     },
-    textField: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
-        width: 200,
+    upperRow: {
+        width: '100%',
+        height: '50%',
+        display: 'flex',
+        'flex-direction': 'row',
+        justifyContent: 'space-evenly',
     },
-    formControl: {
-        width: 150,
-        height: 40,
+    lowerRow: {
+        width: '100%',
+        height: '50%',
+        textAlign: 'left',
+    },
+    userIcon: {
+        height: '96px',
+        width: '96px',
+        padding: 0,
+        margin: 0,
+    },
+    iconButton: {
+        height: 96,
+        width: 96,
+        padding: 0,
+        margin: 0,
+    },
+    info: {
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-evenly',
+    },
+    infoBar: {
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+    },
+    title: {
+        fontSize: '1.75em',
+    },
+    modal: {
+        height: '35%',
+        width: '35%',
+        margin: 'auto auto',
+    },
+    provider: {
+        fontSize: '1.25em',
+        marginTop: 0,
+        color: '#647AA3',
+    },
+    desc: {
+        marginTop: 5,
+        'word-wrap': 'break-word',
+    },
+    box: {
+        display: 'flex',
+        flexDirection: 'row',
+        margin: 0,
+    },
+    innerBox: {
+        margin: 0,
+        textAlign: 'left',
+        lineHeight: '2',
+        marginLeft: 7,
+    },
+    book: {
+        marginTop: 10,
     },
 }));
 
 const ServiceWindow = props => {
-    // STATES
-    const [date, setDate] = useState();
-    const [timeState, setTime] = useState({
-        time: '',
-    });
-    const [timepicker, setTimepicker] = useState();
-    const classes = useStyles();
-    const [valid, setValid] = useState(false);
-    const [errors, setErrors] = useState({});
+    const getAvgRating = arr => {
+        let sum = 0;
+        let len = arr.length;
+        arr.map(rating => {
+            sum += rating.rating;
+        });
+        return len > 0 ? sum / len : 0;
+    };
 
     const [cookies] = useCookies();
-    const history = useHistory();
 
-    const displayTimePicker = async () => {
-        const removeItemOnce = (arr, value) => {
-            let index = arr.indexOf(value);
-            if (index > -1) {
-                arr.splice(index, 1);
-            }
-            return arr;
-        };
-        let duration_hours = props.service.duration.slice(0, 2);
-        let duration_minutes = props.service.duration.slice(2);
-        let time_array = [];
-        const addTimeSlices = () => {
-            for (let avail in props.service.availability) {
-                if (props.service.availability[avail].weekday == date.day()) {
-                    let start_time = moment(
-                        props.service.availability[avail].start_time,
-                        'HH:mm'
-                    );
-                    let end_time = moment(
-                        props.service.availability[avail].end_time,
-                        'HH:mm'
-                    );
-                    let apt_time = moment(start_time)
-                        .add(duration_hours, 'h')
-                        .add(duration_minutes, 'm');
-                    let curr_time = start_time;
-                    while (apt_time <= end_time) {
-                        time_array.push(moment(curr_time).format('HH:mm'));
-                        curr_time.add(30, 'm');
-                        apt_time.add(30, 'm');
-                    }
-                }
-            }
-        };
-        const removeConflictingTimes = async () => {
-            let res = await axios.get(
-                `appointment/service/${props.service._id}`
-            );
+    const classes = useStyles();
+    const [seen, setSeen] = useState(false);
 
-            let available_times = [];
-            for (let appt in res.data.result) {
-                let apt_date = moment(res.data.result[appt].booked_time);
-                let apt_end_date = moment(apt_date)
-                    .add(duration_hours, 'h')
-                    .add(duration_minutes, 'm');
-                if (apt_date.isSame(date, 'day')) {
-                    for (let i in time_array) {
-                        let extracted_date = date.format('YYYY-MM-DD');
-                        let extracted_time = moment(
-                            time_array[i],
-                            'HH:mm'
-                        ).format('HH:mm');
-                        let booking_date = moment(
-                            `${extracted_date} ${extracted_time}`,
-                            'YYYY-MM-DD HH:mm'
-                        );
-                        let booking_date_end = moment(booking_date)
-                            .add(duration_hours, 'h')
-                            .add(duration_minutes, 'm');
+    const [rating, setRating] = useState(getAvgRating(props.service.ratings));
 
-                        if (
-                            (booking_date >= apt_date &&
-                                booking_date <= apt_end_date) ||
-                            (booking_date_end >= apt_date &&
-                                booking_date_end <= apt_end_date)
-                        ) {
-                            available_times.push(time_array[i]);
-                        }
-                    }
-                }
-            }
-            for (let i in available_times) {
-                removeItemOnce(time_array, available_times[i]);
-            }
-        };
-
-        addTimeSlices();
-        await removeConflictingTimes();
-
-        setTimepicker(
-            <FormControl className={classes.formControl}>
-                <InputLabel id="label">Appointment Time</InputLabel>
-                <Select
-                    labelId="label"
-                    value={timeState.time}
-                    onChange={x => handleChangeTime(x)}>
-                    {time_array?.map((x, i) => {
-                        return (
-                            <MenuItem key={i} value={x}>
-                                {x}
-                            </MenuItem>
-                        );
-                    })}
-                </Select>
-            </FormControl>
-        );
+    const togglePop = () => {
+        setSeen(!seen);
     };
 
-    const bookAppointment = () => {
-        if (valid) {
-            let extracted_date = date.format('YYYY-MM-DD');
-            let extracted_time = moment(timeState.time, 'HH:mm').format(
-                'HH:mm:ss'
-            );
+    const changePage = () => {
+        props.history.push(`/profile/${props.service.provider}`);
+    };
 
-            let booking_date = moment(
-                `${extracted_date} ${extracted_time}`,
-                'YYYY-MM-DD HH:mm:ss'
-            ).toDate();
-            axios
-                .post(
-                    `/appointment/${cookies.username}`,
-                    {
-                        service_id: props.service._id,
-                        provider: props.service.provider,
-                        booked_time: booking_date,
-                    },
-                    {
-                        withCredentials: true,
-                    }
-                )
-                .then(res => {
-                    if (!res.data.errors) {
-                        alert(
-                            `Successfully booked Service with ${props.service.provider}`
-                        );
-                    }
-                })
-                .catch(err => {
-                    throw err;
-                });
-            setValid(false);
+    const addRating = async val => {
+        if (cookies.username) {
+            const res = await axios.put(`/services/${props.service._id}/rate`, {
+                rating: val,
+                username: cookies.username,
+            });
+            setRating(getAvgRating(res.data.result.ratings));
         }
     };
-
-    useEffect(() => {
-        if (cookies.username) bookAppointment();
-        else if (history) history.push('/login');
-        if (date) displayTimePicker();
-    }, [valid, date, timeState]);
-
-    const handleChangeTime = x => {
-        setTime({ time: x.target.value });
-    };
-
-    const shouldDisableDay = date => {
-        for (let avail in props.service.availability) {
-            if (props.service.availability[avail].weekday == date.day())
-                return false;
-        }
-        return true;
-    };
-    const validate = () => {
-        let errors = {};
-        if (!date || !timeState.time) {
-            errors.time = 'Date & Time are required';
-        }
-        setErrors(errors);
-        setValid(Object.getOwnPropertyNames(errors).length == 0);
-    };
-
     return (
-        <Card>
-            <Typography color="textSecondary">
-                {props.service.provider}
-            </Typography>
-            <Typography variant="h5">{props.service.name}</Typography>
-            <Typography variant="body2" component="p">
-                {props.service.description}
-            </Typography>
-            <Typography variant="caption" component="p">
-                {`Duration: ${moment(props.service.duration, 'HHmm').format(
-                    'HH:mm'
-                )}`}
-            </Typography>
-            <form className={classes.container} noValidate>
-                <MuiPickersUtilsProvider utils={MomentUtils}>
-                    <div className="timepicker">
-                        <DatePicker
-                            label={'Appointment Date'}
-                            value={date}
-                            initialFocusedDate={Date.now()}
-                            onAccept={setDate}
-                            onChange={setDate}
-                            name="date"
-                            autoOk={true}
-                            disablePast={true}
-                            errors={errors.date}
-                            shouldDisableDate={shouldDisableDay}
+        <div className={classes.window}>
+            <div className={classes.upperRow}>
+                <IconButton onClick={changePage} className={classes.iconButton}>
+                    <AccountBox className={classes.userIcon} />
+                </IconButton>
+                <div className={classes.infoBar}>
+                    <Typography variant="h1" className={classes.title}>
+                        {props.service.name}
+                    </Typography>
+                    <Typography
+                        color="textSecondary"
+                        onClick={changePage}
+                        className={classes.provider}>
+                        {`@${props.service.provider}`}
+                    </Typography>
+                    <Box ml={2} className={classes.box}>
+                        <StyledRating
+                            name="customized-color"
+                            value={rating}
+                            getLabelText={value =>
+                                `${value} Heart ${value !== 1 ? 's' : ''}`
+                            }
+                            onChange={(e, val) => {
+                                addRating(val);
+                            }}
+                            precision={0.5}
+                            icon={<Favorite fontSize="inherit" />}
                         />
-                        {timepicker}
-                    </div>
-                </MuiPickersUtilsProvider>
-            </form>
-            <Button onClick={validate}>BOOK</Button>
-        </Card>
+                    </Box>
+                </div>
+            </div>
+            <div className={classes.lowerRow} align="left">
+                <div className={classes.info}>
+                    <Typography
+                        variant="body2"
+                        component="p"
+                        className={classes.desc}>
+                        {'Cost: ' + props.service.cost}
+                        <br />
+                        {props.service.description}
+                    </Typography>
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        onClick={togglePop}
+                        className={classes.book}>
+                        Book
+                    </Button>
+                </div>
+            </div>
+
+            <Modal
+                className={classes.modal}
+                open={seen}
+                aria-labelledby="spring-modal-title"
+                aria-describedby="spring-modal-description">
+                <BookWindow service={props.service} toggle={togglePop} />
+            </Modal>
+        </div>
     );
 };
 

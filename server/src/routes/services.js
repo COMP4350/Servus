@@ -124,6 +124,55 @@ router.post('/', (req, res) => {
         });
 });
 
+/* Add a rating to a service. */
+router.put('/:service_id/rate', (req, res) => {
+    if (!req.body.rating || req.body.rating <= 0 || req.body.rating > 5) {
+        return res
+            .status(400)
+            .json({ errors: 'Rating outside of valid range' });
+    }
+
+    // Push the rating to the service's ratings array.
+    Service.findById(req.params.service_id)
+        .then(service => {
+            if (service) {
+                let found = false;
+                if (!service.ratings) {
+                    service.ratings = [];
+                }
+                service.ratings.map(rating => {
+                    if (rating.username == req.body.username) {
+                        rating.rating = req.body.rating;
+                        found = true;
+                    }
+                });
+
+                if (!found)
+                    service.ratings.push({
+                        rating: req.body.rating,
+                        username: req.body.username,
+                    });
+
+                service
+                    .save()
+                    .then(service => {
+                        return res
+                            .status(200)
+                            .json({ success: true, result: service });
+                    })
+                    .catch(err => {
+                        return res.status(500).json({
+                            success: false,
+                            errors: [{ error: err }],
+                        });
+                    });
+            }
+        })
+        .catch(err => {
+            return res.status(500).json({ errors: [{ error: err }] });
+        });
+});
+
 /* UPDATE a service. Returns the OLD object */
 router.put('/:service_id', (req, res) => {
     //can't change the username attached to service
