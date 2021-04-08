@@ -68,7 +68,8 @@ const App = () => {
     const [username, setUsername] = useState();
 
     useEffect(() => {
-        if (cookies.username) setUsername(cookies.username);
+        if (cookies.username && cookies.username !== 'undefined')
+            setUsername(cookies.username);
     }, []);
     return (
         <ThemeProvider theme={theme}>
