@@ -31,6 +31,7 @@ const useStyles = makeStyles(theme => ({
         width: '80%',
         marginBottom: '3%',
         color: 'white',
+        zIndex: 1000,
     },
     addressField: {
         width: '100%',
@@ -83,6 +84,32 @@ const useStyles = makeStyles(theme => ({
         width: '80%',
         marginTop: '16px',
     },
+    daysContainer: {
+        width: '60%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginTop: '10px',
+        marginBottom: '20px',
+    },
+    dayButton: {
+        color: 'black',
+        backgroundColor: 'white',
+        borderRadius: 100,
+        height: '24px',
+        width: '24px',
+        textAlign: 'center',
+        '&:hover': {
+            cursor: 'pointer',
+        },
+    },
+    timesContainer: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 }));
 
 const getStyles = (name, serviceTags, theme) => {
@@ -101,6 +128,16 @@ const AddService = ({ addedService }) => {
     const [location, setLocation] = useState({});
     const [serviceTags, setServiceTags] = useState([]);
     const [serviceIconName, setServiceIconName] = useState({});
+    const [day, setDay] = useState(0);
+    const [availabilities, setAvailabilities] = useState([
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+    ]);
     const handleTagChange = event => {
         setServiceTags(event.target.value);
     };
@@ -116,9 +153,6 @@ const AddService = ({ addedService }) => {
         description: '',
         cost: '',
         duration: '',
-        startTime: '',
-        endTime: '',
-        weekday: 0,
     });
     const [servicesErrors, setServiceErrors] = useState({});
     const [serviceFormValid, setServiceFormValid] = useState(false);
@@ -142,20 +176,28 @@ const AddService = ({ addedService }) => {
         if (!serviceForm.duration) {
             errors.duration = 'duration is required';
         }
-        if (!serviceForm.startTime) {
-            errors.availability = 'start time is required';
-        }
-        if (!serviceForm.endTime) {
-            errors.availability = 'end time is required';
-        }
-        if (serviceForm.weekday < 0 || serviceForm.weekday > 6) {
-            errors.availability = 'availability is required';
-        }
         if (Object.getOwnPropertyNames(location).length == 0) {
             errors.location = 'location is required';
         }
         setServiceErrors(errors);
         setServiceFormValid(Object.getOwnPropertyNames(errors).length === 0);
+    };
+    const buildAvailabilities = () => {
+        let requestAvailabilities = [];
+        availabilities.forEach((day, index) => {
+            day.filter(
+                availability =>
+                    availability.startTime !== '' && availability.endTime !== ''
+            );
+            day.forEach(availability =>
+                requestAvailabilities.push({
+                    weekday: index,
+                    startTime: availability.startTime,
+                    endTime: availability.endTime,
+                })
+            );
+        });
+        return requestAvailabilities;
     };
     const addService = () => {
         console.log(serviceIconName);
@@ -169,11 +211,7 @@ const AddService = ({ addedService }) => {
                         description: serviceForm.description,
                         cost: serviceForm.cost,
                         duration: serviceForm.duration,
-                        availability: {
-                            weekday: serviceForm.weekday,
-                            start_time: serviceForm.startTime,
-                            end_time: serviceForm.endTime,
-                        },
+                        availability: buildAvailabilities(),
                         location: {
                             lat: location.lat,
                             lng: location.lng,
@@ -194,8 +232,6 @@ const AddService = ({ addedService }) => {
                 .catch(() => {
                     setServiceFormValid(false);
                 });
-
-            return;
         }
     };
     useEffect(() => {
@@ -241,6 +277,75 @@ const AddService = ({ addedService }) => {
         });
 
         return gridItems;
+    };
+
+    const changeDay = dayIndex => {
+        setDay(dayIndex);
+    };
+
+    const timePickers = (availability, index) => {
+        return (
+            <div className={classes.timeContainer}>
+                <TextField
+                    id="time"
+                    label="Availability Start"
+                    type="time"
+                    name="startTime"
+                    value={availability.startTime}
+                    className={classes.timeField}
+                    onChange={event => {
+                        let temp = [...availabilities];
+                        temp[day][index] = {
+                            ...temp[day][index],
+                            startTime: event.target.value,
+                        };
+                        setAvailabilities(temp);
+                    }}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    inputProps={{
+                        step: 300, // 15 min
+                    }}
+                />
+                <TextField
+                    id="time"
+                    label="Availability End"
+                    type="time"
+                    name="endTime"
+                    value={availability.endTime}
+                    className={classes.timeField}
+                    onChange={event => {
+                        let temp = [...availabilities];
+                        temp[day][index] = {
+                            ...temp[day][index],
+                            endTime: event.target.value,
+                        };
+                        setAvailabilities(temp);
+                    }}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    inputProps={{
+                        step: 300, // 15 min
+                    }}
+                />
+                <Button
+                    onClick={() => {
+                        let temp = [...availabilities];
+                        temp[day].splice(index, 1);
+                        setAvailabilities(temp);
+                    }}>
+                    Remove
+                </Button>
+            </div>
+        );
+    };
+
+    const addEmptyAvailability = () => {
+        let temp = [...availabilities];
+        temp[day].push({ startTime: '', endTime: '' });
+        setAvailabilities(temp);
     };
 
     return (
@@ -303,56 +408,53 @@ const AddService = ({ addedService }) => {
                         />
                     </Autocomplete>
                 )}
-                <div className={classes.timeContainer}>
-                    <TextField
-                        id="time"
-                        label="Availability Start"
-                        type="time"
-                        name="startTime"
-                        value={serviceForm.startTime}
-                        defaultValue="07:30"
-                        className={classes.timeField}
-                        onChange={onServiceFormChange}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        inputProps={{
-                            step: 300, // 15 min
-                        }}
-                    />
-                    <TextField
-                        id="time"
-                        label="Availability End"
-                        type="time"
-                        name="endTime"
-                        value={serviceForm.endTime}
-                        defaultValue="07:30"
-                        className={classes.timeField}
-                        onChange={onServiceFormChange}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        inputProps={{
-                            step: 300, // 15 min
-                        }}
-                    />
-                    <TextField
-                        id="select"
-                        label="Availability Weekday"
-                        name="weekday"
-                        value={serviceForm.weekday}
-                        onChange={onServiceFormChange}
-                        select
-                        className={classes.timeField}>
-                        <MenuItem value={0}>Monday</MenuItem>
-                        <MenuItem value={1}>Tuesday</MenuItem>
-                        <MenuItem value={2}>Wednesday</MenuItem>
-                        <MenuItem value={3}>Thursday</MenuItem>
-                        <MenuItem value={4}>Friday</MenuItem>
-                        <MenuItem value={5}>Saturday</MenuItem>
-                        <MenuItem value={6}>Sunday</MenuItem>
-                    </TextField>
+                <div className={classes.daysContainer}>
+                    <div>{day}</div>
+                    <div
+                        onClick={() => changeDay(0)}
+                        className={classes.dayButton}>
+                        M
+                    </div>
+                    <div
+                        onClick={() => changeDay(1)}
+                        className={classes.dayButton}>
+                        T
+                    </div>
+                    <div
+                        onClick={() => changeDay(2)}
+                        className={classes.dayButton}>
+                        W
+                    </div>
+                    <div
+                        onClick={() => changeDay(3)}
+                        className={classes.dayButton}>
+                        TR
+                    </div>
+                    <div
+                        onClick={() => changeDay(4)}
+                        className={classes.dayButton}>
+                        F
+                    </div>
+                    <div
+                        onClick={() => changeDay(5)}
+                        className={classes.dayButton}>
+                        S
+                    </div>
+                    <div
+                        onClick={() => changeDay(6)}
+                        className={classes.dayButton}>
+                        U
+                    </div>
                 </div>
+                <div className={classes.timesContainer}>
+                    {availabilities[day]?.map((availability, index) => {
+                        return timePickers(availability, index);
+                    })}
+                    <Button onClick={() => addEmptyAvailability()}>
+                        Add availability
+                    </Button>
+                </div>
+
                 <InputLabel
                     className={classes.tagSelectLabel}
                     id="tag-select-label">
