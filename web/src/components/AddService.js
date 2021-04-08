@@ -12,7 +12,12 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import { tagNames } from './FilterList';
 import { serviceIconMap } from './ServiceIconMap';
-import { Grid, IconButton, FormControl, ThemeProvider } from '@material-ui/core/';
+import {
+    Grid,
+    IconButton,
+    FormControl,
+    ThemeProvider,
+} from '@material-ui/core/';
 
 const theme = createMuiTheme({
     palette: {
@@ -93,7 +98,7 @@ const useStyles = makeStyles(theme => ({
     },
     durationSelect: {
         width: '80%',
-        marginBottom: '20px', 
+        marginBottom: '20px',
     },
     tagSelectLabel: {
         width: '80%',
@@ -466,11 +471,15 @@ const AddService = ({ addedService }) => {
                         helperText={servicesErrors.cost}
                     />
                     <FormControl className={classes.durationSelect}>
-                        <InputLabel id="durationLabel">Service Duration</InputLabel>
+                        <InputLabel id="durationLabel">
+                            Service Duration
+                        </InputLabel>
                         <Select
                             labelId="durationLabel"
                             value={serviceDisplayDuration}
-                            onChange={x => handleDurationChange(x.target?.value)}>
+                            onChange={x =>
+                                handleDurationChange(x.target?.value)
+                            }>
                             {Object.values(durationOptions).map((x, i) => {
                                 return (
                                     <MenuItem key={i} value={x}>
