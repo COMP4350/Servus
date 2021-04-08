@@ -106,7 +106,6 @@ const BookWindow = props => {
 
     const [cookies] = useCookies();
 
-
     let duration_hours = props.service.duration.slice(0, 2);
     let duration_minutes = props.service.duration.slice(2);
 
@@ -118,7 +117,7 @@ const BookWindow = props => {
             }
             return arr;
         };
-        
+
         let time_array = [];
         const addTimeSlices = () => {
             for (let avail in props.service.availability) {
@@ -277,21 +276,19 @@ const BookWindow = props => {
     };
 
     let apptDuration = `Appointment Duration:`;
-    if(duration_hours === "00")
+    if (duration_hours === '00')
         apptDuration = `${apptDuration} ${duration_minutes} mins`;
     else
         apptDuration = `${apptDuration} ${duration_hours}:${duration_minutes} hrs`;
 
-    console.log()
+    console.log();
     return (
         <ThemeProvider theme={theme}>
             <div className={classes.window}>
                 <Typography variant="h1" className={classes.title}>
                     {props.service.name}
                 </Typography>
-                <Typography color="textSecondary">
-                    { apptDuration }
-                </Typography>
+                <Typography color="textSecondary">{apptDuration}</Typography>
                 <div className={classes.innerwindow}>
                     <form className={classes.container} noValidate>
                         <MuiPickersUtilsProvider utils={MomentUtils}>
