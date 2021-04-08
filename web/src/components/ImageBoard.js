@@ -11,13 +11,13 @@ import {
 import PublishIcon from '@material-ui/icons/Publish';
 import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
     root: {
         position: 'relative',
         width: '60%',
         height: '100%',
         overflow: 'hidden',
-        backgroundColor: 'lightgrey',
+        backgroundColor: theme.background.dark,
     },
     inputRoot: {
         position: 'absolute',
@@ -47,6 +47,7 @@ const useStyles = makeStyles(() => ({
     icon: {
         width: '50px',
         height: '50px',
+        color: theme.palette.primary,
     },
 }));
 
