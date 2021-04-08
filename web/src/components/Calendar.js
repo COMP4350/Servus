@@ -226,7 +226,8 @@ const Calendar = ({ appointments }) => {
         appointments?.forEach(async (apt, i) => {
             seedrandom(i, { global: true });
             const newProvider = {
-                text: apt.provider,
+                text: `${apt.buyer} booked with ${apt.provider}`,
+                provider: apt.provider,
                 id: i,
                 color: getRandomColor(),
             };
@@ -252,7 +253,7 @@ const Calendar = ({ appointments }) => {
         providers?.forEach(name => {
             for (let i = 1; i < providers.length; i++) {
                 if (
-                    name.text === providers[i].text &&
+                    name.provider === providers[i].provider &&
                     providers[i].color !== name.color
                 ) {
                     providers[i].color = name.color;
@@ -264,7 +265,7 @@ const Calendar = ({ appointments }) => {
     const resources = [
         {
             fieldName: 'ownerId',
-            title: 'Owners',
+            title: 'Providers',
             instances: providers,
         },
     ];
