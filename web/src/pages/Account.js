@@ -102,7 +102,6 @@ const Account = props => {
     const passwordUpdate = () => toast.success('Password updated successfully');
     const infoUpdate = () => toast.success('Info updated successfully');
     const infoError = () => toast.error('Could not update info');
-    const loggedOut = () => toast.info('Goodbye');
     const [cookies, removeCookie] = useCookies(['username']);
     const [errors, setErrors] = useState({});
     const [passwordErrors, setPasswordErrors] = useState({});
@@ -145,7 +144,6 @@ const Account = props => {
         setFormValid(Object.getOwnPropertyNames(errors).length == 0);
     };
     const logout = () => {
-        loggedOut();
         removeCookie('username');
         props.setUsername('');
         history.push('/login');

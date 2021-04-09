@@ -91,7 +91,6 @@ const Login = props => {
                     }
                 )
                 .then(res => {
-                    console.log(res.data.result.username);
                     props.setUsername(res.data.result.username);
                     history.push('/');
                 })
