@@ -1,9 +1,8 @@
-describe('add service', () => {
+describe('Provide service', () => {
 
-    // cy.viewport('1280, 720');
-
-    it('visits the page', () => {
+    it('Logs into the test account.', () => {
         cy.visit('http://localhost:3000/');
+        cy.clearCookies();
 
         cy.get('[data-cy=username]')
             .type('andy')
@@ -15,7 +14,9 @@ describe('add service', () => {
 
         // Click login
         cy.get('[data-cy=login]').click()
+    });
 
+    it('Loads the home page.', () => {
         // Map should be visible.
         cy.get('[data-cy=map]').should('be.visible');
 
@@ -23,11 +24,15 @@ describe('add service', () => {
         cy.get('[data-cy=header_username] > .MuiButton-label > .MuiTypography-root')
             .should('have.html', 'andy');
 
-        //cy.getByLabelText('andy').should('exist');
+            //cy.getByLabelText('andy').should('exist');
+    })
 
+    it('Moves to the user profile.', () => {
         // Move to the user profile.
         cy.get('[data-cy=header_username]').click();
+    })
 
+    it('Adds a new service.', () => {
         // Click on the Add Service button.
         cy.get('[data-cy=add_new_service_div]').click();
 
@@ -75,16 +80,6 @@ describe('add service', () => {
         cy.get('[data-value="Lessons"]').click();
         cy.get('[data-value="Performance"]').click();
 
+        // Submit and add to db.
     });
-
-    // Create an account
-
-
-    // Log in
-
-
-    // Add a service
-    //cy.get('[data-cy=service_name]').click()
-
-    // 
 });
