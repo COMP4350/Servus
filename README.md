@@ -39,9 +39,9 @@ Servus is an operation to connect customers with service providers. Customers ar
 
 ### Running acceptance tests:
 
--   Run the backend: `npm start` from `Servus/server/`.
+-   Run the backend with the staging database: `npm run acceptance` from `Servus/server/`.
 -   Run the frontend: `npm start` from `Servus/web/`.
--   Enter `npm run cypress:open` in a command prompt.
+-   Enter `npm run cypress:open` from `Servus/web/` in a command prompt.
     -   Click "Run 4 integration specs" to run all tests, or click each test to run them individually.
 
 ## Documentation
