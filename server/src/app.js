@@ -12,7 +12,6 @@ const imagesRouter = require('./routes/images');
 dotenv.config();
 
 const app = express();
-app.use(cors({ origin: true, credentials: true }));
 const handleError = error => {
     console.log('########## Error Occured #########\n\n');
     console.error(error);
@@ -40,7 +39,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({ origin: process.env.API_URL, credentials: true }));
 app.set('trust proxy', 1);
 
 app.use('/services', servicesRouter);
