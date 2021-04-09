@@ -106,6 +106,7 @@ const ImageBoard = () => {
                     return (
                         <GridListTile cols={1} key={index}>
                             <img
+                                data-cy={`image-${index}`}
                                 src={`${process.env.REACT_APP_API_HOST}/${oneImage.imageData}`}
                             />
                         </GridListTile>
@@ -135,7 +136,7 @@ const ImageBoard = () => {
             {images ? getImageBoard() : null}
 
             {cookies.username && cookies.username === targetUsername ? (
-                <div className={classes.inputRoot}>
+                <div data-cy="upload-image" className={classes.inputRoot}>
                     <IconButton className={classes.btn} variant="contained">
                         <PublishIcon className={classes.icon} />
                     </IconButton>

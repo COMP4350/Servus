@@ -188,7 +188,7 @@ const BookWindow = props => {
         await removeConflictingTimes();
 
         setTimepicker(
-            <FormControl className={classes.formControl}>
+            <FormControl className={classes.formControl} data-cy={`appt-time`}>
                 <InputLabel id="label" className={classes.inputLabel}>
                     Appointment Time
                 </InputLabel>
@@ -284,7 +284,10 @@ const BookWindow = props => {
     return (
         <ThemeProvider theme={theme}>
             <div className={classes.window}>
-                <Typography variant="h1" className={classes.title}>
+                <Typography
+                    variant="h1"
+                    className={classes.title}
+                    data-cy={`book-title`}>
                     {props.service.name}
                 </Typography>
                 <Typography color="textSecondary">{apptDuration}</Typography>
@@ -303,6 +306,7 @@ const BookWindow = props => {
                                 errors={errors.time}
                                 shouldDisableDate={shouldDisableDay}
                                 className={classes.textField}
+                                data-cy={`dates`}
                             />
                             {timepicker}
                         </MuiPickersUtilsProvider>
@@ -311,7 +315,8 @@ const BookWindow = props => {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onClick={validate}>
+                        onClick={validate}
+                        data-cy={`confirm`}>
                         CONFIRM
                     </Button>
                 </div>

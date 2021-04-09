@@ -98,7 +98,7 @@ const SignUp = () => {
     }, [formValid]);
 
     return (
-        <div className={classes.root}>
+        <div className={classes.root} data-cy="add_service_form_base">
             <h2>Create Account</h2>
             <TextField
                 className={classes.textField}
@@ -109,6 +109,7 @@ const SignUp = () => {
                 onChange={onFormChange}
                 error={errors.firstName}
                 helperText={errors.firstName}
+                inputProps={{ 'data-cy': 'signup_first_name' }}
             />
             <TextField
                 className={classes.textField}
@@ -119,6 +120,7 @@ const SignUp = () => {
                 onChange={onFormChange}
                 error={errors.lastName}
                 helperText={errors.lastName}
+                inputProps={{ 'data-cy': 'signup_last_name' }}
             />
             <TextField
                 className={classes.textField}
@@ -129,6 +131,7 @@ const SignUp = () => {
                 onChange={onFormChange}
                 error={errors.username}
                 helperText={errors.username}
+                inputProps={{ 'data-cy': 'signup_username' }}
             />
             <TextField
                 className={classes.textField}
@@ -141,6 +144,7 @@ const SignUp = () => {
                 onChange={onFormChange}
                 error={errors.password}
                 helperText={errors.password}
+                inputProps={{ 'data-cy': 'signup_password' }}
             />
             <TextField
                 className={classes.textField}
@@ -152,11 +156,13 @@ const SignUp = () => {
                 onChange={onFormChange}
                 error={errors.confirmPassword}
                 helperText={errors.confirmPassword}
+                inputProps={{ 'data-cy': 'signup_confirm_password' }}
             />
             <Button
                 className={classes.button}
                 variant="contained"
-                onClick={validate}>
+                onClick={validate}
+                data-cy="create_account_button">
                 CREATE ACCOUNT
             </Button>
         </div>

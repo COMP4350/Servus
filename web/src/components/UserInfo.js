@@ -203,7 +203,9 @@ const ServiceList = props => {
                         onClose={handleClose}>
                         <AddService addedService={addedService} />
                     </Modal>
-                    <div className={classes.buttonContainer}>
+                    <div
+                        className={classes.buttonContainer}
+                        data-cy="add_new_service_div">
                         <Button
                             className={classes.button}
                             variant="contained"

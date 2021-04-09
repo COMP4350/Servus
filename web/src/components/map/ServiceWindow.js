@@ -138,13 +138,17 @@ const ServiceWindow = props => {
                     />
                 </IconButton>
                 <div className={classes.infoBar}>
-                    <Typography variant="h1" className={classes.title}>
+                    <Typography
+                        variant="h1"
+                        className={classes.title}
+                        data-cy={`title`}>
                         {props.service.name}
                     </Typography>
                     <Typography
                         color="textSecondary"
                         onClick={changePage}
-                        className={classes.provider}>
+                        className={classes.provider}
+                        data-cy={`provider`}>
                         {`@${props.service.provider}`}
                     </Typography>
                     <Box ml={2} className={classes.box}>
@@ -177,7 +181,8 @@ const ServiceWindow = props => {
                         color="primary"
                         variant="contained"
                         onClick={togglePop}
-                        className={classes.book}>
+                        className={classes.book}
+                        data-cy={`book`}>
                         Book
                     </Button>
                 </div>

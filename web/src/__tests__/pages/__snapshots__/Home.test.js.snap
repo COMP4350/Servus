@@ -6,7 +6,12 @@ exports[`Home renders correctly 1`] = `
     class="makeStyles-container-1"
   >
     <div />
-    <div />
+    <div
+      class="makeStyles-mapContainer-2"
+      data-cy="map"
+    >
+      <div />
+    </div>
   </div>
 </DocumentFragment>
 `;

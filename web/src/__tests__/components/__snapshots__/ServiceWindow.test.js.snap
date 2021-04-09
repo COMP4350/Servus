@@ -27,11 +27,13 @@ exports[`ServiceWindow renders correctly 1`] = `
       >
         <h1
           class="MuiTypography-root makeStyles-title-7 MuiTypography-h1"
+          data-cy="title"
         >
           Risto's Painting
         </h1>
         <p
           class="MuiTypography-root makeStyles-provider-9 MuiTypography-body1 MuiTypography-colorTextSecondary"
+          data-cy="provider"
         >
           @Risto
         </p>
@@ -397,6 +399,7 @@ exports[`ServiceWindow renders correctly 1`] = `
         </p>
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-book-13 MuiButton-containedPrimary"
+          data-cy="book"
           tabindex="0"
           type="button"
         >
