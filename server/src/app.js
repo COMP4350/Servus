@@ -1,6 +1,8 @@
 const cors = require('cors');
 const dotenv = require('dotenv');
 const express = require('express');
+const session = require('express-session');
+
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const servicesRouter = require('./routes/services');
@@ -38,7 +40,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
-    express.session({
+    session({
         secret: '234234',
         proxy: true, // add this when behind a reverse proxy, if you need secure cookies
         cookie: {
