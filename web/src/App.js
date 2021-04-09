@@ -16,6 +16,7 @@ import Account from './pages/Account';
 import Profile from './pages/Profile';
 import dotenv from 'dotenv';
 import { useCookies } from 'react-cookie';
+import 'react-toastify/dist/ReactToastify.css';
 
 dotenv.config();
 
@@ -68,7 +69,8 @@ const App = () => {
     const [username, setUsername] = useState();
 
     useEffect(() => {
-        if (cookies.username) setUsername(cookies.username);
+        if (cookies.username && cookies.username !== 'undefined')
+            setUsername(cookies.username);
     }, []);
     return (
         <ThemeProvider theme={theme}>

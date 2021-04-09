@@ -1,0 +1,813 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Calendar renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="Root-container-2"
+    style="height: 100%;"
+  >
+    <div
+      class="OverlayContainer-container-3"
+    />
+    <div
+      class="OverlayContainer-container-3"
+    />
+    <div
+      class="MuiToolbar-root MuiToolbar-regular Toolbar-toolbar-13 MuiToolbar-gutters"
+    >
+      <div
+        class="RootBase-root-14"
+      >
+        <button
+          class="MuiButtonBase-root MuiIconButton-root NavigationButton-button-15"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiIconButton-label"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+              />
+            </svg>
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </button>
+        <button
+          class="MuiButtonBase-root MuiIconButton-root NavigationButton-button-15"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiIconButton-label"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+              />
+            </svg>
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </button>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text OpenButton-textButton-16"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-label"
+          >
+            April 2021
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </button>
+        <button
+          class="MuiButtonBase-root MuiIconButton-root OpenButton-iconButton-17"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiIconButton-label"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"
+              />
+            </svg>
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+      <div
+        class="FlexibleSpace-flexibleSpace-35 ToolbarRoot-flexibleSpace-24"
+      >
+        <div
+          class="ToolbarRoot-flexContainer-25"
+        >
+          <h5
+            class="MuiTypography-root MuiTypography-h5"
+            style="margin-left: 10px;"
+          >
+            My Calendar
+          </h5>
+        </div>
+      </div>
+    </div>
+    <div
+      class="makeStyles-container-36"
+    >
+      <div>
+        <div
+          class="makeStyles-stickyElement-37 makeStyles-header-38 makeStyles-flexRow-45"
+        >
+          <div
+            class="makeStyles-background-48 makeStyles-inlineFlex-47 makeStyles-ordinaryHeaderBorder-42"
+          >
+            <div>
+              <table
+                class="MuiTable-root makeStyles-table-50 makeStyles-table-51"
+              >
+                <tbody
+                  class="MuiTableBody-root"
+                >
+                  <tr
+                    class="MuiTableRow-root"
+                  >
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-52"
+                      style="text-align: center; font-weight: bold;"
+                    >
+                      <div
+                        class="Cell-dayOfWeek-53"
+                      >
+                        Sun
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-52"
+                      style="text-align: center; font-weight: bold;"
+                    >
+                      <div
+                        class="Cell-dayOfWeek-53"
+                      >
+                        Mon
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-52"
+                      style="text-align: center; font-weight: bold;"
+                    >
+                      <div
+                        class="Cell-dayOfWeek-53"
+                      >
+                        Tue
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-52"
+                      style="text-align: center; font-weight: bold;"
+                    >
+                      <div
+                        class="Cell-dayOfWeek-53"
+                      >
+                        Wed
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-52"
+                      style="text-align: center; font-weight: bold;"
+                    >
+                      <div
+                        class="Cell-dayOfWeek-53"
+                      >
+                        Thu
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-52"
+                      style="text-align: center; font-weight: bold;"
+                    >
+                      <div
+                        class="Cell-dayOfWeek-53"
+                      >
+                        Fri
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-52"
+                      style="text-align: center; font-weight: bold;"
+                    >
+                      <div
+                        class="Cell-dayOfWeek-53"
+                      >
+                        Sat
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div
+          class="makeStyles-flexRow-45"
+        >
+          <div
+            class="makeStyles-inlineFlex-47"
+          >
+            <div
+              class="makeStyles-relativeContainer-46"
+            >
+              <table
+                class="MuiTable-root makeStyles-table-50 makeStyles-table-55"
+              >
+                <tbody
+                  class="MuiTableBody-root"
+                >
+                  <tr
+                    class="MuiTableRow-root"
+                  >
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56 Cell-opacity-59"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        28
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56 Cell-opacity-59"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        29
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56 Cell-opacity-59"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        30
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56 Cell-opacity-59"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        31
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        April 1
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        2
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        3
+                      </div>
+                    </td>
+                  </tr>
+                  <tr
+                    class="MuiTableRow-root"
+                  >
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        4
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        5
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        6
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        7
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        8
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        9
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        10
+                      </div>
+                    </td>
+                  </tr>
+                  <tr
+                    class="MuiTableRow-root"
+                  >
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        11
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        12
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        13
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        14
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        15
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        16
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        17
+                      </div>
+                    </td>
+                  </tr>
+                  <tr
+                    class="MuiTableRow-root"
+                  >
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        18
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        19
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        20
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        21
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        22
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        23
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        24
+                      </div>
+                    </td>
+                  </tr>
+                  <tr
+                    class="MuiTableRow-root"
+                  >
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        25
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        26
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        27
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        28
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        29
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        30
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56 Cell-opacity-59"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        May 1
+                      </div>
+                    </td>
+                  </tr>
+                  <tr
+                    class="MuiTableRow-root"
+                  >
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56 Cell-opacity-59"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        2
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56 Cell-opacity-59"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        3
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56 Cell-opacity-59"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        4
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56 Cell-opacity-59"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        5
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56 Cell-opacity-59"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        6
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56 Cell-opacity-59"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        7
+                      </div>
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body Cell-cell-56 Cell-opacity-59"
+                      tabindex="0"
+                    >
+                      <div
+                        class="Cell-content-57"
+                      />
+                      <div
+                        class="Cell-text-58"
+                      >
+                        8
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div
+                class="AppointmentsContainer-container-73"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BookWindow renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="makeStyles-window-1"
+  >
+    <h1
+      class="MuiTypography-root makeStyles-title-7 MuiTypography-h1"
+    >
+      Risto's Painting
+    </h1>
+    <p
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+    >
+      Appointment Duration: 01:00 hrs
+    </p>
+    <div
+      class="makeStyles-innerwindow-2"
+    >
+      <form
+        class="makeStyles-container-3"
+        novalidate=""
+      >
+        <div />
+      </form>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-10 MuiButton-containedPrimary"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          CONFIRM
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+    <span
+      class="makeStyles-close-9"
+    >
+      × 
+    </span>
+  </div>
+</DocumentFragment>
+`;
