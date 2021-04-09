@@ -358,6 +358,7 @@ const AddService = ({ addedService }) => {
                     }}
                     inputProps={{
                         step: 300, // 15 min
+                        'data-cy': `availability_start_${index}`,
                     }}
                 />
                 <TextField
@@ -380,6 +381,7 @@ const AddService = ({ addedService }) => {
                     }}
                     inputProps={{
                         step: 300, // 15 min
+                        'data-cy': `availability_end_${index}`,
                     }}
                 />
                 <Button
@@ -442,6 +444,7 @@ const AddService = ({ addedService }) => {
                         onChange={onServiceFormChange}
                         error={servicesErrors.name}
                         helperText={servicesErrors.name}
+                        inputProps={{ 'data-cy': 'service_name' }}
                     />
                     {serviceIconMap[serviceIconName]
                         ? serviceIconMap[serviceIconName].component
@@ -459,6 +462,7 @@ const AddService = ({ addedService }) => {
                         onChange={onServiceFormChange}
                         error={servicesErrors.description}
                         helperText={servicesErrors.description}
+                        inputProps={{ 'data-cy': 'service_description' }}
                     />
                     <TextField
                         className={classes.textField}
@@ -468,6 +472,7 @@ const AddService = ({ addedService }) => {
                         onChange={onServiceFormChange}
                         error={servicesErrors.cost}
                         helperText={servicesErrors.cost}
+                        inputProps={{ 'data-cy': 'service_cost' }}
                     />
                     <FormControl className={classes.durationSelect}>
                         <InputLabel id="durationLabel">
@@ -478,7 +483,8 @@ const AddService = ({ addedService }) => {
                             value={serviceDisplayDuration}
                             onChange={x =>
                                 handleDurationChange(x.target?.value)
-                            }>
+                            }
+                            data-cy="service_duration">
                             {Object.values(durationOptions).map((x, i) => {
                                 return (
                                     <MenuItem key={i} value={x}>
@@ -497,6 +503,7 @@ const AddService = ({ addedService }) => {
                             <TextField
                                 className={classes.addressField}
                                 id="search-address"
+                                inputProps={{ 'data-cy': 'search_address' }}
                                 placeholder="Service Location"
                             />
                         </Autocomplete>
@@ -515,7 +522,8 @@ const AddService = ({ addedService }) => {
                                             : classes.dayButton
                                     }
                                     key={currDay.index}
-                                    onClick={() => changeDay(currDay.index)}>
+                                    onClick={() => changeDay(currDay.index)}
+                                    data-cy={'weekday_button_' + currDay.index}>
                                     {currDay.name}
                                 </Button>
                             ))}
@@ -528,7 +536,8 @@ const AddService = ({ addedService }) => {
                         <Button
                             variant="contained"
                             onClick={() => addEmptyAvailability()}
-                            className={classes.addButton}>
+                            className={classes.addButton}
+                            data-cy="add_availability_button">
                             Add availability
                         </Button>
                     </div>
@@ -563,7 +572,8 @@ const AddService = ({ addedService }) => {
                                     />
                                 ))}
                             </div>
-                        )}>
+                        )}
+                        data-cy="service_tags">
                         {tagNames.map(name => (
                             <MenuItem
                                 key={name}
@@ -577,7 +587,8 @@ const AddService = ({ addedService }) => {
                         <Button
                             className={classes.button}
                             variant="contained"
-                            onClick={validateService}>
+                            onClick={validateService}
+                            data-cy="submit_add_service">
                             Add Service
                         </Button>
                     </div>

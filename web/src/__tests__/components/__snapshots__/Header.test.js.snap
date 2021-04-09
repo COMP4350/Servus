@@ -41,6 +41,7 @@ exports[`Header renders correctly 1`] = `
         </button>
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-menuButton-4"
+          data-cy="header_username"
           tabindex="0"
           type="button"
         >
@@ -49,6 +50,7 @@ exports[`Header renders correctly 1`] = `
           >
             <h4
               class="MuiTypography-root MuiTypography-h4"
+              inputprops="[object Object]"
             >
               Login
             </h4>

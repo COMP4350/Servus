@@ -218,20 +218,21 @@ const ServiceList = props => {
                             props.setSelectedService(service);
                         }
                         return (
-                            <ListItem
-                                key={index}
-                                classes={style}
-                                onClick={e => handleListItemClick(e, index)}
-                                selected={selectedIndex == index}
-                                divider={true}>
-                                <ServiceCard
-                                    service={service}
-                                    index={index}
-                                    className={classes.serviceCard}
+                            <div data-cy={`service_${index}`} key={index}>
+                                <ListItem
+                                    classes={style}
+                                    onClick={e => handleListItemClick(e, index)}
                                     selected={selectedIndex == index}
-                                    expand={false}
-                                />
-                            </ListItem>
+                                    divider={true}>
+                                    <ServiceCard
+                                        service={service}
+                                        index={index}
+                                        className={classes.serviceCard}
+                                        selected={selectedIndex == index}
+                                        expand={false}
+                                    />
+                                </ListItem>
+                            </div>
                         );
                     })
                 ) : (

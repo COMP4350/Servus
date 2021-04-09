@@ -4,6 +4,7 @@ exports[`SignUp renders correctly 1`] = `
 <DocumentFragment>
   <div
     class="makeStyles-root-1"
+    data-cy="add_service_form_base"
   >
     <h2>
       Create Account
@@ -25,6 +26,7 @@ exports[`SignUp renders correctly 1`] = `
         <input
           aria-invalid="false"
           class="MuiInputBase-input MuiInput-input"
+          data-cy="signup_first_name"
           id="outlined-basic"
           name="firstName"
           type="text"
@@ -49,6 +51,7 @@ exports[`SignUp renders correctly 1`] = `
         <input
           aria-invalid="false"
           class="MuiInputBase-input MuiInput-input"
+          data-cy="signup_last_name"
           id="outlined-basic"
           name="lastName"
           type="text"
@@ -73,6 +76,7 @@ exports[`SignUp renders correctly 1`] = `
         <input
           aria-invalid="false"
           class="MuiInputBase-input MuiInput-input"
+          data-cy="signup_username"
           id="outlined-basic"
           name="username"
           type="text"
@@ -98,6 +102,7 @@ exports[`SignUp renders correctly 1`] = `
           aria-invalid="false"
           autocomplete="current-password"
           class="MuiInputBase-input MuiInput-input"
+          data-cy="signup_password"
           id="outlined-password-input"
           name="password"
           type="Password"
@@ -122,6 +127,7 @@ exports[`SignUp renders correctly 1`] = `
         <input
           aria-invalid="false"
           class="MuiInputBase-input MuiInput-input"
+          data-cy="signup_confirm_password"
           id="outlined-password-input"
           name="confirmPassword"
           type="password"
@@ -131,6 +137,7 @@ exports[`SignUp renders correctly 1`] = `
     </div>
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-3"
+      data-cy="create_account_button"
       tabindex="0"
       type="button"
     >

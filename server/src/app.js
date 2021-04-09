@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 const servicesRouter = require('./routes/services');
 const userRouter = require('./routes/user');
+const testRouter = require('./routes/test');
 const appointmentRouter = require('./routes/appointment');
 const imagesRouter = require('./routes/images');
 
@@ -19,10 +20,12 @@ const handleError = error => {
     console.log('##################################\n');
 };
 
-const DB_URI =
-    process.env.NODE_ENV === 'dev'
-        ? process.env.DB_URI
-        : process.env.TEST_DB_URI;
+let DB_URI = undefined;
+
+if (process.env.NODE_ENV === 'dev') DB_URI = process.env.DB_URI;
+else if (process.env.NODE_ENV === 'test') DB_URI = process.env.TEST_DB_URI;
+else if (process.env.NODE_ENV === 'stg') DB_URI = process.env.STG_DB_URI;
+else console.log('NODE_ENV NOT SPECIFIED!');
 
 mongoose
     .connect(DB_URI, {
@@ -47,6 +50,9 @@ app.use('/user', userRouter);
 app.use('/appointment', appointmentRouter);
 app.use('/images', imagesRouter);
 app.use('/uploads', express.static('uploads'));
+
+if (process.env.NODE_ENV !== 'dev') app.use('/test', testRouter);
+
 console.log('Server online');
 
 module.exports = app;

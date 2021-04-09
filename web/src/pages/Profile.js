@@ -52,7 +52,7 @@ const Profile = () => {
     useEffect(() => {
         const getUserInfo = async () => {
             try {
-                let res = axios.get(`/user/${targetUsername}`);
+                let res = await axios.get(`/user/${targetUsername}`);
                 setUser(res.data.result);
             } catch {
                 history.push('/');
