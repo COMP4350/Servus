@@ -1,3 +1,5 @@
+import 'cypress-file-upload';
+
 describe('advertise past work', () => {
     it('Registers a test account.', () => {
         cy.visit('http://localhost:3000/');
@@ -26,10 +28,9 @@ describe('advertise past work', () => {
             .type('TestPassword')
             .should('have.value', 'TestPassword');
 
-            
         cy.get('[data-cy=create_account_button]').click();
         cy.wait(1500);
-    })
+    });
 
     // Note: until this bug is fixed, this login section is necessary.
     // Logging in should not be necessary when an account is created,
@@ -48,7 +49,6 @@ describe('advertise past work', () => {
         cy.get('[data-cy=login]').click();
     });
 
-
     it('Upload an image from the user profile.', () => {
         cy.wait(1500);
         // Move to the user profile.
@@ -57,5 +57,33 @@ describe('advertise past work', () => {
         cy.wait(1500);
 
         // Test uploading an imageboard picture.
-    })
+        cy.get('[data-cy=upload-image]').click();
+        cy.fixture('testPicture.png').then(fileContent => {
+            cy.get('input[type="file"]').attachFile({
+                fileContent: fileContent.toString(),
+                fileName: 'testPicture.png',
+                mimeType: 'image/png',
+            });
+        });
+        cy.wait(1500);
+        cy.get('[data-cy=image-1]').should('be.visible');
+        cy.fixture('testPicture.png').then(fileContent => {
+            cy.get('input[type="file"]').attachFile({
+                fileContent: fileContent.toString(),
+                fileName: 'testPicture.png',
+                mimeType: 'image/png',
+            });
+        });
+        cy.wait(1500);
+        cy.get('[data-cy=image-2]').should('be.visible');
+        cy.fixture('testPicture.png').then(fileContent => {
+            cy.get('input[type="file"]').attachFile({
+                fileContent: fileContent.toString(),
+                fileName: 'testPicture.png',
+                mimeType: 'image/png',
+            });
+        });
+        cy.wait(1500);
+        cy.get('[data-cy=image-3]').should('be.visible');
+    });
 });
