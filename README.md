@@ -1,6 +1,6 @@
 # Servus
 
-> At your service
+> At your Servus
 
 ## Description
 
