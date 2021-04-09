@@ -238,7 +238,7 @@ const ServiceList = props => {
                           </div>
                           );
                       })
-                    : null}
+                    : <Typography>{errorText}</Typography>}
             </List>
         </Paper>
     );
