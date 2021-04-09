@@ -139,6 +139,7 @@ const Login = props => {
                 <Button
                     className={classes.button}
                     variant="contained"
+                    data-cy='signup'
                     onClick={() => history.push('/signup')}>
                     Sign up
                 </Button>
