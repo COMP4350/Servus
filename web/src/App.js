@@ -16,6 +16,7 @@ import Account from './pages/Account';
 import Profile from './pages/Profile';
 import dotenv from 'dotenv';
 import { useCookies } from 'react-cookie';
+import 'react-toastify/dist/ReactToastify.css';
 
 dotenv.config();
 

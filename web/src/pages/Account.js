@@ -14,6 +14,7 @@ import { useCookies } from 'react-cookie';
 import ProfilePicture from '../components/ProfilePicture';
 import { useHistory } from 'react-router';
 import { ArrowBack } from '@material-ui/icons/';
+import { ToastContainer, toast } from 'react-toastify';
 
 const theme = createMuiTheme({
     palette: {
@@ -88,11 +89,20 @@ const useStyles = makeStyles(() => ({
         width: 96,
         height: 96,
     },
+    toast: {
+        marginTop: '60px',
+    },
 }));
 
 const Account = props => {
     const classes = useStyles();
     const history = useHistory();
+    const passwordError = () => toast.error('Could not update password');
+    const imageError = () => toast.error('Could not upload image');
+    const passwordUpdate = () => toast.success('Password updated successfully');
+    const infoUpdate = () => toast.success('Info updated successfully');
+    const infoError = () => toast.error('Could not update info');
+    const loggedOut = () => toast.info('Goodbye');
     const [cookies, removeCookie] = useCookies(['username']);
     const [errors, setErrors] = useState({});
     const [passwordErrors, setPasswordErrors] = useState({});
@@ -135,6 +145,7 @@ const Account = props => {
         setFormValid(Object.getOwnPropertyNames(errors).length == 0);
     };
     const logout = () => {
+        loggedOut();
         removeCookie('username');
         props.setUsername('');
         history.push('/login');
@@ -161,13 +172,14 @@ const Account = props => {
                     password: form.password,
                 })
                 .then(() => {
-                    alert('Password updated successfully');
+                    passwordUpdate();
                     setUpdatingPassword(false);
                 })
-                .catch(err => {
-                    alert('could not update password' + err);
+                .catch(() => {
+                    passwordError();
                 });
             setPasswordValid(false);
+            setForm({ ...form, password: '', confirmPassword: '' });
         }
     };
     const updateInfo = async () => {
@@ -187,9 +199,11 @@ const Account = props => {
                 )
                 .then(() => {
                     props.setUsername(form.username);
+                    infoUpdate();
                 })
                 .catch(() => {
                     setFormValid(false);
+                    infoError();
                 });
             setFormValid(false);
 
@@ -221,124 +235,130 @@ const Account = props => {
         axios
             .post(`/images/upload`, imageFormObj)
             .then(() => {})
-            .catch(err => {
-                alert('Error while uploading image' + err);
+            .catch(() => {
+                imageError();
             });
     };
 
     return (
-        <ThemeProvider theme={theme}>
-            <div className={classes.root}>
-                <Typography variant="h2" className={classes.title}>
-                    Account Details
-                </Typography>
-                <ProfilePicture username={cookies.username} />
-                <Input type="file" onChange={e => uploadImage(e, 'multer')} />
-                <TextField
-                    className={classes.textField}
-                    id="outlined-basic"
-                    label="First Name"
-                    name="firstName"
-                    value={form.firstName}
-                    onChange={onFormChange}
-                    error={errors.firstName}
-                    helperText={errors.firstName}
-                />
-                <TextField
-                    className={classes.textField}
-                    id="outlined-basic"
-                    label="Last Name"
-                    name="lastName"
-                    value={form.lastName}
-                    onChange={onFormChange}
-                    error={errors.lastName}
-                    helperText={errors.lastName}
-                />
-                <TextField
-                    className={classes.textField}
-                    id="outlined-basic"
-                    label="Username"
-                    name="username"
-                    value={form.username}
-                    onChange={onFormChange}
-                    error={errors.username}
-                    helperText={errors.username}
-                />
-                <TextField
-                    className={classes.bio}
-                    id="outlined-basic"
-                    label="Bio"
-                    name="bio"
-                    value={form.bio}
-                    onChange={onFormChange}
-                    multiline
-                    rowsMax={4}
-                    error={errors.bio}
-                    helperText={errors.bio}
-                />
-                {updatingPassword ? (
-                    <div className={classes.passwordContainer}>
-                        <TextField
-                            className={classes.passwordTextField}
-                            id="outlined-password-input"
-                            label="password"
-                            type="Password"
-                            autoComplete="current-password"
-                            name="password"
-                            value={form.password}
-                            onChange={onFormChange}
-                            error={passwordErrors.password}
-                            helperText={passwordErrors.password}
-                        />
-                        <TextField
-                            className={classes.passwordTextField}
-                            id="outlined-password-input"
-                            label="Confirm Password"
-                            type="password"
-                            name="confirmPassword"
-                            value={form.confirmPassword}
-                            onChange={onFormChange}
-                            error={passwordErrors.confirmPassword}
-                            helperText={passwordErrors.confirmPassword}
-                        />
+        <div>
+            <ThemeProvider theme={theme}>
+                <ToastContainer className={classes.toast} />
+                <div className={classes.root}>
+                    <Typography variant="h2" className={classes.title}>
+                        Account Details
+                    </Typography>
+                    <ProfilePicture username={cookies.username} />
+                    <Input
+                        type="file"
+                        onChange={e => uploadImage(e, 'multer')}
+                    />
+                    <TextField
+                        className={classes.textField}
+                        id="outlined-basic"
+                        label="First Name"
+                        name="firstName"
+                        value={form.firstName}
+                        onChange={onFormChange}
+                        error={errors.firstName}
+                        helperText={errors.firstName}
+                    />
+                    <TextField
+                        className={classes.textField}
+                        id="outlined-basic"
+                        label="Last Name"
+                        name="lastName"
+                        value={form.lastName}
+                        onChange={onFormChange}
+                        error={errors.lastName}
+                        helperText={errors.lastName}
+                    />
+                    <TextField
+                        className={classes.textField}
+                        id="outlined-basic"
+                        label="Username"
+                        name="username"
+                        value={form.username}
+                        onChange={onFormChange}
+                        error={errors.username}
+                        helperText={errors.username}
+                    />
+                    <TextField
+                        className={classes.bio}
+                        id="outlined-basic"
+                        label="Bio"
+                        name="bio"
+                        value={form.bio}
+                        onChange={onFormChange}
+                        multiline
+                        rowsMax={4}
+                        error={errors.bio}
+                        helperText={errors.bio}
+                    />
+                    {updatingPassword ? (
+                        <div className={classes.passwordContainer}>
+                            <TextField
+                                className={classes.passwordTextField}
+                                id="outlined-password-input"
+                                label="password"
+                                type="Password"
+                                autoComplete="current-password"
+                                name="password"
+                                value={form.password}
+                                onChange={onFormChange}
+                                error={passwordErrors.password}
+                                helperText={passwordErrors.password}
+                            />
+                            <TextField
+                                className={classes.passwordTextField}
+                                id="outlined-password-input"
+                                label="Confirm Password"
+                                type="password"
+                                name="confirmPassword"
+                                value={form.confirmPassword}
+                                onChange={onFormChange}
+                                error={passwordErrors.confirmPassword}
+                                helperText={passwordErrors.confirmPassword}
+                            />
+                            <Button
+                                className={classes.button}
+                                onClick={validatePassword}
+                                variant="contained">
+                                Update Password
+                            </Button>
+                        </div>
+                    ) : (
                         <Button
                             className={classes.button}
-                            onClick={validatePassword}
+                            onClick={() => setUpdatingPassword(true)}
                             variant="contained">
                             Update Password
                         </Button>
+                    )}
+                    <div className={classes.buttonContainer}>
+                        <Button
+                            className={classes.button}
+                            variant="contained"
+                            onClick={validateInfo}>
+                            Update Info
+                        </Button>
+                        <Button
+                            className={classes.button}
+                            variant="contained"
+                            onClick={logout}>
+                            Logout
+                        </Button>
                     </div>
-                ) : (
-                    <Button
-                        className={classes.button}
-                        onClick={() => setUpdatingPassword(true)}
-                        variant="contained">
-                        Update Password
-                    </Button>
-                )}
-                <div className={classes.buttonContainer}>
-                    <Button
-                        className={classes.button}
-                        variant="contained"
-                        onClick={validateInfo}>
-                        Update Info
-                    </Button>
-                    <Button
-                        className={classes.button}
-                        variant="contained"
-                        onClick={logout}>
-                        Logout
-                    </Button>
+                    <IconButton
+                        className={classes.accountBtn}
+                        onClick={() => {
+                            toProfile();
+                        }}>
+                        <ArrowBack className={classes.arrowIcon} />
+                    </IconButton>
                 </div>
-                <IconButton
-                    className={classes.accountBtn}
-                    onClick={() => {
-                        toProfile();
-                    }}>
-                    <ArrowBack className={classes.arrowIcon} />
-                </IconButton>
-            </div>
-        </ThemeProvider>
+            </ThemeProvider>
+        </div>
     );
 };
 
