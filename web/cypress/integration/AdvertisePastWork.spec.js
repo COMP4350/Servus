@@ -2,7 +2,7 @@ import 'cypress-file-upload';
 
 describe('advertise past work', () => {
     it('Registers a test account.', () => {
-        cy.visit('http://localhost:3000/');
+        cy.visit('/');
         cy.clearCookies();
 
         // Fill in a new user registration form to create a test user.

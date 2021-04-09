@@ -1,7 +1,7 @@
 describe('book appointment', () => {
     before(() => {
         cy.clearCookies();
-        cy.visit('http://localhost:3000/');
+        cy.visit('/');
 
         cy.get('[data-cy=username]').type('zimbakor');
 
