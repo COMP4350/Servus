@@ -1,5 +1,8 @@
 describe('Provide service', () => {
 
+    beforeEach(() => {
+        Cypress.Cookies.preserveOnce('username');
+    });
     it('Registers a test account.', () => {
         cy.visit('http://localhost:3000/');
         cy.clearCookies();
