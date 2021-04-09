@@ -1,53 +1,23 @@
 describe('Provide service', () => {
-    beforeEach(() => {
-        Cypress.Cookies.preserveOnce('username');
-    });
-    it('Registers a test account.', () => {
-        cy.visit('/');
+    before(() => {
         cy.clearCookies();
 
-        // Fill in a new user registration form to create a test user.
-        cy.get('[data-cy=signup]').click();
-
-        cy.get('[data-cy=signup_first_name]')
-            .type('TestFirstName')
-            .should('have.value', 'TestFirstName');
-
-        cy.get('[data-cy=signup_last_name]')
-            .type('TestLastName')
-            .should('have.value', 'TestLastName');
-
-        cy.get('[data-cy=signup_username]')
-            .type('TestUsername')
-            .should('have.value', 'TestUsername');
-
-        cy.get('[data-cy=signup_password]')
-            .type('TestPassword')
-            .should('have.value', 'TestPassword');
-
-        cy.get('[data-cy=signup_confirm_password]')
-            .type('TestPassword')
-            .should('have.value', 'TestPassword');
-
-        cy.get('[data-cy=create_account_button]').click();
-        cy.wait(1500);
-    });
-
-    // Note: until this bug is fixed, this login section is necessary.
-    // Logging in should not be necessary when an account is created,
-    // since Servus automatically logs into newly created accounts.
-
-    it('Logs into the test account.', () => {
-        cy.get('[data-cy=header_username]').click();
+        cy.request('http://localhost:5000/test/empty')
+        cy.request('http://localhost:5000/test/fill')
+        cy.wait(1000);
+        cy.visit('/');
 
         cy.get('[data-cy=username]')
-            .type('TestUsername')
-            .should('have.value', 'TestUsername');
+            .type('testuser2')
+            .should('have.value', 'testuser2');
         cy.get('[data-cy=password]')
-            .type('TestPassword')
-            .should('have.value', 'TestPassword');
+            .type('testpassword')
+            .should('have.value', 'testpassword');
         // Click login
         cy.get('[data-cy=login]').click();
+    })
+    beforeEach(() => {
+        Cypress.Cookies.preserveOnce('username');
     });
 
     it('Loads the home page.', () => {
@@ -57,11 +27,14 @@ describe('Provide service', () => {
         // Username on the header should match one used.
         cy.get(
             '[data-cy=header_username] > .MuiButton-label > .MuiTypography-root'
-        ).should('have.html', 'TestUsername');
+        ).should('have.html', 'testuser2');
 
+    });
+
+    it('Moves to the user profile', () => {
         // Move to the user profile.
         cy.get('[data-cy=header_username]').click();
-    });
+    })
 
     it('Adds a new service.', () => {
         // Click on the Add Service button.
@@ -114,5 +87,12 @@ describe('Provide service', () => {
 
         // Submit and add to db.
         cy.get('[data-cy=submit_add_service]').click();
+
     });
+
+    it('Contains the newly-added service', () => {
+        cy.wait(2000);
+        // Check that the service appears on the side.
+        cy.contains('Cypress Service Name');
+    })
 });

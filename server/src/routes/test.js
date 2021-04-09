@@ -3,14 +3,18 @@ const Service = require('../db/models/service.js');
 const User = require('../db/models/user.js');
 const Appointment = require('../db/models/appointment.js');
 const Image = require('../db/models/image.js');
+const authUtils = require('../utils/authUtils.js');
+
+const { encryptPassword } = authUtils;
 
 const router = express.Router();
+const testPassword = 'testpassword';
 
 const testUser1 = {
     username: 'testuser1',
     firstName: 'Test',
     lastName: 'User1',
-    password: 'testuser1',
+    password: testPassword,
     bio: 'I am a test user',
 };
 
@@ -18,12 +22,12 @@ const testUser2 = {
     username: 'testuser2',
     firstName: 'Test',
     lastName: 'User2',
-    password: 'testuser2',
+    password: testPassword,
     bio: 'I am a test user',
 };
 
 const testService1 = {
-    username: 'testuser',
+    provider: 'testuser1',
     name: 'testservice1',
     description: '123',
     cost: '123',
@@ -38,12 +42,12 @@ const testService1 = {
         { weekday: 6, start_time: '0800', end_time: '1800' },
     ],
     tags: ['Gaming', 'Sports'],
-    ratings: [{ testuser2: 5 }],
+    ratings: [{ username: 'testuser2', rating: 5 }],
     location: { lat: 49.870929, lng: -97.162911, address: '915 Grosvenor Ave' },
 };
 
 const testService2 = {
-    username: 'testuser',
+    provider: 'testuser1',
     name: 'testservice2',
     description: '123',
     cost: '123',
@@ -55,7 +59,7 @@ const testService2 = {
         { weekday: 6, start_time: '0800', end_time: '1800' },
     ],
     tags: ['Gaming', 'Construction'],
-    ratings: [{ testuser2: 5 }],
+    ratings: [{ username: 'testuser2', rating: 5 }],
     location: {
         lat: 49.8866486,
         lng: -97.1992166,
@@ -64,7 +68,7 @@ const testService2 = {
 };
 
 const testService3 = {
-    username: 'testuser',
+    provider: 'testuser1',
     name: 'testservice3',
     description: '123',
     cost: '123',
@@ -75,7 +79,7 @@ const testService3 = {
         { weekday: 2, start_time: '0800', end_time: '1800' },
     ],
     tags: ['Finance', 'Seasonal'],
-    ratings: [{ testuser2: 5 }],
+    ratings: [{ username: 'testuser2', rating: 5 }],
     location: {
         lat: 49.810407,
         lng: -97.14376399999999,
@@ -90,55 +94,62 @@ router.get('/fill', (req, res) => {
     const testS2 = new Service(testService2);
     const testS3 = new Service(testService3);
 
-    newUser1
-        .save()
-        .then(u1res => {
-            newUser2
-                .save()
-                .then(u2res => {
-                    testS1
-                        .save()
-                        .then(s1res => {
-                            testS2
-                                .save()
-                                .then(s2res => {
-                                    testS3
-                                        .save()
-                                        .then(s3res => {
-                                            res.status(200).json({
-                                                success: true,
-                                                result: {
-                                                    testuser1: u1res,
-                                                    testuser2: u2res,
-                                                    service1: s1res,
-                                                    service2: s2res,
-                                                    service3: s3res,
-                                                },
+    encryptPassword(testPassword).then(password => {
+        newUser1.password = password
+        newUser2.password = password
+
+        newUser1
+            .save()
+            .then(u1res => {
+                newUser2
+                    .save()
+                    .then(u2res => {
+                        testS1
+                            .save()
+                            .then(s1res => {
+                                testS2
+                                    .save()
+                                    .then(s2res => {
+                                        testS3
+                                            .save()
+                                            .then(s3res => {
+                                                res.status(200).json({
+                                                    success: true,
+                                                    result: {
+                                                        testuser1: u1res,
+                                                        testuser2: u2res,
+                                                        service1: s1res,
+                                                        service2: s2res,
+                                                        service3: s3res,
+                                                    },
+                                                });
+                                            })
+                                            .catch(err => {
+                                                res.status(500).json({
+                                                    errors: [{ error: err }],
+                                                });
                                             });
-                                        })
-                                        .catch(err => {
-                                            res.status(500).json({
-                                                errors: [{ error: err }],
-                                            });
+                                    })
+                                    .catch(err => {
+                                        res.status(500).json({
+                                            errors: [{ error: err }],
                                         });
-                                })
-                                .catch(err => {
-                                    res.status(500).json({
-                                        errors: [{ error: err }],
                                     });
-                                });
-                        })
-                        .catch(err => {
-                            res.status(500).json({ errors: [{ error: err }] });
-                        });
-                })
-                .catch(err => {
-                    res.status(500).json({ errors: [{ error: err }] });
-                });
-        })
-        .catch(err => {
-            res.status(500).json({ errors: [{ error: err }] });
-        });
+                            })
+                            .catch(err => {
+                                res.status(500).json({ errors: [{ error: err }] });
+                            });
+                    })
+                    .catch(err => {
+                        res.status(500).json({ errors: [{ error: err }] });
+                    });
+            })
+            .catch(err => {
+                res.status(500).json({ errors: [{ error: err }] });
+            });
+    }).catch(err => {
+        res.status(500).json({ errors: [{ error: err }] });
+    });
 });
 
 router.get('/empty', (req, res) => {
@@ -152,3 +163,5 @@ router.get('/empty', (req, res) => {
         });
     });
 });
+
+module.exports = router;

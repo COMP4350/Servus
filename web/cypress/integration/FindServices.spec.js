@@ -1,18 +1,24 @@
 describe('find service on map', () => {
-    it('Logs into the test account.', () => {
-        cy.visit('/');
+    before(() => {
         cy.clearCookies();
 
+        cy.request('http://localhost:5000/test/empty')
+        cy.request('http://localhost:5000/test/fill')
+        cy.wait(1000);
+        cy.visit('/');
+
         cy.get('[data-cy=username]')
-            .type('zimbakor')
-            .should('have.value', 'zimbakor');
-
+            .type('testuser2')
+            .should('have.value', 'testuser2');
         cy.get('[data-cy=password]')
-            .type('zimbakor')
-            .should('have.value', 'zimbakor');
-
+            .type('testpassword')
+            .should('have.value', 'testpassword');
         // Click login
         cy.get('[data-cy=login]').click();
+        cy.wait(1500);
+    })
+    beforeEach(() => {
+        Cypress.Cookies.preserveOnce('username');
     });
 
     it('Loads the home page.', () => {
@@ -22,7 +28,7 @@ describe('find service on map', () => {
         // Username on the header should match one used.
         cy.get(
             '[data-cy=header_username] > .MuiButton-label > .MuiTypography-root'
-        ).should('have.html', 'zimbakor');
+        ).should('have.html', 'testuser2');
     });
 
     it('Find service on a map.', () => {
@@ -35,13 +41,13 @@ describe('find service on map', () => {
 
     it('Find service on a sidebar.', () => {
         //select an service on the sidebar by clicking
-        cy.get('[data-cy=service_4]').click();
+        cy.get('[data-cy=service_1]').click();
 
         //close that service window
         cy.get('.gm-style-iw > .gm-ui-hover-effect').click();
 
         //select another service from the side bar by clicking
-        cy.get('[data-cy=service_5]').click();
+        cy.get('[data-cy=service_2]').click();
 
         //close that service window
         cy.get('.gm-style-iw > .gm-ui-hover-effect').click();

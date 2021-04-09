@@ -51,7 +51,7 @@ app.use('/appointment', appointmentRouter);
 app.use('/images', imagesRouter);
 app.use('/uploads', express.static('uploads'));
 
-if (process.env.NODE_ENV !== 'dev') app.use('/test/', testRouter);
+if (process.env.NODE_ENV !== 'dev') app.use('/test', testRouter);
 
 console.log('Server online');
 
