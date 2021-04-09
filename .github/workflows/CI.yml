@@ -19,21 +19,6 @@ jobs:
                   npm ci
                   echo "Running Prettier"
                   npx prettier --check "**/*.{js,md}"
-    Mobile:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-              with:
-                  ref: ${{ github.head_ref }}
-            - uses: actions/setup-node@v1
-              with:
-                  node-version: '15.x'
-            - name: Run Tests
-              run: |
-                  cd mobile/
-                  npm ci
-                  npm test
-                  cd ../
     Web:
         runs-on: ubuntu-latest
         steps:
