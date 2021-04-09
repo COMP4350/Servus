@@ -50,15 +50,13 @@ const Profile = () => {
     };
 
     useEffect(() => {
-        const getUserInfo = () => {
-            axios
-                .get(`/user/${targetUsername}`)
-                .then(res => {
-                    setUser(res.data.result);
-                })
-                .catch(() => {
-                    history.push('/');
-                });
+        const getUserInfo = async () => {
+            try {
+                let res = axios.get(`/user/${targetUsername}`);
+                setUser(res.data.result);
+            } catch {
+                history.push('/');
+            }
         };
         if (targetUsername) getUserInfo();
     }, [targetUsername]);
