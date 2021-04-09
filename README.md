@@ -19,11 +19,14 @@ Servus is an operation to connect customers with service providers. Customers ar
 -   Backend ➤ NodeJS + Express
 -   Database ➤ MongoDB
 
-# Run Instructions
-## Accessing the hosted web app
-- Go to www.servus.com.
+## Run Instructions
 
-## Manually running the web application locally
+### Accessing the hosted web app
+
+-   Go to <https://comp4350.github.io/Servus/>
+
+### Manually running the web application locally
+
 1. Clone the repository.
 2. Installation:
     - This requires node to be installed. https://nodejs.org/en/download/
@@ -34,25 +37,24 @@ Servus is an operation to connect customers with service providers. Customers ar
     - From `Servus/web/` in a command prompt, run `npm start`.
         - This should open the app in your default browser. If not, navigate to `localhost:3000` in your browser.
 
-## Running acceptance tests:
-1. Installation:
-    - Enter `npm install` in a command prompt from `Servus/web/`. Be sure to have node installed.
-    - Run the backend: `npm start` from `Servus/server/`.
-    - Run the frontend: `npm start` from `Servus/web/`.
-    - Enter `npm run cypress:open` in a command prompt.
-        - Click "Run 4 integration specs" to run all tests, or click each test to run them individually.
+### Running acceptance tests:
 
-# Documentation
+-   Run the backend: `npm start` from `Servus/server/`.
+-   Run the frontend: `npm start` from `Servus/web/`.
+-   Enter `npm run cypress:open` in a command prompt.
+    -   Click "Run 4 integration specs" to run all tests, or click each test to run them individually.
 
-## Meetings Notes
+## Documentation
+
+### Meetings Notes
 
 -   The meeting notes can be found [here](wiki/meeting_log.md).
 
-## Diagrams
+### Diagrams
 
 -   Project structure diagrams can be found [here](wiki/diagrams.md).
 
-## Testing Plan
+### Testing Plan
 
 -   The testing plan document can be found [here](wiki/SERVUS_Test_Plan_Sprint_2.pdf).
 
