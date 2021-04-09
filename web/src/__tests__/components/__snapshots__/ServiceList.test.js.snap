@@ -76,7 +76,11 @@ exports[`ServiceList renders correctly 1`] = `
     />
     <ul
       class="MuiList-root makeStyles-rootList-2 MuiList-padding"
-    />
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1"
+      />
+    </ul>
   </div>
 </DocumentFragment>
 `;

@@ -5,6 +5,9 @@ exports[`Login renders correctly 1`] = `
   <div
     class="makeStyles-root-1"
   >
+    <div
+      class="Toastify"
+    />
     <h2
       class="MuiTypography-root makeStyles-title-4 MuiTypography-h2"
     >

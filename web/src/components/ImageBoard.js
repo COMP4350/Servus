@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
 import { makeStyles } from '@material-ui/core';
+import { ToastContainer, toast } from 'react-toastify';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -71,6 +72,9 @@ const inputStyles = makeStyles(() => ({
         padding: '120px 0 0 0',
         'z-index': '4',
     },
+    toast: {
+        marginTop: '60px',
+    },
 }));
 
 const ImageBoard = () => {
@@ -79,6 +83,7 @@ const ImageBoard = () => {
     const inputclasses = inputStyles();
     const [cookies] = useCookies(['username']);
     const [change, setChange] = useState(false);
+    const imageError = () => toast.error('Could not upload image');
     let { targetUsername } = useParams();
 
     const getImages = async () => {
@@ -121,13 +126,12 @@ const ImageBoard = () => {
         axios
             .post(`/images/upload`, imageFormObj)
             .then(() => {})
-            .catch(err => {
-                alert('Error while uploading image' + err);
-            });
+            .catch(() => imageError());
         setChange(!change);
     };
     return (
         <div className={classes.root}>
+            <ToastContainer className={classes.toast} />
             {images ? getImageBoard() : null}
 
             {cookies.username && cookies.username === targetUsername ? (

@@ -9,6 +9,7 @@ import {
     ListItem,
     Paper,
     Chip,
+    Typography,
 } from '@material-ui/core';
 import { FilterList, Search } from '@material-ui/icons/';
 import tagNames from './FilterList';
@@ -106,6 +107,7 @@ const ServiceList = props => {
     const [activeFilters] = useState([]);
     const [change, setChange] = useState(false);
     const [searchForm, setSearchForm] = useForm({ search: '' });
+    const [errorText, setErrorText] = useState('');
 
     const classes = useStyles();
     const style = listItemClass();
@@ -117,7 +119,7 @@ const ServiceList = props => {
             });
             setServices(response.data.result);
         } catch {
-            err => alert(err);
+            err => setErrorText(err);
         }
     };
 
@@ -210,29 +212,31 @@ const ServiceList = props => {
             </Paper>
             {loadChips()}
             <List className={classes.rootList}>
-                {services
-                    ? services.map((service, index) => {
-                          if (selectedIndex == index) {
-                              props.setSelectedService(service);
-                          }
-                          return (
-                              <ListItem
-                                  key={index}
-                                  classes={style}
-                                  onClick={e => handleListItemClick(e, index)}
-                                  selected={selectedIndex == index}
-                                  divider={true}>
-                                  <ServiceCard
-                                      service={service}
-                                      index={index}
-                                      className={classes.serviceCard}
-                                      selected={selectedIndex == index}
-                                      expand={false}
-                                  />
-                              </ListItem>
-                          );
-                      })
-                    : null}
+                {services ? (
+                    services.map((service, index) => {
+                        if (selectedIndex == index) {
+                            props.setSelectedService(service);
+                        }
+                        return (
+                            <ListItem
+                                key={index}
+                                classes={style}
+                                onClick={e => handleListItemClick(e, index)}
+                                selected={selectedIndex == index}
+                                divider={true}>
+                                <ServiceCard
+                                    service={service}
+                                    index={index}
+                                    className={classes.serviceCard}
+                                    selected={selectedIndex == index}
+                                    expand={false}
+                                />
+                            </ListItem>
+                        );
+                    })
+                ) : (
+                    <Typography>{errorText}</Typography>
+                )}
             </List>
         </Paper>
     );

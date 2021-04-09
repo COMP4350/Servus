@@ -278,7 +278,6 @@ const AddService = ({ addedService }) => {
                     }
                 )
                 .then(() => {
-                    alert('Service added successfully');
                     setServiceFormValid(false);
                     addedService();
                 })

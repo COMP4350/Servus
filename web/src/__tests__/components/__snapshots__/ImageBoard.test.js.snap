@@ -5,6 +5,9 @@ exports[`ImageBoard renders correctly 1`] = `
   <div
     class="makeStyles-root-1"
   >
+    <div
+      class="Toastify"
+    />
     <ul
       class="MuiGridList-root makeStyles-gridList-5"
       style="margin: -2px;"
