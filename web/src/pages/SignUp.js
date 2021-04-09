@@ -84,8 +84,10 @@ const SignUp = () => {
                 })
                 .catch(err => {
                     if (err.response.status == 422)
-                        alert('username already exists');
-                    else alert(err);
+                        setErrors({
+                            ...errors,
+                            username: 'username already exists',
+                        });
                     setFormValid(false);
                 });
             return;

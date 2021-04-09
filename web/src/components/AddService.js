@@ -41,7 +41,7 @@ const theme = createMuiTheme({
     },
 });
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     textField: {
         width: '80%',
         marginBottom: '3%',
@@ -278,7 +278,6 @@ const AddService = ({ addedService }) => {
                     }
                 )
                 .then(() => {
-                    alert('Service added successfully');
                     setServiceFormValid(false);
                     addedService();
                 })

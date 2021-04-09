@@ -282,7 +282,6 @@ const BookWindow = props => {
     else
         apptDuration = `${apptDuration} ${duration_hours}:${duration_minutes} hrs`;
 
-    console.log();
     return (
         <ThemeProvider theme={theme}>
             <div className={classes.window}>

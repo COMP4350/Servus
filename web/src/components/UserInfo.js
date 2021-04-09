@@ -14,6 +14,7 @@ import axios from 'axios';
 import AddService from '../components/AddService';
 import ServiceCard from '../components/ServiceCard';
 import ProfilePicture from './ProfilePicture';
+import { toast, ToastContainer } from 'react-toastify';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -107,6 +108,9 @@ const useStyles = makeStyles(theme => ({
         marginLeft: '10px',
         color: 'white',
     },
+    toast: {
+        marginTop: '60px',
+    },
 }));
 
 const listItemClass = makeStyles(theme => ({
@@ -149,6 +153,7 @@ const ServiceList = props => {
 
     const addedService = () => {
         getServices();
+        toast.success('Added Service');
         setAddingService(false);
     };
 
@@ -163,6 +168,7 @@ const ServiceList = props => {
 
     return (
         <div className={classes.serviceList}>
+            <ToastContainer className={classes.toast} />
             <List className={classes.rootList}>
                 {services
                     ? services.map((service, index) => {

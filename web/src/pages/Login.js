@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import axios from 'axios';
 import useForm from '../hooks/useForm';
+import { toast, ToastContainer } from 'react-toastify';
 
 const theme = createMuiTheme({
     palette: {
@@ -51,6 +52,9 @@ const useStyles = makeStyles(() => ({
     title: {
         color: 'white',
     },
+    toast: {
+        marginTop: '60px',
+    },
 }));
 
 const Login = props => {
@@ -58,7 +62,8 @@ const Login = props => {
     const history = useHistory();
     const [errors, setErrors] = useState({});
     const [formValid, setFormValid] = useState(false);
-    const [loginForm, onFormChange] = useForm({
+    const loginError = () => toast.error('Incorrect username or password');
+    const [loginForm, onFormChange, setLoginForm] = useForm({
         username: '',
         password: '',
     });
@@ -86,12 +91,13 @@ const Login = props => {
                     }
                 )
                 .then(res => {
-                    console.log(res.data.result.username);
                     props.setUsername(res.data.result.username);
                     history.push('/');
                 })
                 .catch(() => {
-                    alert('User not found.');
+                    loginError();
+                    setLoginForm({ ...loginForm, password: '' });
+                    setFormValid(false);
                 });
             return;
         }
@@ -104,6 +110,7 @@ const Login = props => {
     return (
         <ThemeProvider theme={theme}>
             <div className={classes.root}>
+                <ToastContainer className={classes.toast} />
                 <Typography variant="h2" className={classes.title}>
                     Login
                 </Typography>
@@ -116,6 +123,7 @@ const Login = props => {
                     onChange={onFormChange}
                     error={errors.username}
                     inputProps={{'data-cy': 'username'}}
+                    helperText={errors.username}
                 />
                 <TextField
                     className={classes.textField}
@@ -128,6 +136,7 @@ const Login = props => {
                     onChange={onFormChange}
                     error={errors.password}
                     inputProps={{'data-cy': 'password'}}
+                    helperText={errors.password}
                 />
                 <Button
                     className={classes.button}

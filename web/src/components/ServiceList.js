@@ -9,6 +9,7 @@ import {
     ListItem,
     Paper,
     Chip,
+    Typography,
 } from '@material-ui/core';
 import { FilterList, Search } from '@material-ui/icons/';
 import tagNames from './FilterList';
@@ -106,6 +107,7 @@ const ServiceList = props => {
     const [activeFilters] = useState([]);
     const [change, setChange] = useState(false);
     const [searchForm, setSearchForm] = useForm({ search: '' });
+    const [errorText, setErrorText] = useState('');
 
     const classes = useStyles();
     const style = listItemClass();
@@ -117,7 +119,7 @@ const ServiceList = props => {
             });
             setServices(response.data.result);
         } catch {
-            err => alert(err);
+            err => setErrorText(err);
         }
     };
 
