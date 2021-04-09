@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="makeStyles-root-1"
+    position="static"
+  >
+    <div
+      class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
+    >
+      <div
+        class="makeStyles-title-2"
+      >
+        <img
+          class="makeStyles-logo-3"
+          height="50"
+          src="servus_text.svg"
+        />
+      </div>
+      <div
+        class="makeStyles-headerOptions-6"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-menuButton-4"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-label"
+          >
+            <h4
+              class="MuiTypography-root MuiTypography-h4"
+            >
+              Appointments
+            </h4>
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </button>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-menuButton-4"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-label"
+          >
+            <h4
+              class="MuiTypography-root MuiTypography-h4"
+            >
+              Login
+            </h4>
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

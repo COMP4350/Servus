@@ -1,0 +1,416 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ServiceWindow renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="makeStyles-window-1"
+  >
+    <div
+      class="makeStyles-upperRow-2"
+    >
+      <button
+        class="MuiButtonBase-root MuiIconButton-root makeStyles-iconButton-4"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiIconButton-label"
+        >
+          <div />
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </button>
+      <div
+        class="makeStyles-infoBar-6"
+      >
+        <h1
+          class="MuiTypography-root makeStyles-title-7 MuiTypography-h1"
+        >
+          Risto's Painting
+        </h1>
+        <p
+          class="MuiTypography-root makeStyles-provider-9 MuiTypography-body1 MuiTypography-colorTextSecondary"
+        >
+          @Risto
+        </p>
+        <div
+          class="MuiBox-root MuiBox-root-14 makeStyles-box-11"
+        >
+          <span
+            class="MuiRating-root"
+          >
+            <span
+              class="MuiRating-decimal"
+            >
+              <label
+                class="MuiRating-label"
+                for="customized-color-0-5"
+                style="width: 0%; overflow: hidden; z-index: 1; position: absolute;"
+              >
+                <span
+                  class="MuiRating-icon MuiRating-iconFilled WithStyles(ForwardRef(Rating))-iconFilled-15"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiRating-visuallyhidden"
+                >
+                  0.5 Heart s
+                </span>
+              </label>
+              <input
+                class="MuiRating-visuallyhidden"
+                id="customized-color-0-5"
+                name="customized-color"
+                type="radio"
+                value="0.5"
+              />
+              <label
+                class="MuiRating-label"
+                for="customized-color-1"
+              >
+                <span
+                  class="MuiRating-icon MuiRating-iconFilled WithStyles(ForwardRef(Rating))-iconFilled-15"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiRating-visuallyhidden"
+                >
+                  1 Heart 
+                </span>
+              </label>
+              <input
+                class="MuiRating-visuallyhidden"
+                id="customized-color-1"
+                name="customized-color"
+                type="radio"
+                value="1"
+              />
+            </span>
+            <span
+              class="MuiRating-decimal"
+            >
+              <label
+                class="MuiRating-label"
+                for="customized-color-1-5"
+                style="width: 0%; overflow: hidden; z-index: 1; position: absolute;"
+              >
+                <span
+                  class="MuiRating-icon MuiRating-iconFilled WithStyles(ForwardRef(Rating))-iconFilled-15"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiRating-visuallyhidden"
+                >
+                  1.5 Heart s
+                </span>
+              </label>
+              <input
+                class="MuiRating-visuallyhidden"
+                id="customized-color-1-5"
+                name="customized-color"
+                type="radio"
+                value="1.5"
+              />
+              <label
+                class="MuiRating-label"
+                for="customized-color-2"
+              >
+                <span
+                  class="MuiRating-icon MuiRating-iconFilled WithStyles(ForwardRef(Rating))-iconFilled-15"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiRating-visuallyhidden"
+                >
+                  2 Heart s
+                </span>
+              </label>
+              <input
+                class="MuiRating-visuallyhidden"
+                id="customized-color-2"
+                name="customized-color"
+                type="radio"
+                value="2"
+              />
+            </span>
+            <span
+              class="MuiRating-decimal"
+            >
+              <label
+                class="MuiRating-label"
+                for="customized-color-2-5"
+                style="width: 0%; overflow: hidden; z-index: 1; position: absolute;"
+              >
+                <span
+                  class="MuiRating-icon MuiRating-iconFilled WithStyles(ForwardRef(Rating))-iconFilled-15"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiRating-visuallyhidden"
+                >
+                  2.5 Heart s
+                </span>
+              </label>
+              <input
+                class="MuiRating-visuallyhidden"
+                id="customized-color-2-5"
+                name="customized-color"
+                type="radio"
+                value="2.5"
+              />
+              <label
+                class="MuiRating-label"
+                for="customized-color-3"
+              >
+                <span
+                  class="MuiRating-icon MuiRating-iconFilled WithStyles(ForwardRef(Rating))-iconFilled-15"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiRating-visuallyhidden"
+                >
+                  3 Heart s
+                </span>
+              </label>
+              <input
+                class="MuiRating-visuallyhidden"
+                id="customized-color-3"
+                name="customized-color"
+                type="radio"
+                value="3"
+              />
+            </span>
+            <span
+              class="MuiRating-decimal"
+            >
+              <label
+                class="MuiRating-label"
+                for="customized-color-3-5"
+                style="width: 0%; overflow: hidden; z-index: 1; position: absolute;"
+              >
+                <span
+                  class="MuiRating-icon MuiRating-iconFilled WithStyles(ForwardRef(Rating))-iconFilled-15"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiRating-visuallyhidden"
+                >
+                  3.5 Heart s
+                </span>
+              </label>
+              <input
+                class="MuiRating-visuallyhidden"
+                id="customized-color-3-5"
+                name="customized-color"
+                type="radio"
+                value="3.5"
+              />
+              <label
+                class="MuiRating-label"
+                for="customized-color-4"
+              >
+                <span
+                  class="MuiRating-icon MuiRating-iconFilled WithStyles(ForwardRef(Rating))-iconFilled-15"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiRating-visuallyhidden"
+                >
+                  4 Heart s
+                </span>
+              </label>
+              <input
+                class="MuiRating-visuallyhidden"
+                id="customized-color-4"
+                name="customized-color"
+                type="radio"
+                value="4"
+              />
+            </span>
+            <span
+              class="MuiRating-decimal"
+            >
+              <label
+                class="MuiRating-label"
+                for="customized-color-4-5"
+                style="width: 0%; overflow: hidden; z-index: 1; position: absolute;"
+              >
+                <span
+                  class="MuiRating-icon MuiRating-iconFilled WithStyles(ForwardRef(Rating))-iconFilled-15"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiRating-visuallyhidden"
+                >
+                  4.5 Heart s
+                </span>
+              </label>
+              <input
+                class="MuiRating-visuallyhidden"
+                id="customized-color-4-5"
+                name="customized-color"
+                type="radio"
+                value="4.5"
+              />
+              <label
+                class="MuiRating-label"
+                for="customized-color-5"
+              >
+                <span
+                  class="MuiRating-icon MuiRating-iconFilled WithStyles(ForwardRef(Rating))-iconFilled-15"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiRating-visuallyhidden"
+                >
+                  5 Heart s
+                </span>
+              </label>
+              <input
+                checked=""
+                class="MuiRating-visuallyhidden"
+                id="customized-color-5"
+                name="customized-color"
+                type="radio"
+                value="5"
+              />
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      align="left"
+      class="makeStyles-lowerRow-3"
+    >
+      <div
+        class="makeStyles-info-5"
+      >
+        <p
+          class="MuiTypography-root makeStyles-desc-10 MuiTypography-body2"
+        >
+          Cost: 100
+          <br />
+          Risto paints you
+        </p>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-book-13 MuiButton-containedPrimary"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-label"
+          >
+            Book
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
