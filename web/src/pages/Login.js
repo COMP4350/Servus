@@ -90,8 +90,8 @@ const Login = props => {
                     props.setUsername(res.data.result.username);
                     history.push('/');
                 })
-                .catch(() => {
-                    alert('User not found.');
+                .catch(err => {
+                    alert(`User not found. ${err} `);
                 });
             return;
         }

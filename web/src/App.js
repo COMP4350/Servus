@@ -73,7 +73,7 @@ const App = () => {
     return (
         <ThemeProvider theme={theme}>
             <Paper className={classes.container}>
-                <BrowserRouter>
+                <BrowserRouter basename={process.env.PUBLIC_URL}>
                     <Header username={username} />
                     <Switch>
                         <Route

@@ -38,7 +38,16 @@ mongoose.connection.once('open', () => console.log('Connected to database'));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(
+    express.session({
+        secret: 'somesecret',
+        proxy: true, // add this when behind a reverse proxy, if you need secure cookies
+        cookie: {
+            secure: true,
+            maxAge: 5184000000, // 2 months
+        },
+    })
+);
 app.use(cors({ origin: process.env.API_URL, credentials: true }));
 app.set('trust proxy', 1);
 
