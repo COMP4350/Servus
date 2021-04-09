@@ -1,10 +1,9 @@
 describe('Provide service', () => {
-
     beforeEach(() => {
         Cypress.Cookies.preserveOnce('username');
     });
     it('Registers a test account.', () => {
-        cy.visit('http://localhost:3000/');
+        cy.visit('/');
         cy.clearCookies();
 
         // Fill in a new user registration form to create a test user.
@@ -30,10 +29,9 @@ describe('Provide service', () => {
             .type('TestPassword')
             .should('have.value', 'TestPassword');
 
-            
         cy.get('[data-cy=create_account_button]').click();
         cy.wait(1500);
-    })
+    });
 
     // Note: until this bug is fixed, this login section is necessary.
     // Logging in should not be necessary when an account is created,
@@ -57,26 +55,26 @@ describe('Provide service', () => {
         cy.get('[data-cy=map]').should('be.visible');
 
         // Username on the header should match one used.
-        cy.get('[data-cy=header_username] > .MuiButton-label > .MuiTypography-root')
-            .should('have.html', 'TestUsername');
+        cy.get(
+            '[data-cy=header_username] > .MuiButton-label > .MuiTypography-root'
+        ).should('have.html', 'TestUsername');
 
         // Move to the user profile.
         cy.get('[data-cy=header_username]').click();
-    })
+    });
 
     it('Adds a new service.', () => {
         // Click on the Add Service button.
         cy.get('[data-cy=add_new_service_div]').click();
 
         // Fill in the service name, description, and cost.
-        cy.get('[data-cy=service_name]')
-            .type('Cypress Service Name');
+        cy.get('[data-cy=service_name]').type('Cypress Service Name');
 
-        cy.get('[data-cy=service_description]')
-            .type('Cypress Service Description');
+        cy.get('[data-cy=service_description]').type(
+            'Cypress Service Description'
+        );
 
-        cy.get('[data-cy=service_cost]')
-            .type('404 Cypress Test Dollars');
+        cy.get('[data-cy=service_cost]').type('404 Cypress Test Dollars');
 
         // Change the duration (e.g., to 20 minutes).
         cy.get('[data-cy=service_duration]').click();
@@ -84,8 +82,10 @@ describe('Provide service', () => {
 
         // Utilize the autocomplete to fill a test location (e.g., the University of Manitoba).
         cy.get('[data-cy=search_address]')
-            .click().focused().type('66 Chan{downarrow}{enter}', {delay: 300});
-        
+            .click()
+            .focused()
+            .type('66 Chan{downarrow}{enter}', { delay: 300 });
+
         // Fill some availabilities. E.g., fill Tuesday, Wednesday, and Saturday.
 
         // Tuesday
@@ -110,8 +110,7 @@ describe('Provide service', () => {
         cy.get('[data-cy=service_tags]').click();
         cy.get('[data-value="Construction"]').click();
         cy.get('[data-value="Lessons"]').click();
-        cy.get('[data-value="Performance"]').click()
-            .type('{esc}'); // Exit out of the tags select.
+        cy.get('[data-value="Performance"]').click().type('{esc}'); // Exit out of the tags select.
 
         // Submit and add to db.
         cy.get('[data-cy=submit_add_service]').click();
