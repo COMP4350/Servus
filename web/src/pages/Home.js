@@ -34,7 +34,7 @@ const Home = () => {
     return (
         <div className={classes.container}>
             <ServiceList setSelectedService={service => setService(service)} />
-            <div className={classes.mapContainer} data-cy='map'>
+            <div className={classes.mapContainer} data-cy="map">
                 <Map selected_service={selected_service} history={history} />
             </div>
         </div>

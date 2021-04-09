@@ -2,8 +2,8 @@ describe('Provide service', () => {
     before(() => {
         cy.clearCookies();
 
-        cy.request('http://localhost:5000/test/empty')
-        cy.request('http://localhost:5000/test/fill')
+        cy.request('http://localhost:5000/test/empty');
+        cy.request('http://localhost:5000/test/fill');
         cy.wait(1000);
         cy.visit('/');
 
@@ -15,7 +15,7 @@ describe('Provide service', () => {
             .should('have.value', 'testpassword');
         // Click login
         cy.get('[data-cy=login]').click();
-    })
+    });
     beforeEach(() => {
         Cypress.Cookies.preserveOnce('username');
     });
@@ -28,13 +28,12 @@ describe('Provide service', () => {
         cy.get(
             '[data-cy=header_username] > .MuiButton-label > .MuiTypography-root'
         ).should('have.html', 'testuser2');
-
     });
 
     it('Moves to the user profile', () => {
         // Move to the user profile.
         cy.get('[data-cy=header_username]').click();
-    })
+    });
 
     it('Adds a new service.', () => {
         // Click on the Add Service button.
@@ -87,12 +86,11 @@ describe('Provide service', () => {
 
         // Submit and add to db.
         cy.get('[data-cy=submit_add_service]').click();
-
     });
 
     it('Contains the newly-added service', () => {
         cy.wait(2000);
         // Check that the service appears on the side.
         cy.contains('Cypress Service Name');
-    })
+    });
 });

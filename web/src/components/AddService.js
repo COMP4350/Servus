@@ -436,7 +436,7 @@ const AddService = ({ addedService }) => {
         <ThemeProvider theme={theme}>
             <div className={classes.servicesContainer}>
                 <div className={classes.serviceForm}>
-                    <TextField 
+                    <TextField
                         className={classes.textField}
                         label="Service Name"
                         name="name"
@@ -444,7 +444,7 @@ const AddService = ({ addedService }) => {
                         onChange={onServiceFormChange}
                         error={servicesErrors.name}
                         helperText={servicesErrors.name}
-                        inputProps={{'data-cy': 'service_name'}}
+                        inputProps={{ 'data-cy': 'service_name' }}
                     />
                     {serviceIconMap[serviceIconName]
                         ? serviceIconMap[serviceIconName].component
@@ -462,7 +462,7 @@ const AddService = ({ addedService }) => {
                         onChange={onServiceFormChange}
                         error={servicesErrors.description}
                         helperText={servicesErrors.description}
-                        inputProps={{'data-cy': 'service_description'}}
+                        inputProps={{ 'data-cy': 'service_description' }}
                     />
                     <TextField
                         className={classes.textField}
@@ -472,7 +472,7 @@ const AddService = ({ addedService }) => {
                         onChange={onServiceFormChange}
                         error={servicesErrors.cost}
                         helperText={servicesErrors.cost}
-                        inputProps={{'data-cy': 'service_cost'}}
+                        inputProps={{ 'data-cy': 'service_cost' }}
                     />
                     <FormControl className={classes.durationSelect}>
                         <InputLabel id="durationLabel">
@@ -484,7 +484,7 @@ const AddService = ({ addedService }) => {
                             onChange={x =>
                                 handleDurationChange(x.target?.value)
                             }
-                            data-cy='service_duration'>
+                            data-cy="service_duration">
                             {Object.values(durationOptions).map((x, i) => {
                                 return (
                                     <MenuItem key={i} value={x}>
@@ -503,7 +503,7 @@ const AddService = ({ addedService }) => {
                             <TextField
                                 className={classes.addressField}
                                 id="search-address"
-                                inputProps={{'data-cy': 'search_address'}}
+                                inputProps={{ 'data-cy': 'search_address' }}
                                 placeholder="Service Location"
                             />
                         </Autocomplete>
@@ -537,7 +537,7 @@ const AddService = ({ addedService }) => {
                             variant="contained"
                             onClick={() => addEmptyAvailability()}
                             className={classes.addButton}
-                            data-cy='add_availability_button'>
+                            data-cy="add_availability_button">
                             Add availability
                         </Button>
                     </div>
@@ -573,7 +573,7 @@ const AddService = ({ addedService }) => {
                                 ))}
                             </div>
                         )}
-                        data-cy='service_tags'>
+                        data-cy="service_tags">
                         {tagNames.map(name => (
                             <MenuItem
                                 key={name}
@@ -588,7 +588,7 @@ const AddService = ({ addedService }) => {
                             className={classes.button}
                             variant="contained"
                             onClick={validateService}
-                            data-cy='submit_add_service'>
+                            data-cy="submit_add_service">
                             Add Service
                         </Button>
                     </div>

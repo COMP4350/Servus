@@ -2,8 +2,8 @@ describe('find service on map', () => {
     before(() => {
         cy.clearCookies();
 
-        cy.request('http://localhost:5000/test/empty')
-        cy.request('http://localhost:5000/test/fill')
+        cy.request('http://localhost:5000/test/empty');
+        cy.request('http://localhost:5000/test/fill');
         cy.wait(1000);
         cy.visit('/');
 
@@ -16,7 +16,7 @@ describe('find service on map', () => {
         // Click login
         cy.get('[data-cy=login]').click();
         cy.wait(1500);
-    })
+    });
     beforeEach(() => {
         Cypress.Cookies.preserveOnce('username');
     });

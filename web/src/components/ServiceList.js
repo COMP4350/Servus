@@ -212,33 +212,32 @@ const ServiceList = props => {
             </Paper>
             {loadChips()}
             <List className={classes.rootList}>
-                {services
-                    ? services.map((service, index) => {
-                          if (selectedIndex == index) {
-                              props.setSelectedService(service);
-                          }
-                          return (
-                          <div
-                            data-cy={`service_${index}`}
-                            key={index}>
-                              <ListItem 
-                                  classes={style}
-                                  onClick={e => handleListItemClick(e, index)}
-                                  selected={selectedIndex == index}
-                                  divider={true}
-                                  >
-                                  <ServiceCard
-                                      service={service}
-                                      index={index}
-                                      className={classes.serviceCard}
-                                      selected={selectedIndex == index}
-                                      expand={false}
-                                  />
-                              </ListItem>
-                          </div>
-                          );
-                      })
-                    : <Typography>{errorText}</Typography>}
+                {services ? (
+                    services.map((service, index) => {
+                        if (selectedIndex == index) {
+                            props.setSelectedService(service);
+                        }
+                        return (
+                            <div data-cy={`service_${index}`} key={index}>
+                                <ListItem
+                                    classes={style}
+                                    onClick={e => handleListItemClick(e, index)}
+                                    selected={selectedIndex == index}
+                                    divider={true}>
+                                    <ServiceCard
+                                        service={service}
+                                        index={index}
+                                        className={classes.serviceCard}
+                                        selected={selectedIndex == index}
+                                        expand={false}
+                                    />
+                                </ListItem>
+                            </div>
+                        );
+                    })
+                ) : (
+                    <Typography>{errorText}</Typography>
+                )}
             </List>
         </Paper>
     );

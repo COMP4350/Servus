@@ -166,7 +166,11 @@ const TimeTableCell = withStyles(styles, { name: 'Cell' })(CellBase);
 const Appointment = withStyles(styles, {
     name: 'Appointment',
 })(({ classes, ...restProps }) => (
-    <Appointments.Appointment {...restProps} data-cy='appointment_block' className={classes.appointment} />
+    <Appointments.Appointment
+        {...restProps}
+        data-cy="appointment_block"
+        className={classes.appointment}
+    />
 ));
 
 const AppointmentContent = withStyles(styles, {
@@ -175,7 +179,7 @@ const AppointmentContent = withStyles(styles, {
     <Appointments.AppointmentContent
         {...restProps}
         className={classes.apptContent}
-        data-cy='appointment_content'
+        data-cy="appointment_content"
     />
 ));
 

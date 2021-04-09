@@ -2,8 +2,8 @@ describe('book appointment', () => {
     before(() => {
         cy.clearCookies();
 
-        cy.request('http://localhost:5000/test/empty')
-        cy.request('http://localhost:5000/test/fill')
+        cy.request('http://localhost:5000/test/empty');
+        cy.request('http://localhost:5000/test/fill');
         cy.wait(1000);
         cy.visit('/');
 
@@ -16,11 +16,11 @@ describe('book appointment', () => {
         // Click login
         cy.get('[data-cy=login]').click();
         cy.wait(1500);
-    })
+    });
     beforeEach(() => {
         Cypress.Cookies.preserveOnce('username');
     });
-    
+
     it('Loads the home page.', () => {
         // Map should be visible.
         cy.get('[data-cy=map]').should('be.visible');
@@ -41,20 +41,14 @@ describe('book appointment', () => {
         cy.get('[data-cy=book]').click();
 
         //checks to make sure provider, title are correct
-        cy.get('[data-cy=title]').should(
-            'have.html',
-            "testservice3"
-        );
+        cy.get('[data-cy=title]').should('have.html', 'testservice3');
         cy.get('[data-cy=provider]').should('have.html', '@testuser1');
 
         //clicks on the date and opens up bookWindow
         cy.get('[data-cy=dates]').click();
 
         //checks to make sure title still matches from before
-        cy.get('[data-cy=book-title]').should(
-            'have.html',
-            "testservice3"
-        );
+        cy.get('[data-cy=book-title]').should('have.html', 'testservice3');
 
         //clicks open to set the first available date
         cy.get('.MuiDialogActions-root > :nth-child(2)').click();

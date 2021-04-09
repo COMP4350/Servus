@@ -138,8 +138,10 @@ const ServiceWindow = props => {
                     />
                 </IconButton>
                 <div className={classes.infoBar}>
-                    <Typography variant="h1" className={classes.title}
-                    data-cy={`title`}>
+                    <Typography
+                        variant="h1"
+                        className={classes.title}
+                        data-cy={`title`}>
                         {props.service.name}
                     </Typography>
                     <Typography
@@ -170,8 +172,7 @@ const ServiceWindow = props => {
                     <Typography
                         variant="body2"
                         component="p"
-                        className={classes.desc}
-                        >
+                        className={classes.desc}>
                         {'Cost: ' + props.service.cost}
                         <br />
                         {props.service.description}

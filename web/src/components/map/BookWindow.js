@@ -189,8 +189,7 @@ const BookWindow = props => {
 
         setTimepicker(
             <FormControl className={classes.formControl} data-cy={`appt-time`}>
-                <InputLabel id="label" className={classes.inputLabel}
-                > 
+                <InputLabel id="label" className={classes.inputLabel}>
                     Appointment Time
                 </InputLabel>
                 <Select
@@ -285,8 +284,10 @@ const BookWindow = props => {
     return (
         <ThemeProvider theme={theme}>
             <div className={classes.window}>
-                <Typography variant="h1" className={classes.title}
-                data-cy={`book-title`}>
+                <Typography
+                    variant="h1"
+                    className={classes.title}
+                    data-cy={`book-title`}>
                     {props.service.name}
                 </Typography>
                 <Typography color="textSecondary">{apptDuration}</Typography>
@@ -315,8 +316,7 @@ const BookWindow = props => {
                         color="primary"
                         className={classes.submit}
                         onClick={validate}
-                        data-cy={`confirm`}
-                        >
+                        data-cy={`confirm`}>
                         CONFIRM
                     </Button>
                 </div>

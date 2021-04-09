@@ -94,62 +94,68 @@ router.get('/fill', (req, res) => {
     const testS2 = new Service(testService2);
     const testS3 = new Service(testService3);
 
-    encryptPassword(testPassword).then(password => {
-        newUser1.password = password
-        newUser2.password = password
+    encryptPassword(testPassword)
+        .then(password => {
+            newUser1.password = password;
+            newUser2.password = password;
 
-        newUser1
-            .save()
-            .then(u1res => {
-                newUser2
-                    .save()
-                    .then(u2res => {
-                        testS1
-                            .save()
-                            .then(s1res => {
-                                testS2
-                                    .save()
-                                    .then(s2res => {
-                                        testS3
-                                            .save()
-                                            .then(s3res => {
-                                                res.status(200).json({
-                                                    success: true,
-                                                    result: {
-                                                        testuser1: u1res,
-                                                        testuser2: u2res,
-                                                        service1: s1res,
-                                                        service2: s2res,
-                                                        service3: s3res,
-                                                    },
+            newUser1
+                .save()
+                .then(u1res => {
+                    newUser2
+                        .save()
+                        .then(u2res => {
+                            testS1
+                                .save()
+                                .then(s1res => {
+                                    testS2
+                                        .save()
+                                        .then(s2res => {
+                                            testS3
+                                                .save()
+                                                .then(s3res => {
+                                                    res.status(200).json({
+                                                        success: true,
+                                                        result: {
+                                                            testuser1: u1res,
+                                                            testuser2: u2res,
+                                                            service1: s1res,
+                                                            service2: s2res,
+                                                            service3: s3res,
+                                                        },
+                                                    });
+                                                })
+                                                .catch(err => {
+                                                    res.status(500).json({
+                                                        errors: [
+                                                            { error: err },
+                                                        ],
+                                                    });
                                                 });
-                                            })
-                                            .catch(err => {
-                                                res.status(500).json({
-                                                    errors: [{ error: err }],
-                                                });
+                                        })
+                                        .catch(err => {
+                                            res.status(500).json({
+                                                errors: [{ error: err }],
                                             });
-                                    })
-                                    .catch(err => {
-                                        res.status(500).json({
-                                            errors: [{ error: err }],
                                         });
+                                })
+                                .catch(err => {
+                                    res.status(500).json({
+                                        errors: [{ error: err }],
                                     });
-                            })
-                            .catch(err => {
-                                res.status(500).json({ errors: [{ error: err }] });
-                            });
-                    })
-                    .catch(err => {
-                        res.status(500).json({ errors: [{ error: err }] });
-                    });
-            })
-            .catch(err => {
-                res.status(500).json({ errors: [{ error: err }] });
-            });
-    }).catch(err => {
-        res.status(500).json({ errors: [{ error: err }] });
-    });
+                                });
+                        })
+                        .catch(err => {
+                            res.status(500).json({ errors: [{ error: err }] });
+                        });
+                })
+                .catch(err => {
+                    res.status(500).json({ errors: [{ error: err }] });
+                });
+        })
+        .catch(err => {
+            res.status(500).json({ errors: [{ error: err }] });
+        });
 });
 
 router.get('/empty', (req, res) => {

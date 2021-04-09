@@ -122,7 +122,7 @@ const Login = props => {
                     value={loginForm.username}
                     onChange={onFormChange}
                     error={errors.username}
-                    inputProps={{'data-cy': 'username'}}
+                    inputProps={{ 'data-cy': 'username' }}
                     helperText={errors.username}
                 />
                 <TextField
@@ -135,20 +135,20 @@ const Login = props => {
                     value={loginForm.password}
                     onChange={onFormChange}
                     error={errors.password}
-                    inputProps={{'data-cy': 'password'}}
+                    inputProps={{ 'data-cy': 'password' }}
                     helperText={errors.password}
                 />
                 <Button
                     className={classes.button}
                     variant="contained"
-                    data-cy='login'
+                    data-cy="login"
                     onClick={validate}>
                     Login
                 </Button>
                 <Button
                     className={classes.button}
                     variant="contained"
-                    data-cy='signup'
+                    data-cy="signup"
                     onClick={() => history.push('/signup')}>
                     Sign up
                 </Button>
