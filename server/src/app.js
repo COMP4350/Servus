@@ -41,6 +41,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors({ origin: true, credentials: true }));
+app.set('trust proxy', 1);
 
 app.use('/services', servicesRouter);
 app.use('/user', userRouter);
