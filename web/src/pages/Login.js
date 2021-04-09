@@ -115,6 +115,7 @@ const Login = props => {
                     value={loginForm.username}
                     onChange={onFormChange}
                     error={errors.username}
+                    inputProps={{'data-cy': 'username'}}
                 />
                 <TextField
                     className={classes.textField}
@@ -126,10 +127,12 @@ const Login = props => {
                     value={loginForm.password}
                     onChange={onFormChange}
                     error={errors.password}
+                    inputProps={{'data-cy': 'password'}}
                 />
                 <Button
                     className={classes.button}
                     variant="contained"
+                    data-cy='login'
                     onClick={validate}>
                     Login
                 </Button>

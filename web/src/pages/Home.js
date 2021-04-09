@@ -17,6 +17,10 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         height: '91%',
     },
+    mapContainer: {
+        width: '100%',
+        height: '100%',
+    },
 }));
 
 const Home = () => {
@@ -30,7 +34,9 @@ const Home = () => {
     return (
         <div className={classes.container}>
             <ServiceList setSelectedService={service => setService(service)} />
-            <Map selected_service={selected_service} history={history} />
+            <div className={classes.mapContainer} data-cy='map'>
+                <Map selected_service={selected_service} history={history} />
+            </div>
         </div>
     );
 };
