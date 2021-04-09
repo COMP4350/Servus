@@ -6,6 +6,10 @@
         "start": "cross-env NODE_ENV=dev node ./src/index.js",
         "test": "cross-env NODE_ENV=test mocha --timeout=7500 --exit --bail"
     },
+    "engines": {
+        "node": "15.x",
+        "npm": "7.x"
+    },
     "dependencies": {
         "bcrypt": "^5.0.0",
         "cookie-parser": "~1.4.4",
