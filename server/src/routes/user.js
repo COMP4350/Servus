@@ -41,9 +41,6 @@ router.post('/:username/login', (req, res) => {
                                 .status(400)
                                 .json({ errors: [{ password: 'incorrect' }] });
                         }
-                        res.cookie('username', user.username, {
-                            maxAge: 2 * 60 * 60 * 1000,
-                        });
                         return res.status(200).json({
                             result: user,
                         });

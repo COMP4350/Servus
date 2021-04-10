@@ -10,6 +10,7 @@ import {
 import axios from 'axios';
 import useForm from '../hooks/useForm';
 import { toast, ToastContainer } from 'react-toastify';
+import { useCookies } from 'react-cookie';
 
 const theme = createMuiTheme({
     palette: {
@@ -62,6 +63,8 @@ const Login = props => {
     const history = useHistory();
     const [errors, setErrors] = useState({});
     const [formValid, setFormValid] = useState(false);
+    const [cookies, setCookie] = useCookies();
+
     const loginError = () => toast.error('Incorrect username or password');
     const [loginForm, onFormChange, setLoginForm] = useForm({
         username: '',
@@ -92,6 +95,11 @@ const Login = props => {
                 )
                 .then(res => {
                     props.setUsername(res.data.result.username);
+                    setCookie('username', res.data.result.username, {
+                        path: '/',
+                        maxAge: 2 * 60 * 60 * 1000,
+                    });
+                    console.log(cookies);
                     history.push('/');
                 })
                 .catch(() => {
