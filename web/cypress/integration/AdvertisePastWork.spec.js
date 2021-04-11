@@ -13,8 +13,8 @@ describe('advertise past work', () => {
             .type('testuser2')
             .should('have.value', 'testuser2');
         cy.get('[data-cy=password]')
-            .type('testpassword')
-            .should('have.value', 'testpassword');
+            .type('testPassword')
+            .should('have.value', 'testPassword');
         // Click login
         cy.get('[data-cy=login]').click();
         cy.wait(1500);
