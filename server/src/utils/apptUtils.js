@@ -20,15 +20,25 @@ const inTimeSlot = (service, request) => {
 
     for (let index in service.availability) {
         let availability = service.availability[index];
-        if (new Date(request.body.booked_time).getDay() == availability.weekday) {
+        if (
+            new Date(request.body.booked_time).getDay() == availability.weekday
+        ) {
             //so the service is available on the DAY
             //now we must check time slot
-            let availabilityStartTime = moment(availability.start_time, 'HHmm').format('HHmm');
-            let availabilityEndTime = moment(availability.end_time, 'HHmm').format('HHmm');
-            if (availabilityStartTime > desiredStartTime || desiredEndTime > availabilityEndTime)
+            let availabilityStartTime = moment(
+                availability.start_time,
+                'HHmm'
+            ).format('HHmm');
+            let availabilityEndTime = moment(
+                availability.end_time,
+                'HHmm'
+            ).format('HHmm');
+            if (
+                availabilityStartTime > desiredStartTime ||
+                desiredEndTime > availabilityEndTime
+            )
                 return { success: false };
-            else
-                return { success: true };
+            else return { success: true };
         }
     }
     return { success: true };
@@ -47,14 +57,24 @@ const noConflicts = (service, request) => {
             .then(appointments => {
                 for (let index in appointments) {
                     let appointment = appointments[index];
-                    let appointmentStartTime = moment(new Date(appointment.booked_time));
-                    let appointmentEndTime = moment(new Date(appointment.booked_time))
+                    let appointmentStartTime = moment(
+                        new Date(appointment.booked_time)
+                    );
+                    let appointmentEndTime = moment(
+                        new Date(appointment.booked_time)
+                    )
                         .add(durationInHours, 'h')
                         .add(durationInMinutes, 'm');
                     //check if the desired_time collides with the appointment timeslot
-                    if (appointmentStartTime <= desiredStartTime && appointmentEndTime >= desiredStartTime)
+                    if (
+                        appointmentStartTime <= desiredStartTime &&
+                        appointmentEndTime >= desiredStartTime
+                    )
                         return resolve({ success: false });
-                    if (appointmentStartTime <= desiredEndTime && appointmentEndTime >= desiredEndTime)
+                    if (
+                        appointmentStartTime <= desiredEndTime &&
+                        appointmentEndTime >= desiredEndTime
+                    )
                         return resolve({ success: false });
                 }
                 return resolve({ success: true });
