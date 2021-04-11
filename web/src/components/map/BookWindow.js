@@ -110,8 +110,7 @@ const BookWindow = props => {
     const displayTimePicker = async () => {
         const removeItemOnce = (arr, value) => {
             let index = arr.indexOf(value);
-            if (index > -1)
-                arr.splice(index, 1);
+            if (index > -1) arr.splice(index, 1);
             return arr;
         };
 
@@ -137,7 +136,9 @@ const BookWindow = props => {
                     let tempTimeSlot = availabilityStartTime;
 
                     while (currentAppointmentTime <= availabilityEndTime) {
-                        bookableTimeSlots.push(moment(tempTimeSlot).format('HH:mm'));
+                        bookableTimeSlots.push(
+                            moment(tempTimeSlot).format('HH:mm')
+                        );
                         tempTimeSlot.add(30, 'm');
                         currentAppointmentTime.add(30, 'm');
                     }
@@ -146,7 +147,9 @@ const BookWindow = props => {
         };
         // Remove the time slices that won't work.
         const removeConflictingTimes = async () => {
-            let res = await axios.get(`appointment/service/${props.service._id}`);
+            let res = await axios.get(
+                `appointment/service/${props.service._id}`
+            );
 
             let availableTimes = [];
             for (let appt in res.data.result) {
@@ -182,7 +185,7 @@ const BookWindow = props => {
                     }
                 }
             }
-            for (let i in availableTimes) 
+            for (let i in availableTimes)
                 removeItemOnce(bookableTimeSlots, availableTimes[i]);
         };
 
@@ -215,7 +218,9 @@ const BookWindow = props => {
     const bookAppointment = () => {
         if (valid) {
             let formattedDate = date.format('YYYY-MM-DD');
-            let formattedTime = moment(timeState.time, 'HH:mm').format('HH:mm:ss');
+            let formattedTime = moment(timeState.time, 'HH:mm').format(
+                'HH:mm:ss'
+            );
 
             let bookedTimeSlot = moment(
                 `${formattedDate} ${formattedTime}`,
@@ -234,8 +239,10 @@ const BookWindow = props => {
                     }
                 )
                 .then(res => {
-                    if (!res.data.errors) 
-                        alert(`Successfully booked Service with ${props.service.provider}`);
+                    if (!res.data.errors)
+                        alert(
+                            `Successfully booked Service with ${props.service.provider}`
+                        );
                 })
                 .catch(err => {
                     throw err;
@@ -250,7 +257,9 @@ const BookWindow = props => {
         if (date) displayTimePicker();
     }, [valid, date, timeState]);
 
-    const handleChangeTime = x => {setTime({ time: x.target.value }); };
+    const handleChangeTime = x => {
+        setTime({ time: x.target.value });
+    };
 
     const shouldDisableDay = date => {
         for (let avail in props.service.availability) {
@@ -268,7 +277,9 @@ const BookWindow = props => {
         setValid(Object.getOwnPropertyNames(errors).length == 0);
     };
 
-    const handleClick = () => { props.toggle(); };
+    const handleClick = () => {
+        props.toggle();
+    };
 
     let apptDuration = `Appointment Duration:`;
     if (durationInHours === '00')
