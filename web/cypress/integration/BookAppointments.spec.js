@@ -27,13 +27,13 @@ describe('book appointment', () => {
 
         // Username on the header should match one used.
         cy.get(
-            '[data-cy=header_username] > .MuiButton-label > .MuiTypography-root'
+            '[data-cy=headerUsername] > .MuiButton-label > .MuiTypography-root'
         ).should('have.html', 'testuser2');
     });
 
     it('Selected a service.', () => {
         // Map should be visible.
-        cy.get('[data-cy=service_2]').click();
+        cy.get('[data-cy=service-2]').click();
     });
 
     it('Select Book and Choose Dates', () => {
@@ -66,6 +66,6 @@ describe('book appointment', () => {
         cy.visit('http://localhost:3000/appointment');
         cy.contains('testservice3');
 
-        cy.get('[data-cy=appointment_block]').click();
+        cy.get('[data-cy=appointmentBlock]').click();
     });
 });

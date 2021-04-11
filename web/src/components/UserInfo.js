@@ -205,7 +205,7 @@ const ServiceList = props => {
                     </Modal>
                     <div
                         className={classes.buttonContainer}
-                        data-cy="add_new_service_div">
+                        data-cy="addNewServiceDiv">
                         <Button
                             className={classes.button}
                             variant="contained"

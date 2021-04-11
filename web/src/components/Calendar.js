@@ -168,7 +168,7 @@ const Appointment = withStyles(styles, {
 })(({ classes, ...restProps }) => (
     <Appointments.Appointment
         {...restProps}
-        data-cy="appointment_block"
+        data-cy="appointmentBlock"
         className={classes.appointment}
     />
 ));
@@ -179,7 +179,7 @@ const AppointmentContent = withStyles(styles, {
     <Appointments.AppointmentContent
         {...restProps}
         className={classes.apptContent}
-        data-cy="appointment_content"
+        data-cy="appointmentContent"
     />
 ));
 

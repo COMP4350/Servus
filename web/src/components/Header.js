@@ -144,11 +144,11 @@ const Header = props => {
                                           )
                                     : () => handleButtonClick('/login')
                             }
-                            data-cy="header_username">
+                            data-cy="headerUsername">
                             <Typography
                                 variant="h4"
                                 inputProps={{
-                                    'data-cy': 'header_username_text',
+                                    'data-cy': 'headerUsernameText',
                                 }}>
                                 {props.username ? props.username : 'Login'}
                             </Typography>
