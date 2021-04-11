@@ -18,6 +18,7 @@ The Servus codebase uses [prettier](https://prettier.io/) to automatically forma
 ### JavaScript
 - `camelCase` is used for variable and function naming.
 - `let` is preferred over `var` for declaring variables. 
+- single quotes (`'text'`) are used for strings, except when using template literals, where we use ` instead.
 
 ### Google Maps API
 - The Google Maps API has some variables that are in snake_case, which must occasionally be used in the code base as such.
