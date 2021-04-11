@@ -96,94 +96,100 @@ const useStyles = makeStyles(() => ({
 const BookWindow = props => {
     // STATES
     const [date, setDate] = useState();
-    const [timeState, setTime] = useState({
-        time: '',
-    });
+    const [timeState, setTime] = useState({ time: '' });
     const [timepicker, setTimepicker] = useState();
-    const classes = useStyles();
     const [valid, setValid] = useState(false);
     const [errors, setErrors] = useState({});
 
+    const classes = useStyles();
     const [cookies] = useCookies();
 
-    let duration_hours = props.service.duration.slice(0, 2);
-    let duration_minutes = props.service.duration.slice(2);
+    let durationInHours = props.service.duration.slice(0, 2);
+    let durationInMinutes = props.service.duration.slice(2);
 
     const displayTimePicker = async () => {
         const removeItemOnce = (arr, value) => {
             let index = arr.indexOf(value);
-            if (index > -1) {
-                arr.splice(index, 1);
-            }
+            if (index > -1) arr.splice(index, 1);
             return arr;
         };
 
-        let time_array = [];
+        let bookableTimeSlots = [];
+        // Create an array filled with the possible starting times for intervals that can be booked.
         const addTimeSlices = () => {
             for (let avail in props.service.availability) {
                 if (props.service.availability[avail].weekday == date.day()) {
-                    let start_time = moment(
+                    let availabilityStartTime = moment(
                         props.service.availability[avail].start_time,
                         'HH:mm'
                     );
-                    let end_time = moment(
+                    let availabilityEndTime = moment(
                         props.service.availability[avail].end_time,
                         'HH:mm'
                     );
-                    let apt_time = moment(start_time)
-                        .add(duration_hours, 'h')
-                        .add(duration_minutes, 'm');
-                    let curr_time = start_time;
-                    while (apt_time <= end_time) {
-                        time_array.push(moment(curr_time).format('HH:mm'));
-                        curr_time.add(30, 'm');
-                        apt_time.add(30, 'm');
+
+                    // Loop and populate the bookable time slots with 30 minute intervals,
+                    // starting with the availability start time.
+                    let currentAppointmentTime = moment(availabilityStartTime)
+                        .add(durationInHours, 'h')
+                        .add(durationInMinutes, 'm');
+                    let tempTimeSlot = availabilityStartTime;
+
+                    while (currentAppointmentTime <= availabilityEndTime) {
+                        bookableTimeSlots.push(
+                            moment(tempTimeSlot).format('HH:mm')
+                        );
+                        tempTimeSlot.add(30, 'm');
+                        currentAppointmentTime.add(30, 'm');
                     }
                 }
             }
         };
+        // Remove the time slices that won't work.
         const removeConflictingTimes = async () => {
             let res = await axios.get(
                 `appointment/service/${props.service._id}`
             );
 
-            let available_times = [];
+            let availableTimes = [];
             for (let appt in res.data.result) {
-                let apt_date = moment(res.data.result[appt].booked_time);
-                let apt_end_date = moment(apt_date)
-                    .add(duration_hours, 'h')
-                    .add(duration_minutes, 'm');
-                if (apt_date.isSame(date, 'day')) {
-                    for (let i in time_array) {
-                        let extracted_date = date.format('YYYY-MM-DD');
-                        let extracted_time = moment(
-                            time_array[i],
+                let timeBookedFor = moment(res.data.result[appt].booked_time);
+                // Duplicate the time and add the length of the appointment to find the end time.
+                let timeAppointmentEnds = moment(timeBookedFor)
+                    .add(durationInHours, 'h')
+                    .add(durationInMinutes, 'm');
+                if (timeBookedFor.isSame(date, 'day')) {
+                    for (let i in bookableTimeSlots) {
+                        let formattedDate = date.format('YYYY-MM-DD');
+                        let formattedTime = moment(
+                            bookableTimeSlots[i],
                             'HH:mm'
                         ).format('HH:mm');
-                        let booking_date = moment(
-                            `${extracted_date} ${extracted_time}`,
+                        let bookableTimeSlot = moment(
+                            `${formattedDate} ${formattedTime}`,
                             'YYYY-MM-DD HH:mm'
                         );
-                        let booking_date_end = moment(booking_date)
-                            .add(duration_hours, 'h')
-                            .add(duration_minutes, 'm');
+                        let bookableTimeSlotEnd = moment(bookableTimeSlot)
+                            .add(durationInHours, 'h')
+                            .add(durationInMinutes, 'm');
 
+                        // Remove bookable slots where booking would result in schedule overlaps.
                         if (
-                            (booking_date >= apt_date &&
-                                booking_date <= apt_end_date) ||
-                            (booking_date_end >= apt_date &&
-                                booking_date_end <= apt_end_date)
+                            (bookableTimeSlot >= timeBookedFor &&
+                                bookableTimeSlot <= timeAppointmentEnds) ||
+                            (bookableTimeSlotEnd >= timeBookedFor &&
+                                bookableTimeSlotEnd <= timeAppointmentEnds)
                         ) {
-                            available_times.push(time_array[i]);
+                            availableTimes.push(bookableTimeSlots[i]);
                         }
                     }
                 }
             }
-            for (let i in available_times) {
-                removeItemOnce(time_array, available_times[i]);
-            }
+            for (let i in availableTimes)
+                removeItemOnce(bookableTimeSlots, availableTimes[i]);
         };
 
+        // Set up the final selectable booking times.
         addTimeSlices();
         await removeConflictingTimes();
 
@@ -196,7 +202,7 @@ const BookWindow = props => {
                     labelId="label"
                     value={timeState.time}
                     onChange={x => handleChangeTime(x)}>
-                    {time_array?.map((x, i) => {
+                    {bookableTimeSlots?.map((x, i) => {
                         return (
                             <MenuItem key={i} value={x}>
                                 {x}
@@ -208,15 +214,16 @@ const BookWindow = props => {
         );
     };
 
+    // Make the API call to add a new appointment to the database.
     const bookAppointment = () => {
         if (valid) {
-            let extracted_date = date.format('YYYY-MM-DD');
-            let extracted_time = moment(timeState.time, 'HH:mm').format(
+            let formattedDate = date.format('YYYY-MM-DD');
+            let formattedTime = moment(timeState.time, 'HH:mm').format(
                 'HH:mm:ss'
             );
 
-            let booking_date = moment(
-                `${extracted_date} ${extracted_time}`,
+            let bookedTimeSlot = moment(
+                `${formattedDate} ${formattedTime}`,
                 'YYYY-MM-DD HH:mm:ss'
             ).toDate();
             axios
@@ -225,18 +232,17 @@ const BookWindow = props => {
                     {
                         service_id: props.service._id,
                         provider: props.service.provider,
-                        booked_time: booking_date,
+                        booked_time: bookedTimeSlot,
                     },
                     {
                         withCredentials: true,
                     }
                 )
                 .then(res => {
-                    if (!res.data.errors) {
+                    if (!res.data.errors)
                         alert(
                             `Successfully booked Service with ${props.service.provider}`
                         );
-                    }
                 })
                 .catch(err => {
                     throw err;
@@ -276,10 +282,10 @@ const BookWindow = props => {
     };
 
     let apptDuration = `Appointment Duration:`;
-    if (duration_hours === '00')
-        apptDuration = `${apptDuration} ${duration_minutes} mins`;
+    if (durationInHours === '00')
+        apptDuration = `${apptDuration} ${durationInMinutes} mins`;
     else
-        apptDuration = `${apptDuration} ${duration_hours}:${duration_minutes} hrs`;
+        apptDuration = `${apptDuration} ${durationInHours}:${durationInMinutes} hrs`;
 
     return (
         <ThemeProvider theme={theme}>

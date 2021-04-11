@@ -11,8 +11,8 @@ describe('Provide service', () => {
             .type('testuser2')
             .should('have.value', 'testuser2');
         cy.get('[data-cy=password]')
-            .type('testpassword')
-            .should('have.value', 'testpassword');
+            .type('testPassword')
+            .should('have.value', 'testPassword');
         // Click login
         cy.get('[data-cy=login]').click();
     });
@@ -26,34 +26,34 @@ describe('Provide service', () => {
 
         // Username on the header should match one used.
         cy.get(
-            '[data-cy=header_username] > .MuiButton-label > .MuiTypography-root'
+            '[data-cy=headerUsername] > .MuiButton-label > .MuiTypography-root'
         ).should('have.html', 'testuser2');
     });
 
     it('Moves to the user profile', () => {
         // Move to the user profile.
-        cy.get('[data-cy=header_username]').click();
+        cy.get('[data-cy=headerUsername]').click();
     });
 
     it('Adds a new service.', () => {
         // Click on the Add Service button.
-        cy.get('[data-cy=add_new_service_div]').click();
+        cy.get('[data-cy=addNewServiceDiv]').click();
 
         // Fill in the service name, description, and cost.
-        cy.get('[data-cy=service_name]').type('Cypress Service Name');
+        cy.get('[data-cy=serviceName]').type('Cypress Service Name');
 
-        cy.get('[data-cy=service_description]').type(
+        cy.get('[data-cy=serviceDescription]').type(
             'Cypress Service Description'
         );
 
-        cy.get('[data-cy=service_cost]').type('404 Cypress Test Dollars');
+        cy.get('[data-cy=serviceCost]').type('404 Cypress Test Dollars');
 
         // Change the duration (e.g., to 20 minutes).
-        cy.get('[data-cy=service_duration]').click();
+        cy.get('[data-cy=serviceDuration]').click();
         cy.get('[data-value="20 minutes"]').click();
 
         // Utilize the autocomplete to fill a test location (e.g., the University of Manitoba).
-        cy.get('[data-cy=search_address]')
+        cy.get('[data-cy=searchAddress]')
             .click()
             .focused()
             .type('66 Chan{downarrow}{enter}', { delay: 300 });
@@ -61,31 +61,31 @@ describe('Provide service', () => {
         // Fill some availabilities. E.g., fill Tuesday, Wednesday, and Saturday.
 
         // Tuesday
-        cy.get('[data-cy=weekday_button_2]').click();
-        cy.get('[data-cy=add_availability_button]').click();
-        cy.get('[data-cy=availability_start_0]').click().type('08:00');
-        cy.get('[data-cy=availability_end_0]').click().type('16:00');
+        cy.get('[data-cy=weekdayButton-2]').click();
+        cy.get('[data-cy=addAvailabilityButton]').click();
+        cy.get('[data-cy=availabilityStart-0]').click().type('08:00');
+        cy.get('[data-cy=availabilityEnd-0]').click().type('16:00');
 
         // Wednesday
-        cy.get('[data-cy=weekday_button_3]').click();
-        cy.get('[data-cy=add_availability_button]').click();
-        cy.get('[data-cy=availability_start_0]').click().type('09:00');
-        cy.get('[data-cy=availability_end_0]').click().type('17:00');
+        cy.get('[data-cy=weekdayButton-3]').click();
+        cy.get('[data-cy=addAvailabilityButton]').click();
+        cy.get('[data-cy=availabilityStart-0]').click().type('09:00');
+        cy.get('[data-cy=availabilityEnd-0]').click().type('17:00');
 
         // Saturday
-        cy.get('[data-cy=weekday_button_6]').click();
-        cy.get('[data-cy=add_availability_button]').click();
-        cy.get('[data-cy=availability_start_0]').click().type('07:00');
-        cy.get('[data-cy=availability_end_0]').click().type('15:00');
+        cy.get('[data-cy=weekdayButton-6]').click();
+        cy.get('[data-cy=addAvailabilityButton]').click();
+        cy.get('[data-cy=availabilityStart-0]').click().type('07:00');
+        cy.get('[data-cy=availabilityEnd-0]').click().type('15:00');
 
         // Set three tags.
-        cy.get('[data-cy=service_tags]').click();
+        cy.get('[data-cy=serviceTags]').click();
         cy.get('[data-value="Construction"]').click();
         cy.get('[data-value="Lessons"]').click();
         cy.get('[data-value="Performance"]').click().type('{esc}'); // Exit out of the tags select.
 
         // Submit and add to db.
-        cy.get('[data-cy=submit_add_service]').click();
+        cy.get('[data-cy=submitAddService]').click();
     });
 
     it('Contains the newly-added service', () => {

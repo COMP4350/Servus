@@ -218,7 +218,7 @@ const ServiceList = props => {
                             props.setSelectedService(service);
                         }
                         return (
-                            <div data-cy={`service_${index}`} key={index}>
+                            <div data-cy={`service-${index}`} key={index}>
                                 <ListItem
                                     classes={style}
                                     onClick={e => handleListItemClick(e, index)}

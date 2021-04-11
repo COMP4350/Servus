@@ -8,7 +8,7 @@ const authUtils = require('../utils/authUtils.js');
 const { encryptPassword } = authUtils;
 
 const router = express.Router();
-const testPassword = 'testpassword';
+const testPassword = 'testPassword';
 
 const testUser1 = {
     username: 'testuser1',

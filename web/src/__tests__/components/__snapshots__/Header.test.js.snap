@@ -41,7 +41,7 @@ exports[`Header renders correctly 1`] = `
         </button>
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-menuButton-4"
-          data-cy="header_username"
+          data-cy="headerUsername"
           tabindex="0"
           type="button"
         >

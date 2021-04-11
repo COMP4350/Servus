@@ -19,6 +19,7 @@ export const tagNames = [
     'Performance',
     'Seasonal',
     'Sports',
+    'Technology',
     'Transportation',
     'Writing',
     'Yard',

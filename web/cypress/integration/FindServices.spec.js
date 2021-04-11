@@ -11,8 +11,8 @@ describe('find service on map', () => {
             .type('testuser2')
             .should('have.value', 'testuser2');
         cy.get('[data-cy=password]')
-            .type('testpassword')
-            .should('have.value', 'testpassword');
+            .type('testPassword')
+            .should('have.value', 'testPassword');
         // Click login
         cy.get('[data-cy=login]').click();
         cy.wait(1500);
@@ -27,7 +27,7 @@ describe('find service on map', () => {
 
         // Username on the header should match one used.
         cy.get(
-            '[data-cy=header_username] > .MuiButton-label > .MuiTypography-root'
+            '[data-cy=headerUsername] > .MuiButton-label > .MuiTypography-root'
         ).should('have.html', 'testuser2');
     });
 
@@ -41,13 +41,13 @@ describe('find service on map', () => {
 
     it('Find service on a sidebar.', () => {
         //select an service on the sidebar by clicking
-        cy.get('[data-cy=service_1]').click();
+        cy.get('[data-cy=service-1]').click();
 
         //close that service window
         cy.get('.gm-style-iw > .gm-ui-hover-effect').click();
 
         //select another service from the side bar by clicking
-        cy.get('[data-cy=service_2]').click();
+        cy.get('[data-cy=service-2]').click();
 
         //close that service window
         cy.get('.gm-style-iw > .gm-ui-hover-effect').click();
