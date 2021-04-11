@@ -1,22 +1,25 @@
 {
   "files": {
     "main.css": "/Servus/static/css/main.6c9145a4.chunk.css",
-    "main.js": "/Servus/static/js/main.56543842.chunk.js",
-    "main.js.map": "/Servus/static/js/main.56543842.chunk.js.map",
+    "main.js": "/Servus/static/js/main.63fa429a.chunk.js",
+    "main.js.map": "/Servus/static/js/main.63fa429a.chunk.js.map",
     "runtime-main.js": "/Servus/static/js/runtime-main.a0a3a861.js",
     "runtime-main.js.map": "/Servus/static/js/runtime-main.a0a3a861.js.map",
-    "static/js/2.8451532d.chunk.js": "/Servus/static/js/2.8451532d.chunk.js",
-    "static/js/2.8451532d.chunk.js.map": "/Servus/static/js/2.8451532d.chunk.js.map",
+    "static/css/2.b434034b.chunk.css": "/Servus/static/css/2.b434034b.chunk.css",
+    "static/js/2.36129e2c.chunk.js": "/Servus/static/js/2.36129e2c.chunk.js",
+    "static/js/2.36129e2c.chunk.js.map": "/Servus/static/js/2.36129e2c.chunk.js.map",
     "index.html": "/Servus/index.html",
+    "static/css/2.b434034b.chunk.css.map": "/Servus/static/css/2.b434034b.chunk.css.map",
     "static/css/main.6c9145a4.chunk.css.map": "/Servus/static/css/main.6c9145a4.chunk.css.map",
-    "static/js/2.8451532d.chunk.js.LICENSE.txt": "/Servus/static/js/2.8451532d.chunk.js.LICENSE.txt",
+    "static/js/2.36129e2c.chunk.js.LICENSE.txt": "/Servus/static/js/2.36129e2c.chunk.js.LICENSE.txt",
     "static/media/flag_icon.84b48c77.png": "/Servus/static/media/flag_icon.84b48c77.png",
     "static/media/servus_text.0893beff.svg": "/Servus/static/media/servus_text.0893beff.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.a0a3a861.js",
-    "static/js/2.8451532d.chunk.js",
+    "static/css/2.b434034b.chunk.css",
+    "static/js/2.36129e2c.chunk.js",
     "static/css/main.6c9145a4.chunk.css",
-    "static/js/main.56543842.chunk.js"
+    "static/js/main.63fa429a.chunk.js"
   ]
 }
