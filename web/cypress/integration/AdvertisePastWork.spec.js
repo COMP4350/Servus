@@ -25,7 +25,9 @@ describe('advertise past work', () => {
 
     it('Moves to the user profile', () => {
         // Move to the user profile.
+        cy.wait(1500);
         cy.get('[data-cy=headerUsername]').click();
+        cy.wait(1500);
     });
 
     it('Upload an image from the user profile.', () => {
