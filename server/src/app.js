@@ -43,7 +43,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cors({ origin: true, credentials: true }));
+app.use(
+    cors({ origin: 'https://comp4350.github.io/Servus/', credentials: true })
+);
 
 app.use('/services', servicesRouter);
 app.use('/user', userRouter);
