@@ -102,8 +102,8 @@ const createDummyUsersWithServicesAndAppointments = (
     options = defaultUserOptions,
     serviceOptions = defaultServiceOptions,
     serviceOptions2 = defaultServiceOptions2,
-    booked_time1 = getTestingDate(1),
-    booked_time2 = getTestingDate(2)
+    bookedTime1 = getTestingDate(1),
+    bookedTime2 = getTestingDate(2)
 ) => {
     return new Promise((resolve, reject) => {
         createDummyUserWithServices(usernameOne, options, serviceOptions)
@@ -120,7 +120,7 @@ const createDummyUsersWithServicesAndAppointments = (
                             .post(`/appointment/${usernameOne}`)
                             .send({
                                 service_id: serviceOne.body.result._id,
-                                booked_time: booked_time1,
+                                booked_time: bookedTime1,
                             })
                             .then(appointmentOne => {
                                 //now we create a service for this user
@@ -128,7 +128,7 @@ const createDummyUsersWithServicesAndAppointments = (
                                     .post(`/appointment/${usernameTwo}`)
                                     .send({
                                         service_id: serviceTwo.body.result._id,
-                                        booked_time: booked_time2,
+                                        booked_time: bookedTime2,
                                     })
                                     .then(appointmentTwo => {
                                         resolve({
