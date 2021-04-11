@@ -23,7 +23,7 @@ exports[`AddService renders correctly 1`] = `
           <input
             aria-invalid="false"
             class="MuiInputBase-input MuiInput-input"
-            data-cy="service_name"
+            data-cy="serviceName"
             name="name"
             type="text"
             value=""
@@ -657,7 +657,7 @@ exports[`AddService renders correctly 1`] = `
           <input
             aria-invalid="false"
             class="MuiInputBase-input MuiInput-input"
-            data-cy="service_description"
+            data-cy="serviceDescription"
             name="description"
             type="text"
             value=""
@@ -679,7 +679,7 @@ exports[`AddService renders correctly 1`] = `
           <input
             aria-invalid="false"
             class="MuiInputBase-input MuiInput-input"
-            data-cy="service_cost"
+            data-cy="serviceCost"
             name="cost"
             type="text"
             value=""
@@ -698,7 +698,7 @@ exports[`AddService renders correctly 1`] = `
         </label>
         <div
           class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
-          data-cy="service_duration"
+          data-cy="serviceDuration"
         >
           <div
             aria-haspopup="listbox"
@@ -737,7 +737,7 @@ exports[`AddService renders correctly 1`] = `
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedPrimary makeStyles-selectedDayButton-20 MuiButton-containedPrimary"
-            data-cy="weekday_button_0"
+            data-cy="weekdayButton-0"
             tabindex="0"
             type="button"
           >
@@ -752,7 +752,7 @@ exports[`AddService renders correctly 1`] = `
           </button>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedPrimary makeStyles-dayButton-19 MuiButton-containedPrimary"
-            data-cy="weekday_button_1"
+            data-cy="weekdayButton-1"
             tabindex="0"
             type="button"
           >
@@ -767,7 +767,7 @@ exports[`AddService renders correctly 1`] = `
           </button>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedPrimary makeStyles-dayButton-19 MuiButton-containedPrimary"
-            data-cy="weekday_button_2"
+            data-cy="weekdayButton-2"
             tabindex="0"
             type="button"
           >
@@ -782,7 +782,7 @@ exports[`AddService renders correctly 1`] = `
           </button>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedPrimary makeStyles-dayButton-19 MuiButton-containedPrimary"
-            data-cy="weekday_button_3"
+            data-cy="weekdayButton-3"
             tabindex="0"
             type="button"
           >
@@ -797,7 +797,7 @@ exports[`AddService renders correctly 1`] = `
           </button>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedPrimary makeStyles-dayButton-19 MuiButton-containedPrimary"
-            data-cy="weekday_button_4"
+            data-cy="weekdayButton-4"
             tabindex="0"
             type="button"
           >
@@ -812,7 +812,7 @@ exports[`AddService renders correctly 1`] = `
           </button>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedPrimary makeStyles-dayButton-19 MuiButton-containedPrimary"
-            data-cy="weekday_button_5"
+            data-cy="weekdayButton-5"
             tabindex="0"
             type="button"
           >
@@ -827,7 +827,7 @@ exports[`AddService renders correctly 1`] = `
           </button>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedPrimary makeStyles-dayButton-19 MuiButton-containedPrimary"
-            data-cy="weekday_button_6"
+            data-cy="weekdayButton-6"
             tabindex="0"
             type="button"
           >
@@ -847,7 +847,7 @@ exports[`AddService renders correctly 1`] = `
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-addButton-22"
-          data-cy="add_availability_button"
+          data-cy="addAvailabilityButton"
           tabindex="0"
           type="button"
         >
@@ -873,7 +873,7 @@ exports[`AddService renders correctly 1`] = `
       </label>
       <div
         class="MuiInputBase-root MuiInput-root MuiInput-underline makeStyles-tagSelect-13"
-        data-cy="service_tags"
+        data-cy="serviceTags"
       >
         <div
           aria-haspopup="listbox"
@@ -910,7 +910,7 @@ exports[`AddService renders correctly 1`] = `
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-6"
-          data-cy="submit_add_service"
+          data-cy="submitAddService"
           tabindex="0"
           type="button"
         >
