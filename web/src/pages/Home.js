@@ -27,7 +27,7 @@ const Home = () => {
     const classes = useStyles();
     const [cookies] = useCookies();
     const history = useHistory();
-    const [selected_service, setService] = useState();
+    const [selectedService, setService] = useState();
     useEffect(() => {
         if (!cookies.username) history.push('/login');
     }, []);
@@ -35,7 +35,7 @@ const Home = () => {
         <div className={classes.container}>
             <ServiceList setSelectedService={service => setService(service)} />
             <div className={classes.mapContainer} data-cy="map">
-                <Map selected_service={selected_service} history={history} />
+                <Map selectedService={selectedService} history={history} />
             </div>
         </div>
     );

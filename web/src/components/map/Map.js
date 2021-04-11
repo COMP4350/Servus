@@ -149,16 +149,16 @@ const Map = props => {
     };
 
     useEffect(() => {
-        if (props.selected_service) {
-            setCenter(props.selected_service.location);
+        if (props.selectedService) {
+            setCenter(props.selectedService.location);
             new window.google.maps.event.trigger(
-                allServices[props.selected_service._id],
+                allServices[props.selectedService._id],
                 'click'
             );
         }
         marker.current?.setPosition(center);
         marker.current?.setVisible(false);
-    }, [center, props.selected_service]);
+    }, [center, props.selectedService]);
 
     return (
         <div className={classes.root}>
