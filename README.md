@@ -1,10 +1,10 @@
 # Servus
 
-**At your Servus**
+> At your Servus
 
 ## Description
 
-Servus is an operation to connect customers with service providers. Customers are greeted with a list or map of services near them. Providers have public profiles with a menu of services offered and examples of work. They also have a schedule for clients to book appointments.
+Servus is an operation to connect customers with service providers. Customers are greeted with a list or map of services near them. Providers have public profiles with a menu of services offered and photo examples of past work. They also have a schedule for clients to book appointments.
 
 ## Core Features
 
@@ -15,20 +15,50 @@ Servus is an operation to connect customers with service providers. Customers ar
 
 ## Technology
 
--   Mobile ➤ React Native
 -   Web ➤ React
 -   Backend ➤ NodeJS + Express
 -   Database ➤ MongoDB
 
-## Meetings Notes
+## Run Instructions
+
+### Accessing the hosted web app
+
+-   Go to <http://servus.pw>. Your browser may try to cache it as https -- if the link does not work, try using an incognito or private browsing tab.
+
+### Manually running the web application locally
+
+1. Clone the repository.
+2. Installation:
+    - This requires node to be installed. https://nodejs.org/en/download/
+    - Navigate to `Servus/server/` in a command prompt and install with `npm install`.
+    - Navigate to `Servus/web/` in a command prompt and install with `npm install`.
+3. Running the application:
+    - From `Servus/server/` in a command prompt, run `npm start`.
+    - From `Servus/web/` in a command prompt, run `npm start`.
+        - This should open the app in your default browser. If not, navigate to `localhost:3000` in your browser.
+
+### Running acceptance tests:
+
+-   Run the backend with the staging database: `npm run acceptance` from `Servus/server/`.
+-   Run the frontend: `npm start` from `Servus/web/`.
+-   Enter `npm run cypress:open` from `Servus/web/` in a command prompt.
+    -   Click "Run 4 integration specs" to run all tests, or click each test to run them individually.
+
+## Documentation
+
+### Coding Style
+
+-   The coding style for the project can be found [here](wiki/coding_style.md).
+
+### Meetings Notes
 
 -   The meeting notes can be found [here](wiki/meeting_log.md).
 
-## Diagrams
+### Diagrams
 
 -   Project structure diagrams can be found [here](wiki/diagrams.md).
 
-## Testing Plan
+### Testing Plan
 
 -   The testing plan document can be found [here](wiki/SERVUS_Test_Plan_Sprint_2.pdf).
 
