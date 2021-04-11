@@ -23,7 +23,7 @@ Servus is an operation to connect customers with service providers. Customers ar
 
 ### Accessing the hosted web app
 
--   Go to <https://comp4350.github.io/Servus/>
+-   Go to <http://servus.pw>. Your browser may try to cache it as https -- if the link does not work, try using an incognito or private browsing tab.
 
 ### Manually running the web application locally
 
@@ -45,6 +45,10 @@ Servus is an operation to connect customers with service providers. Customers ar
     -   Click "Run 4 integration specs" to run all tests, or click each test to run them individually.
 
 ## Documentation
+
+### Coding Style
+
+-   The coding style for the project can be found [here](wiki/coding_style.md).
 
 ### Meetings Notes
 
