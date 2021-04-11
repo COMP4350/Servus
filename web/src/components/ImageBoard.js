@@ -126,9 +126,10 @@ const ImageBoard = () => {
         // stores a readable instance of the image being uploaded using multer
         axios
             .post(`/images/upload`, imageFormObj)
-            .then(() => {})
+            .then(() => {
+                setChange(!change);
+            })
             .catch(() => imageError());
-        setChange(!change);
     };
     return (
         <div className={classes.root}>
