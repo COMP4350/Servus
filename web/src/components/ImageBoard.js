@@ -107,7 +107,7 @@ const ImageBoard = props => {
     };
     useEffect(() => {
         getImages();
-    }, [targetUsername, change]);
+    }, [targetUsername, change, props.username]);
 
     const getImageBoard = () => {
         console.log(images);
