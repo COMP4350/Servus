@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
         'overflow-x': 'hidden',
         [theme.breakpoints.down('xs')]: {
             width: '100%',
-            height: '100%',
+            height: '50%',
         },
     },
     userInfo: {
