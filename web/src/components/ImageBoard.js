@@ -94,10 +94,6 @@ const ImageBoard = props => {
             return 3;
         }
 
-        if (isWidthUp('md', props.width)) {
-            return 2;
-        }
-
         return 2;
     };
 

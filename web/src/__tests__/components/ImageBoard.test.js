@@ -29,9 +29,9 @@ describe('ImageBoard', () => {
                 <ImageBoard />
             </ThemeProvider>
         );
+        expect(asFragment()).toMatchSnapshot();
         expect(mockAxios.get).toHaveBeenCalledWith('/images/yoyo');
         expect(mockAxios.get).toHaveBeenCalledTimes(1);
-        expect(asFragment()).toMatchSnapshot();
 
         await act(() => promise);
     });
