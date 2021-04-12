@@ -9,13 +9,13 @@ import {
     GridListTile,
 } from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, withWidth, isWidthUp } from '@material-ui/core';
 import { ToastContainer, toast } from 'react-toastify';
 
 const useStyles = makeStyles(theme => ({
     root: {
         position: 'relative',
-        width: '60%',
+        width: '100%',
         height: '100%',
         overflow: 'hidden',
         backgroundColor: theme.background.dark,
@@ -77,7 +77,7 @@ const inputStyles = makeStyles(() => ({
     },
 }));
 
-const ImageBoard = () => {
+const ImageBoard = props => {
     const [images, setImages] = useState([]);
     const classes = useStyles();
     const inputclasses = inputStyles();
@@ -85,6 +85,21 @@ const ImageBoard = () => {
     const [change, setChange] = useState(false);
     const imageError = () => toast.error('Could not upload image');
     let { targetUsername } = useParams();
+    const getGridListCols = () => {
+        if (isWidthUp('xl', props.width)) {
+            return 4;
+        }
+
+        if (isWidthUp('lg', props.width)) {
+            return 3;
+        }
+
+        if (isWidthUp('md', props.width)) {
+            return 2;
+        }
+
+        return 2;
+    };
 
     const getImages = async () => {
         const response = await axios.get(`/images/${targetUsername}`);
@@ -101,7 +116,10 @@ const ImageBoard = () => {
     const getImageBoard = () => {
         console.log(images);
         return (
-            <GridList cellHeight={200} className={classes.gridList} cols={3}>
+            <GridList
+                cellHeight={200}
+                className={classes.gridList}
+                cols={getGridListCols()}>
                 {images.map((oneImage, index) => {
                     return (
                         <GridListTile cols={1} key={index}>
@@ -151,4 +169,4 @@ const ImageBoard = () => {
     );
 };
 
-export default ImageBoard;
+export default withWidth()(ImageBoard);

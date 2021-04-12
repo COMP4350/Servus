@@ -8,16 +8,21 @@ import { Settings } from '@material-ui/icons/';
 import ImageBoard from '../components/ImageBoard';
 import UserInfo from '../components/UserInfo';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
     root: {
         height: '90%',
         width: '100%',
         display: 'flex',
-        flexDirection: 'row',
+        [theme.breakpoints.up('lg')]: {
+            'flex-direction': 'row',
+        },
+        [theme.breakpoints.down('xs')]: {
+            'flex-direction': 'column',
+        },
     },
     accountBtn: {
         position: 'absolute',
-        bottom: 0,
+        top: 50,
         right: 0,
         '&:hover': {},
     },
