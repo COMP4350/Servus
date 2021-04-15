@@ -27,6 +27,7 @@ In order to get the proper environment variables, please contact [Arvind](mailto
 ### Accessing the hosted web app
 
 -   Go to <http://servus.pw>. Your browser may try to cache it as https -- if the link does not work, try using an incognito or private browsing tab.
+-   If you'd like to run the website with an existing user, you can login to the website with username and password: _arvind_
 
 ### Manually run the web application locally
 
