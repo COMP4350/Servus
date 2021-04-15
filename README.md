@@ -13,7 +13,7 @@ Servus is an operation to connect customers with service providers. Customers ar
 -   Servers can provide a menu of the services they offer and their availability
 -   Servers can advertise their past work
 
-## Technology
+## Technologies
 
 -   Web ➤ React
 -   Backend ➤ NodeJS + Express
@@ -21,11 +21,14 @@ Servus is an operation to connect customers with service providers. Customers ar
 
 ## Run Instructions
 
+Please note, without the proper environment variables you will not be able to run the web application locally. This includes the acceptance tests.
+In order to get the proper environment variables, please contact [Arvind](mailto:maana3@myumanitoba.ca).
+
 ### Accessing the hosted web app
 
 -   Go to <http://servus.pw>. Your browser may try to cache it as https -- if the link does not work, try using an incognito or private browsing tab.
 
-### Manually running the web application locally
+### Manually run the web application locally
 
 1. Clone the repository.
 2. Installation:
@@ -61,6 +64,10 @@ Servus is an operation to connect customers with service providers. Customers ar
 ### Testing Plan
 
 -   The testing plan document can be found [here](wiki/SERVUS_Test_Plan_Sprint_2.pdf).
+
+### Group Members & Roles
+
+> Please note, each member acted as the 'Group Leader'
 
 <table>
 <tr>
@@ -100,5 +107,6 @@ Servus is an operation to connect customers with service providers. Customers ar
             </sub>
         </a>
     </td>
+
 </tr>
 </table>
