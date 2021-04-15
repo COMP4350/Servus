@@ -2,6 +2,13 @@
 
 > At your Servus
 
+  <a href="#badge">
+    <img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square">
+  </a>
+  <a href="#badge">
+    <img alt="tests" src="https://github.com/COMP4350/Servus/actions/workflows/CI.yml/badge.svg">
+  </a>
+
 ## Description
 
 Servus is an operation to connect customers with service providers. Customers are greeted with a list or map of services near them. Providers have public profiles with a menu of services offered and photo examples of past work. They also have a schedule for clients to book appointments.
@@ -13,7 +20,7 @@ Servus is an operation to connect customers with service providers. Customers ar
 -   Servers can provide a menu of the services they offer and their availability
 -   Servers can advertise their past work
 
-## Technology
+## Technologies
 
 -   Web ➤ React
 -   Backend ➤ NodeJS + Express
@@ -21,11 +28,15 @@ Servus is an operation to connect customers with service providers. Customers ar
 
 ## Run Instructions
 
+Please note, without the proper environment variables you will not be able to run the web application locally. This includes the acceptance tests.
+In order to get the proper environment variables, please contact [Arvind](mailto:maana3@myumanitoba.ca).
+
 ### Accessing the hosted web app
 
 -   Go to <http://servus.pw>. Your browser may try to cache it as https -- if the link does not work, try using an incognito or private browsing tab.
+-   If you'd like to run the website with an existing user, you can login to the website with username and password: _arvind_
 
-### Manually running the web application locally
+### Manually run the web application locally
 
 1. Clone the repository.
 2. Installation:
@@ -61,6 +72,10 @@ Servus is an operation to connect customers with service providers. Customers ar
 ### Testing Plan
 
 -   The testing plan document can be found [here](wiki/SERVUS_Test_Plan_Sprint_2.pdf).
+
+### Group Members & Roles
+
+> Please note, each member acted as the 'Group Leader'
 
 <table>
 <tr>
@@ -100,5 +115,6 @@ Servus is an operation to connect customers with service providers. Customers ar
             </sub>
         </a>
     </td>
+
 </tr>
 </table>
