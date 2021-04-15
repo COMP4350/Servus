@@ -26,18 +26,6 @@ Servus is an operation to connect customers with service providers. Customers ar
 -   Backend ➤ NodeJS + Express
 -   Database ➤ MongoDB
 
-### Testing Frameworks
-
-React frontend tested with:
-
--   _Jest_
--   _Cypress_
-
-NodeJS backend tested with:
-
--   _Mocha_
--   _Chai_
-
 ## Run Instructions
 
 Please note, without the proper environment variables you will not be able to run the web application locally. This includes the acceptance tests.
