@@ -2,6 +2,13 @@
 
 > At your Servus
 
+  <a href="#badge">
+    <img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square">
+  </a>
+  <a href="#badge">
+    <img alt="tests" src="https://github.com/COMP4350/Servus/actions/workflows/CI.yml/badge.svg">
+  </a>
+
 ## Description
 
 Servus is an operation to connect customers with service providers. Customers are greeted with a list or map of services near them. Providers have public profiles with a menu of services offered and photo examples of past work. They also have a schedule for clients to book appointments.
@@ -18,6 +25,18 @@ Servus is an operation to connect customers with service providers. Customers ar
 -   Web ➤ React
 -   Backend ➤ NodeJS + Express
 -   Database ➤ MongoDB
+
+### Testing Frameworks
+
+React frontend tested with:
+
+-   _Jest_
+-   _Cypress_
+
+NodeJS backend tested with:
+
+-   _Mocha_
+-   _Chai_
 
 ## Run Instructions
 
