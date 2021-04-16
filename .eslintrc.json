@@ -6,7 +6,11 @@
         "mocha": true,
         "jest": true
     },
-    "extends": ["eslint:recommended", "plugin:react/recommended"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:cypress/recommended"
+    ],
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
@@ -20,6 +24,7 @@
         "no-unused-expressions": "off",
         "react/jsx-uses-react": "error",
         "react/jsx-uses-vars": "error",
-        "react/prop-types": 0
+        "react/prop-types": 0,
+        "cypress/no-unnecessary-waiting": 0
     }
 }

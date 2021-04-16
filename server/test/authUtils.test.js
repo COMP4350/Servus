@@ -1,8 +1,7 @@
 const User = require('../src/db/models/user');
-const app = require('../src/app');
 const { createDummyUser } = require('./test_utils');
 const chai = require('chai');
-const should = chai.should();
+chai.should();
 const { encryptPassword, verifyPassword } = require('../src/utils/authUtils');
 
 describe('Authentication Utils', () => {
@@ -63,7 +62,7 @@ describe('Authentication Utils', () => {
                             match.should.eql(true);
                             done();
                         })
-                        .catch(() => {
+                        .catch(err => {
                             throw err;
                         });
                 })
